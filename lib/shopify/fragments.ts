@@ -19,7 +19,6 @@ export const variantFragment = /* GraphQL */ `
     id
     title
     availableForSale
-    quantityAvailable
     sku
     selectedOptions {
       name
