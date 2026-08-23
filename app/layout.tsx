@@ -28,7 +28,9 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-}: LayoutProps<"/">) {
+}: {
+  children: React.ReactNode;
+}) {
   const cart = await getOrCreateCart().catch(() => undefined);
 
   return (
