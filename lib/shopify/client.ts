@@ -41,12 +41,16 @@ export async function shopifyFetch<T>({
 
   if (!res.ok) {
     const body = await res.text();
+    console.error(`Shopify Storefront API error ${res.status} at ${endpoint}: ${body}`);
     throw new Error(`Shopify Storefront API error ${res.status}: ${body}`);
   }
 
   const json: ShopifyResponse<T> = await res.json();
 
   if (json.errors?.length) {
+    console.error(
+      `Shopify Storefront API GraphQL error at ${endpoint}: ${json.errors.map((e) => e.message).join(", ")}`
+    );
     throw new Error(
       `Shopify Storefront API GraphQL error: ${json.errors.map((e) => e.message).join(", ")}`
     );
