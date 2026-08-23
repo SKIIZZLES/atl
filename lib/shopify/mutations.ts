@@ -1,4 +1,4 @@
-import { cartFragment } from "./fragments";
+import { cartFragment, imageFragment, moneyFragment } from "./fragments";
 
 export const createCartMutation = /* GraphQL */ `
   mutation createCart($lines: [CartLineInput!]) {
@@ -13,6 +13,8 @@ export const createCartMutation = /* GraphQL */ `
     }
   }
   ${cartFragment}
+  ${moneyFragment}
+  ${imageFragment}
 `;
 
 export const addToCartMutation = /* GraphQL */ `
@@ -28,6 +30,8 @@ export const addToCartMutation = /* GraphQL */ `
     }
   }
   ${cartFragment}
+  ${moneyFragment}
+  ${imageFragment}
 `;
 
 export const updateCartMutation = /* GraphQL */ `
@@ -43,6 +47,8 @@ export const updateCartMutation = /* GraphQL */ `
     }
   }
   ${cartFragment}
+  ${moneyFragment}
+  ${imageFragment}
 `;
 
 export const removeFromCartMutation = /* GraphQL */ `
@@ -58,4 +64,6 @@ export const removeFromCartMutation = /* GraphQL */ `
     }
   }
   ${cartFragment}
+  ${moneyFragment}
+  ${imageFragment}
 `;

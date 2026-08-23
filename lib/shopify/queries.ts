@@ -1,7 +1,10 @@
 import {
   cartFragment,
+  imageFragment,
+  moneyFragment,
   productFragment,
   productListItemFragment,
+  variantFragment,
 } from "./fragments";
 
 export const getProductQuery = /* GraphQL */ `
@@ -11,6 +14,9 @@ export const getProductQuery = /* GraphQL */ `
     }
   }
   ${productFragment}
+  ${variantFragment}
+  ${moneyFragment}
+  ${imageFragment}
 `;
 
 export const getProductRecommendationsQuery = /* GraphQL */ `
@@ -20,6 +26,8 @@ export const getProductRecommendationsQuery = /* GraphQL */ `
     }
   }
   ${productListItemFragment}
+  ${moneyFragment}
+  ${imageFragment}
 `;
 
 export const getCollectionQuery = /* GraphQL */ `
@@ -50,6 +58,8 @@ export const getCollectionQuery = /* GraphQL */ `
     }
   }
   ${productListItemFragment}
+  ${moneyFragment}
+  ${imageFragment}
 `;
 
 export const getCollectionsQuery = /* GraphQL */ `
@@ -80,4 +90,6 @@ export const getCartQuery = /* GraphQL */ `
     }
   }
   ${cartFragment}
+  ${moneyFragment}
+  ${imageFragment}
 `;

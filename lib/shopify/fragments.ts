@@ -35,8 +35,6 @@ export const variantFragment = /* GraphQL */ `
       ...imageFragment
     }
   }
-  ${moneyFragment}
-  ${imageFragment}
 `;
 
 export const productFragment = /* GraphQL */ `
@@ -79,9 +77,6 @@ export const productFragment = /* GraphQL */ `
       }
     }
   }
-  ${moneyFragment}
-  ${imageFragment}
-  ${variantFragment}
 `;
 
 export const productListItemFragment = /* GraphQL */ `
@@ -117,8 +112,6 @@ export const productListItemFragment = /* GraphQL */ `
       }
     }
   }
-  ${moneyFragment}
-  ${imageFragment}
 `;
 
 export const cartFragment = /* GraphQL */ `
@@ -174,6 +167,4 @@ export const cartFragment = /* GraphQL */ `
       }
     }
   }
-  ${moneyFragment}
-  ${imageFragment}
 `;
