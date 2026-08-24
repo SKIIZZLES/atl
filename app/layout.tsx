@@ -1,46 +1,45 @@
-import type { Metadata } from "next";
-import { Geist } from "next/font/google";
-import { CartProvider } from "@/components/cart/cart-context";
-import { CartModal } from "@/components/cart/cart-modal";
-import { Header } from "@/components/layout/header";
-import { Footer } from "@/components/layout/footer";
-import { getOrCreateCart } from "@/app/cart/actions";
+import { CartProvider } from "components/cart/cart-context";
+import { Navbar } from "components/layout/navbar";
+import { WelcomeToast } from "components/welcome-toast";
+import { GeistSans } from "geist/font/sans";
+import { getCart } from "lib/shopify";
+import { ReactNode } from "react";
+import { Toaster } from "sonner";
 import "./globals.css";
+import { baseUrl } from "lib/utils";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+const { SITE_NAME } = process.env;
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "https://ondenoire.com"),
+export const metadata = {
+  metadataBase: new URL(baseUrl),
   title: {
-    default: "Onde Noire — Culture × Design × Transmission",
-    template: "%s — Onde Noire",
+    default: SITE_NAME!,
+    template: `%s | ${SITE_NAME}`,
   },
-  description:
-    "Onde Noire est une maison de streetwear culturel africain et diasporique : mémoire, transmission et héritage, dans une esthétique premium et contemporaine.",
-  openGraph: {
-    type: "website",
-    siteName: "Onde Noire",
+  robots: {
+    follow: true,
+    index: true,
   },
 };
 
 export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
-  const cart = await getOrCreateCart().catch(() => undefined);
+  // Don't await the fetch, pass the Promise to the context provider
+  const cart = getCart();
 
   return (
-    <html lang="fr" className={`${geistSans.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col bg-black text-white">
-        <CartProvider initialCart={cart}>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <CartModal />
+    <html lang="en" className={GeistSans.variable}>
+      <body className="bg-neutral-50 text-black selection:bg-teal-300 dark:bg-neutral-900 dark:text-white dark:selection:bg-pink-500 dark:selection:text-white">
+        <CartProvider cartPromise={cart}>
+          <Navbar />
+          <main>
+            {children}
+            <Toaster closeButton />
+            <WelcomeToast />
+          </main>
         </CartProvider>
       </body>
     </html>
