@@ -21,15 +21,13 @@ const Label = ({
         },
       )}
     >
-      <div className="flex items-center rounded-full border bg-white/70 p-1 text-xs font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/70 dark:text-white">
-        <h3 className="mr-4 line-clamp-2 grow pl-2 leading-none tracking-tight">
-          {title}
-        </h3>
+      <div className="flex items-center border border-border bg-background/80 p-2 text-xs backdrop-blur-md">
+        <h3 className="label-xs mr-4 line-clamp-2 grow pl-1">{title}</h3>
         <Price
-          className="flex-none rounded-full bg-blue-600 p-2 text-white"
+          className="flex-none text-muted-foreground"
           amount={amount}
           currencyCode={currencyCode}
-          currencyCodeClassName="hidden @[275px]/label:inline"
+          currencyCodeClassName="hidden"
         />
       </div>
     </div>

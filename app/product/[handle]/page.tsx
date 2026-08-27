@@ -1,5 +1,4 @@
 import { GridTileImage } from "components/grid/tile";
-import Footer from "components/layout/footer";
 import { Gallery } from "components/product/gallery";
 import { ProductDescription } from "components/product/product-description";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
@@ -80,12 +79,12 @@ export default async function ProductPage(props: {
           __html: JSON.stringify(productJsonLd),
         }}
       />
-      <div className="mx-auto max-w-(--breakpoint-2xl) px-4">
-        <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
-          <div className="h-full w-full basis-full lg:basis-4/6">
+      <div className="mx-auto max-w-[1600px] px-5 pb-24 pt-32 md:px-10">
+        <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
+          <div className="h-full w-full basis-full lg:basis-3/5">
             <Suspense
               fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
+                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden bg-card" />
               }
             >
               <Gallery
@@ -97,7 +96,7 @@ export default async function ProductPage(props: {
             </Suspense>
           </div>
 
-          <div className="basis-full lg:basis-2/6">
+          <div className="basis-full lg:basis-2/5">
             <Suspense fallback={null}>
               <ProductDescription product={product} />
             </Suspense>
@@ -105,7 +104,6 @@ export default async function ProductPage(props: {
         </div>
         <RelatedProducts id={product.id} />
       </div>
-      <Footer />
     </>
   );
 }
@@ -116,8 +114,10 @@ async function RelatedProducts({ id }: { id: string }) {
   if (!relatedProducts.length) return null;
 
   return (
-    <div className="py-8">
-      <h2 className="mb-4 text-2xl font-bold">Related Products</h2>
+    <div className="mt-20 border-t border-border/60 pt-16">
+      <h2 className="label-xs mb-8 text-muted-foreground/60">
+        Pièces liées
+      </h2>
       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
         {relatedProducts.map((product) => (
           <li

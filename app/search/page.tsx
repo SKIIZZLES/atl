@@ -1,11 +1,10 @@
-import Grid from "components/grid";
-import ProductGridItems from "components/layout/product-grid-items";
+import { ProductCard } from "components/product-card";
 import { defaultSort, sorting } from "lib/constants";
 import { getProducts } from "lib/shopify";
 
 export const metadata = {
-  title: "Search",
-  description: "Search for products in the store.",
+  title: "Recherche",
+  description: "Rechercher des pièces dans le catalogue Onde Noire.",
 };
 
 export default async function SearchPage(props: {
@@ -17,22 +16,24 @@ export default async function SearchPage(props: {
     sorting.find((item) => item.slug === sort) || defaultSort;
 
   const products = await getProducts({ sortKey, reverse, query: searchValue });
-  const resultsText = products.length > 1 ? "results" : "result";
+  const resultsText = products.length > 1 ? "résultats" : "résultat";
 
   return (
     <>
       {searchValue ? (
-        <p className="mb-4">
+        <p className="label-xs mb-8 text-muted-foreground">
           {products.length === 0
-            ? "There are no products that match "
-            : `Showing ${products.length} ${resultsText} for `}
-          <span className="font-bold">&quot;{searchValue}&quot;</span>
+            ? "Aucune pièce ne correspond à "
+            : `${products.length} ${resultsText} pour `}
+          &quot;{searchValue}&quot;
         </p>
       ) : null}
       {products.length > 0 ? (
-        <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          <ProductGridItems products={products} />
-        </Grid>
+        <div className="grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-3 md:gap-x-6 md:gap-y-16">
+          {products.map((product, index) => (
+            <ProductCard key={product.id} product={product} index={index} />
+          ))}
+        </div>
       ) : null}
     </>
   );
