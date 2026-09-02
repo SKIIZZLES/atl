@@ -83,7 +83,7 @@ export async function shopifyFetch<T>({
     }
 
     console.error(
-      `[shopify-debug] endpoint=${endpoint} keyLength=${key?.length} keyPreview=${key ? `${key.slice(0, 4)}...${key.slice(-4)}` : "MISSING"}`,
+      `[shopify-debug] domainLen=${domain?.length} domainChars=${domain ? Array.from(domain).map((c) => c.charCodeAt(0)).join(",") : "MISSING"} keyLength=${key?.length} keyPreview=${key ? `${key.slice(0, 4)}...${key.slice(-4)}` : "MISSING"}`,
     );
 
     const result = await fetch(endpoint, {
