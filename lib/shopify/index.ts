@@ -98,6 +98,9 @@ export async function shopifyFetch<T>({
     const body = await result.json();
 
     if (body.errors) {
+      console.error(
+        `[shopify-debug] httpStatus=${result.status} requestId=${result.headers.get("x-request-id")} fullBody=${JSON.stringify(body)}`,
+      );
       throw body.errors[0];
     }
 
