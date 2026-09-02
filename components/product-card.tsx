@@ -34,7 +34,7 @@ export function ProductCard({ product }: { product: Product }) {
         ) : null}
         {!product.availableForSale ? (
           <span className="label-xs absolute bottom-3 left-3 bg-background/90 px-2 py-1 text-muted-foreground">
-            Sold out
+            Épuisé
           </span>
         ) : null}
       </div>

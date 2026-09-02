@@ -32,16 +32,10 @@ export function Hero() {
           </p>
 
           <Link
-            href="/search"
+            href="/#collections"
             className="label-xs group inline-flex shrink-0 items-center gap-3 border border-brun-foreground px-5 py-3 text-brun-foreground transition-colors duration-300 hover:bg-brun-foreground hover:text-brun"
           >
-            Shop the collections
-            <span
-              aria-hidden="true"
-              className="inline-block transition-transform duration-300 group-hover:translate-x-1"
-            >
-              →
-            </span>
+            Découvrir les collections →
           </Link>
         </div>
       </div>

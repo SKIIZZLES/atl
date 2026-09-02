@@ -106,7 +106,7 @@ export default async function ProductPage(props: {
 
         {product.collection ? (
           <div className="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
-            <p className="label-xs text-signal">The story behind the piece</p>
+            <p className="label-xs text-signal">L’histoire de la pièce</p>
             <div className="mt-6 grid gap-8 md:grid-cols-12">
               <p className="editorial text-xl italic leading-relaxed md:col-span-8 md:text-2xl">
                 {collectionStories[product.collection.handle] ??
@@ -137,7 +137,7 @@ async function RelatedProducts({ id }: { id: string }) {
   return (
     <div className="mt-16 border-t border-border pt-12 md:pt-16">
       <h2 className="label-xs mb-8 text-muted-foreground">
-        Related transmission
+        Dans la même transmission
       </h2>
       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
         {relatedProducts.map((product) => (

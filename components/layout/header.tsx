@@ -94,7 +94,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
             href="/#manifeste"
             className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
           >
-            About
+            À propos
           </Link>
         </nav>
 
@@ -169,7 +169,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
               onClick={() => setIsMenuOpen(false)}
               className="headline text-3xl"
             >
-              About
+              À propos
             </Link>
           </nav>
         </div>

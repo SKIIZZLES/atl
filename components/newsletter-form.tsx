@@ -23,7 +23,7 @@ export function NewsletterForm({ domain }: { domain: string }) {
         type="submit"
         className="label-xs shrink-0 border border-brun-foreground bg-brun-foreground px-6 py-3 text-brun transition-colors duration-300 hover:bg-transparent hover:text-brun-foreground sm:border-l-0"
       >
-        Join →
+        Rejoindre →
       </button>
     </form>
   );

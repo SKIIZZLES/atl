@@ -38,13 +38,13 @@ export default function Footer({
 
             <div className="flex flex-col gap-4">
               <span className="label-xs text-muted-foreground/60">
-                Information
+                Informations
               </span>
               <Link
                 href="/#manifeste"
                 className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
               >
-                About
+                À propos
               </Link>
               <Link
                 href="/contact"
@@ -52,23 +52,11 @@ export default function Footer({
               >
                 Contact
               </Link>
-              <Link
-                href="/#shop"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
-              >
-                Shipping
-              </Link>
-              <Link
-                href="/#shop"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
-              >
-                Returns
-              </Link>
             </div>
 
             <div className="flex flex-col gap-4">
               <span className="label-xs text-muted-foreground/60">
-                Social
+                Réseaux
               </span>
               <a
                 href="https://instagram.com"
