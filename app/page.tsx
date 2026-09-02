@@ -1,8 +1,11 @@
 import { Hero } from "components/hero";
 import { ProductCard } from "components/product-card";
+import { WaveDivider } from "components/wave-divider";
 import { getCollectionProducts, getCollections } from "lib/shopify";
 import Image from "next/image";
 import Link from "next/link";
+
+const dividerColors = ["var(--signal)", "var(--indigo)", "var(--ocre)"];
 
 export const metadata = {
   description:
@@ -39,69 +42,71 @@ export default async function HomePage() {
         }
       />
 
-      <section
-        id="manifeste"
-        className="mx-auto max-w-[1600px] border-t border-border/60 px-5 py-20 md:px-10 md:py-32"
-      >
-        <div className="grid gap-12 md:grid-cols-12">
-          <p className="label-xs text-muted-foreground/60 md:col-span-3">
-            Manifeste
-          </p>
-          <div className="md:col-span-8 md:col-start-5">
-            <p className="font-display text-2xl leading-[1.3] uppercase tracking-[0.06em] text-balance md:text-4xl">
-              Ils ont transformé les vêtements en produits. Nous les voyons
-              comme des archives.
+      <section id="manifeste" className="bg-kraft text-kraft-foreground">
+        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+          <div className="grid gap-12 md:grid-cols-12">
+            <p className="label-xs text-kraft-foreground/50 md:col-span-3">
+              Manifeste
             </p>
-            <p className="mt-8 max-w-xl text-sm leading-relaxed text-muted-foreground text-pretty">
-              Onde Noire documente les cultures africaines et diasporiques par
-              le vêtement. Chaque chapitre est une collecte : un motif, un
-              geste, un mot conservés dans la coupe et la matière. Séries
-              courtes, ateliers identifiés, pièces destinées à passer de main
-              en main.
-            </p>
+            <div className="md:col-span-8 md:col-start-5">
+              <p className="font-display text-2xl leading-[1.15] uppercase tracking-tight text-balance md:text-4xl">
+                Ils ont transformé les vêtements en produits. Nous les voyons
+                comme des archives.
+              </p>
+              <p className="mt-8 max-w-xl text-sm leading-relaxed text-pretty text-kraft-foreground/70">
+                Onde Noire documente les cultures africaines et diasporiques
+                par le vêtement. Chaque chapitre est une collecte : un motif,
+                un geste, un mot conservés dans la coupe et la matière. Séries
+                courtes, ateliers identifiés, pièces destinées à passer de
+                main en main.
+              </p>
+            </div>
           </div>
         </div>
       </section>
+      <WaveDivider color="var(--signal)" className="bg-kraft" />
 
-      {collections.map((collection) => (
-        <section
-          key={collection.handle}
-          id={collection.handle}
-          className="mx-auto max-w-[1600px] border-t border-border/60 px-5 py-20 md:px-10 md:py-28"
-        >
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div className="max-w-xl">
-              <h2 className="font-display text-3xl uppercase tracking-[0.14em] text-balance md:text-5xl">
-                {collection.title}
-              </h2>
-              {collection.description ? (
-                <p className="mt-5 text-sm leading-relaxed text-muted-foreground text-pretty">
-                  {collection.description}
-                </p>
-              ) : null}
+      {collections.map((collection, sectionIndex) => (
+        <section key={collection.handle} id={collection.handle}>
+          <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+              <div className="max-w-xl">
+                <h2 className="font-display text-3xl uppercase tracking-tight text-balance md:text-5xl">
+                  {collection.title}
+                </h2>
+                {collection.description ? (
+                  <p className="mt-5 text-sm leading-relaxed text-pretty text-muted-foreground">
+                    {collection.description}
+                  </p>
+                ) : null}
+              </div>
+              <Link
+                href={`/search/${collection.handle}`}
+                className="label-xs shrink-0 border-2 border-border px-4 py-3 text-muted-foreground transition-colors duration-300 hover:border-foreground hover:text-foreground"
+              >
+                Voir la collection
+              </Link>
             </div>
-            <Link
-              href={`/search/${collection.handle}`}
-              className="label-xs shrink-0 border-b border-foreground/30 pb-2 text-muted-foreground transition-colors duration-300 hover:border-foreground hover:text-foreground"
-            >
-              Voir la collection
-            </Link>
-          </div>
 
-          <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-3 md:gap-x-6 md:gap-y-16 lg:grid-cols-4">
-            {collection.products.slice(0, 8).map((product, index) => (
-              <ProductCard key={product.id} product={product} index={index} />
-            ))}
+            <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-3 md:gap-x-6 md:gap-y-16 lg:grid-cols-4">
+              {collection.products.slice(0, 8).map((product, index) => (
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  index={index}
+                />
+              ))}
+            </div>
           </div>
+          <WaveDivider
+            color={dividerColors[sectionIndex % dividerColors.length]}
+          />
         </section>
       ))}
 
-      <section
-        id="archive"
-        className="border-t border-border/60 px-5 py-20 md:px-10 md:py-28"
-      >
-        <div className="mx-auto grid max-w-[1600px] gap-12 md:grid-cols-2 md:items-center">
-          <div className="relative aspect-4/5 overflow-hidden bg-card">
+      <section id="archive" className="bg-indigo text-kraft">
+        <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 md:grid-cols-2 md:items-center md:px-10 md:py-28">
+          <div className="relative aspect-4/5 overflow-hidden border-2 border-kraft/20">
             <Image
               src="/editorial/archive.png"
               alt="Vêtements pliés sur une surface de béton dans la pénombre"
@@ -111,17 +116,15 @@ export default async function HomePage() {
             />
           </div>
           <div className="md:pl-10">
-            <p className="label-xs text-muted-foreground/60">
-              Archive vivante
-            </p>
-            <h2 className="mt-6 font-display text-3xl uppercase tracking-[0.12em] text-balance md:text-5xl">
+            <p className="label-xs text-brass">Archive vivante</p>
+            <h2 className="mt-6 font-display text-3xl uppercase tracking-tight text-balance md:text-5xl">
               Conserver,
               <br />
               porter,
               <br />
               transmettre
             </h2>
-            <p className="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground text-pretty">
+            <p className="mt-8 max-w-md text-sm leading-relaxed text-pretty text-kraft/70">
               Chaque pièce quitte l&apos;atelier avec une fiche : origine du
               tissu, atelier, chapitre. Ce que vous portez est daté, situé,
               documenté — un objet destiné à durer plus longtemps que la

@@ -1,3 +1,4 @@
+import { WaveDivider } from "components/wave-divider";
 import Link from "next/link";
 
 type NavCollection = { handle: string; title: string };
@@ -8,11 +9,12 @@ export default function Footer({
   collections: NavCollection[];
 }) {
   return (
-    <footer className="border-t border-border/60">
+    <footer>
+      <WaveDivider color="var(--indigo)" />
       <div className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
-            <p className="font-display text-[0.8125rem] uppercase tracking-[0.42em]">
+            <p className="font-display text-lg uppercase tracking-tight">
               Onde Noire
             </p>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
@@ -57,7 +59,7 @@ export default function Footer({
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-border/60 pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="label-xs text-muted-foreground/60">
             © {new Date().getFullYear()} Onde Noire
           </p>

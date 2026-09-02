@@ -18,11 +18,11 @@ export function Header({ collections }: { collections: NavCollection[] }) {
   }, [isMenuOpen]);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border/60 bg-background/70 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b-2 border-brass bg-background/85 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-6 px-5 md:h-20 md:px-10">
         <Link
           href="/"
-          className="font-display text-[0.8125rem] uppercase tracking-[0.42em] text-foreground transition-opacity duration-300 hover:opacity-60"
+          className="font-display text-lg uppercase tracking-tight text-foreground transition-colors duration-300 hover:text-signal"
         >
           Onde Noire
         </Link>
@@ -35,7 +35,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
             <Link
               key={collection.handle}
               href={`/search/${collection.handle}`}
-              className="label-xs text-muted-foreground transition-colors duration-300 hover:text-foreground"
+              className="label-xs text-muted-foreground transition-colors duration-300 hover:text-signal"
             >
               {collection.title}
             </Link>
@@ -58,8 +58,8 @@ export function Header({ collections }: { collections: NavCollection[] }) {
 
       {isMenuOpen ? (
         <div className="fixed inset-0 z-50 flex flex-col bg-background md:hidden">
-          <div className="flex h-16 items-center justify-between px-5">
-            <span className="font-display text-[0.8125rem] uppercase tracking-[0.42em]">
+          <div className="flex h-16 items-center justify-between border-b-2 border-brass px-5">
+            <span className="font-display text-lg uppercase tracking-tight">
               Onde Noire
             </span>
             <button
@@ -76,7 +76,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
                 key={collection.handle}
                 href={`/search/${collection.handle}`}
                 onClick={() => setIsMenuOpen(false)}
-                className="font-display text-3xl uppercase tracking-[0.14em]"
+                className="font-display text-3xl uppercase tracking-tight transition-colors duration-300 hover:text-signal"
               >
                 {collection.title}
               </Link>

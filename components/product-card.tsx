@@ -19,14 +19,14 @@ export function ProductCard({
       className="group block"
       aria-label={product.title}
     >
-      <div className="relative aspect-4/5 overflow-hidden bg-card">
+      <div className="tag-frame relative aspect-4/5 overflow-hidden bg-card transition-colors duration-300 group-hover:border-signal">
         {image ? (
           <Image
             src={image.url}
             alt={image.altText || product.title}
             fill
             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-cover transition-all duration-700 ease-out group-hover:scale-[1.03] group-hover:opacity-0"
+            className="object-cover transition-all duration-500 ease-out group-hover:scale-[1.02] group-hover:opacity-0"
           />
         ) : null}
         {secondary ? (
@@ -35,23 +35,23 @@ export function ProductCard({
             alt={secondary.altText || product.title}
             fill
             sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-            className="object-cover opacity-0 transition-opacity duration-700 ease-out group-hover:opacity-100"
+            className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
           />
         ) : null}
         {typeof index === "number" ? (
-          <span className="label-xs absolute left-4 top-4 text-foreground/50">
+          <span className="label-xs absolute left-3 top-3 border-2 border-foreground bg-background px-1.5 py-1 text-foreground">
             {(index + 1).toString().padStart(3, "0")}
           </span>
         ) : null}
         {!product.availableForSale ? (
-          <span className="label-xs absolute bottom-4 left-4 bg-background/80 px-2 py-1 text-muted-foreground">
+          <span className="label-xs absolute bottom-3 left-3 border-2 border-signal bg-background px-1.5 py-1 text-signal">
             Épuisé
           </span>
         ) : null}
       </div>
 
       <div className="mt-4 flex items-baseline justify-between gap-4">
-        <h3 className="font-display text-xs uppercase tracking-[0.2em] text-foreground">
+        <h3 className="font-display text-xs uppercase tracking-tight text-foreground">
           {product.title}
         </h3>
         <Price

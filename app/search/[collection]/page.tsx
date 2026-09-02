@@ -42,7 +42,7 @@ export default async function CategoryPage(props: {
     <section>
       {collection ? (
         <div className="mb-14 max-w-xl">
-          <h1 className="font-display text-3xl uppercase tracking-[0.14em] text-balance md:text-5xl">
+          <h1 className="font-display text-3xl uppercase tracking-tight text-balance md:text-5xl">
             {collection.title}
           </h1>
           {collection.description ? (

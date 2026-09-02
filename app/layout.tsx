@@ -4,19 +4,28 @@ import Footer from "components/layout/footer";
 import { getCart, getCollections } from "lib/shopify";
 import { baseUrl } from "lib/utils";
 import type { Metadata, Viewport } from "next";
-import { Inter, Space_Grotesk } from "next/font/google";
+import { Archivo_Black, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 
-const display = Space_Grotesk({
+const display = Archivo_Black({
   subsets: ["latin"],
+  weight: "400",
   variable: "--font-display",
   display: "swap",
 });
 
-const body = Inter({
+const body = IBM_Plex_Sans({
   subsets: ["latin"],
+  weight: ["400", "500", "600"],
   variable: "--font-body",
+  display: "swap",
+});
+
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  variable: "--font-mono",
   display: "swap",
 });
 
@@ -53,7 +62,7 @@ export const metadata: Metadata = {
 
 export const viewport: Viewport = {
   colorScheme: "dark",
-  themeColor: "#000000",
+  themeColor: "#17120d",
 };
 
 export default async function RootLayout({
@@ -74,7 +83,7 @@ export default async function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${display.variable} ${body.variable} bg-background`}
+      className={`${display.variable} ${body.variable} ${mono.variable} bg-background`}
     >
       <body className="bg-background font-sans text-foreground antialiased">
         <CartProvider cartPromise={cart}>

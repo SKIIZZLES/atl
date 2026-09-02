@@ -149,7 +149,7 @@ export default function CartModal() {
                               <div className="flex items-start justify-between gap-3">
                                 <div className="min-w-0">
                                   <Link href={merchandiseUrl} onClick={closeCart}>
-                                    <p className="font-display text-[0.6875rem] uppercase tracking-[0.2em]">
+                                    <p className="font-display text-sm uppercase tracking-tight">
                                       {item.merchandise.product.title}
                                     </p>
                                   </Link>
