@@ -1,112 +1,167 @@
 import { Hero } from "components/hero";
+import { NewsletterForm } from "components/newsletter-form";
 import { ProductCard } from "components/product-card";
-import { WaveDivider } from "components/wave-divider";
-import { getCollectionProducts, getCollections } from "lib/shopify";
+import {
+  OFFICIAL_COLLECTION_HANDLES,
+  collectionTaglines,
+} from "lib/collection-copy";
+import { getCollectionProducts, getCollections, getProducts } from "lib/shopify";
 import Image from "next/image";
 import Link from "next/link";
 
-const dividerColors = ["var(--signal)", "var(--indigo)", "var(--ocre)"];
-
 export const metadata = {
   description:
-    "Onde Noire est une maison de streetwear culturel africain et diasporique. Culture × Design × Transmission.",
+    "We don't wear history. We continue it. Onde Noire, culture in motion — Afrique, Caraïbes, Europe, Amériques.",
   openGraph: {
     type: "website",
   },
 };
 
 export default async function HomePage() {
-  const allCollections = await getCollections().catch(() => []);
-  const visibleCollections = allCollections.filter(
-    (collection) => !collection.handle.startsWith("hidden-homepage"),
+  const [allCollections, newArrivals] = await Promise.all([
+    getCollections().catch(() => []),
+    getProducts({ sortKey: "CREATED_AT", reverse: true }).catch(() => []),
+  ]);
+
+  const collectionsByHandle = new Map(
+    allCollections.map((collection) => [collection.handle, collection]),
   );
 
-  const collections = (
+  const officialCollections = (
     await Promise.all(
-      visibleCollections.map(async (collection) => ({
-        ...collection,
-        products: await getCollectionProducts({
-          collection: collection.handle,
-        }),
-      })),
+      OFFICIAL_COLLECTION_HANDLES.map(async (handle) => {
+        const collection = collectionsByHandle.get(handle);
+        if (!collection) return null;
+        const products = await getCollectionProducts({
+          collection: handle,
+        }).catch(() => []);
+        if (products.length === 0) return null;
+        return {
+          handle,
+          collection,
+          tagline: collectionTaglines[handle] ?? "",
+          image: products[0]?.featuredImage,
+        };
+      }),
     )
-  ).filter((collection) => collection.products.length > 0);
+  ).filter((entry): entry is NonNullable<typeof entry> => entry !== null);
 
-  const featured = collections[0] ?? null;
+  const domain = process.env.SHOPIFY_STORE_DOMAIN;
 
   return (
     <>
-      <Hero
-        featuredCollection={
-          featured ? { handle: featured.handle, title: featured.title } : null
-        }
-      />
+      <Hero />
 
-      <section id="manifeste" className="bg-kraft text-kraft-foreground">
-        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
-          <div className="grid gap-12 md:grid-cols-12">
-            <p className="label-xs text-kraft-foreground/50 md:col-span-3">
-              Manifeste
-            </p>
-            <div className="md:col-span-8 md:col-start-5">
-              <p className="font-display text-2xl leading-[1.15] uppercase tracking-tight text-balance md:text-4xl">
-                Ils ont transformé les vêtements en produits. Nous les voyons
-                comme des archives.
-              </p>
-              <p className="mt-8 max-w-xl text-sm leading-relaxed text-pretty text-kraft-foreground/70">
-                Onde Noire documente les cultures africaines et diasporiques
-                par le vêtement. Chaque chapitre est une collecte : un motif,
-                un geste, un mot conservés dans la coupe et la matière. Séries
-                courtes, ateliers identifiés, pièces destinées à passer de
-                main en main.
-              </p>
+      {newArrivals.length > 0 ? (
+        <section id="shop" className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="label-xs text-signal">Current transmission</p>
+              <h2 className="headline mt-3 text-4xl md:text-6xl">
+                New Arrivals
+              </h2>
             </div>
+            <Link
+              href="/search"
+              className="label-xs shrink-0 border border-border px-4 py-3 text-muted-foreground transition-colors duration-300 hover:border-foreground hover:text-foreground"
+            >
+              Voir tout le shop
+            </Link>
           </div>
+
+          <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-x-6 md:gap-y-16">
+            {newArrivals.slice(0, 8).map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))}
+          </div>
+        </section>
+      ) : null}
+
+      <section id="manifeste" className="bg-terre text-terre-foreground">
+        <div className="mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-32">
+          <p className="label-xs text-terre-foreground/60">Manifeste</p>
+          <p className="headline mt-8 max-w-4xl text-4xl md:text-6xl">
+            Onde Noire n&apos;est pas une esthétique.
+            <br />
+            C&apos;est une transmission.
+          </p>
+          <p className="editorial mt-10 max-w-2xl text-xl italic leading-relaxed text-terre-foreground/85 md:text-2xl">
+            Afrique. Caraïbes. Europe. Amériques.
+            <br />
+            Des mémoires différentes. Une histoire qui continue de circuler.
+          </p>
+          <Link
+            href="/#story"
+            className="label-xs mt-10 inline-flex items-center gap-3 border-b border-terre-foreground/50 pb-2 text-terre-foreground transition-colors duration-300 hover:border-terre-foreground"
+          >
+            Discover the story
+            <span aria-hidden="true">→</span>
+          </Link>
         </div>
       </section>
-      <WaveDivider color="var(--signal)" className="bg-kraft" />
 
-      {collections.map((collection, sectionIndex) => (
-        <section key={collection.handle} id={collection.handle}>
-          <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div className="max-w-xl">
-                <h2 className="font-display text-3xl uppercase tracking-tight text-balance md:text-5xl">
-                  {collection.title}
-                </h2>
-                {collection.description ? (
-                  <p className="mt-5 text-sm leading-relaxed text-pretty text-muted-foreground">
-                    {collection.description}
-                  </p>
-                ) : null}
-              </div>
+      {officialCollections.length > 0 ? (
+        <section
+          id="collections"
+          className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28"
+        >
+          <p className="label-xs text-muted-foreground">Les collections</p>
+          <div className="mt-12 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-3">
+            {officialCollections.map((entry, index) => (
               <Link
-                href={`/search/${collection.handle}`}
-                className="label-xs shrink-0 border-2 border-border px-4 py-3 text-muted-foreground transition-colors duration-300 hover:border-foreground hover:text-foreground"
+                key={entry.handle}
+                href={`/search/${entry.handle}`}
+                className="group relative flex aspect-[3/4] flex-col justify-end bg-background p-6"
               >
-                Voir la collection
+                {entry.image ? (
+                  <Image
+                    src={entry.image.url}
+                    alt={entry.image.altText || entry.collection.title}
+                    fill
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  />
+                ) : null}
+                <div className="absolute inset-0 bg-linear-to-t from-brun/90 via-brun/20 to-transparent" />
+
+                <div className="relative">
+                  <span className="label-xs text-brun-foreground/70">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="headline mt-2 text-3xl text-brun-foreground">
+                    {entry.collection.title}
+                  </h3>
+                  <p className="editorial mt-3 text-sm italic leading-relaxed text-brun-foreground/85">
+                    {entry.tagline}
+                  </p>
+                  <span className="label-xs mt-4 inline-flex items-center gap-2 text-brun-foreground">
+                    Discover
+                    <span aria-hidden="true">→</span>
+                  </span>
+                </div>
               </Link>
-            </div>
-
-            <div className="mt-14 grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-3 md:gap-x-6 md:gap-y-16 lg:grid-cols-4">
-              {collection.products.slice(0, 8).map((product, index) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  index={index}
-                />
-              ))}
-            </div>
+            ))}
           </div>
-          <WaveDivider
-            color={dividerColors[sectionIndex % dividerColors.length]}
-          />
         </section>
-      ))}
+      ) : null}
 
-      <section id="archive" className="bg-indigo text-kraft">
+      <section id="story" className="border-t border-border">
         <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 md:grid-cols-2 md:items-center md:px-10 md:py-28">
-          <div className="relative aspect-4/5 overflow-hidden border-2 border-kraft/20">
+          <div>
+            <p className="label-xs text-signal">Beyond the garment</p>
+            <h2 className="headline mt-6 text-4xl md:text-5xl">
+              Nous ne portons pas l&apos;histoire.
+              <br />
+              Nous la continuons.
+            </h2>
+            <p className="editorial mt-8 max-w-md text-lg italic leading-relaxed text-muted-foreground">
+              Chaque chapitre est une collecte : un motif, un geste, un mot
+              conservés dans la coupe et la matière. Ce que vous portez est
+              daté, situé, documenté — une pièce pensée pour durer plus
+              longtemps que la saison qui l&apos;a vu naître.
+            </p>
+          </div>
+          <div className="relative aspect-4/5 overflow-hidden">
             <Image
               src="/editorial/archive.png"
               alt="Vêtements pliés sur une surface de béton dans la pénombre"
@@ -115,22 +170,20 @@ export default async function HomePage() {
               className="object-cover"
             />
           </div>
-          <div className="md:pl-10">
-            <p className="label-xs text-brass">Archive vivante</p>
-            <h2 className="mt-6 font-display text-3xl uppercase tracking-tight text-balance md:text-5xl">
-              Conserver,
-              <br />
-              porter,
-              <br />
-              transmettre
+        </div>
+      </section>
+
+      <section className="bg-brun text-brun-foreground">
+        <div className="mx-auto flex max-w-[1600px] flex-col gap-8 px-5 py-20 md:flex-row md:items-center md:justify-between md:px-10 md:py-24">
+          <div>
+            <h2 className="headline text-3xl md:text-4xl">
+              Stay in the transmission
             </h2>
-            <p className="mt-8 max-w-md text-sm leading-relaxed text-pretty text-kraft/70">
-              Chaque pièce quitte l&apos;atelier avec une fiche : origine du
-              tissu, atelier, chapitre. Ce que vous portez est daté, situé,
-              documenté — un objet destiné à durer plus longtemps que la
-              saison qui l&apos;a vu naître.
+            <p className="mt-3 text-sm leading-relaxed text-brun-foreground/70">
+              Nouveaux drops. Histoires. Archives. Signaux.
             </p>
           </div>
+          {domain ? <NewsletterForm domain={domain} /> : null}
         </div>
       </section>
     </>

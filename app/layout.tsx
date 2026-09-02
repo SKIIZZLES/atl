@@ -4,14 +4,22 @@ import Footer from "components/layout/footer";
 import { getCart, getCollections } from "lib/shopify";
 import { baseUrl } from "lib/utils";
 import type { Metadata, Viewport } from "next";
-import { Archivo_Black, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Anton, Fraunces, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 
-const display = Archivo_Black({
+const display = Anton({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-display",
+  display: "swap",
+});
+
+const editorial = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "500"],
+  style: ["normal", "italic"],
+  variable: "--font-editorial",
   display: "swap",
 });
 
@@ -34,15 +42,14 @@ const { SITE_NAME } = process.env;
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   title: {
-    default: `${SITE_NAME} — Culture × Design × Transmission`,
+    default: `${SITE_NAME}® — Culture in Motion`,
     template: `%s — ${SITE_NAME}`,
   },
   description:
-    "Onde Noire est une maison de streetwear culturel africain et diasporique. Ils ont transformé les vêtements en produits. Nous les voyons comme des archives.",
+    "We don't wear history. We continue it. Onde Noire est une maison de streetwear culturel afro-diasporique — Afrique, Caraïbes, Europe, Amériques.",
   openGraph: {
-    title: `${SITE_NAME} — Culture × Design × Transmission`,
-    description:
-      "Streetwear culturel africain et diasporique. Mémoire, héritage, transmission.",
+    title: `${SITE_NAME}® — Culture in Motion`,
+    description: "We don't wear history. We continue it.",
     type: "website",
     locale: "fr_FR",
   },
@@ -61,8 +68,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "dark",
-  themeColor: "#17120d",
+  colorScheme: "light",
+  themeColor: "#f3efe7",
 };
 
 export default async function RootLayout({
@@ -74,7 +81,11 @@ export default async function RootLayout({
   const collections = await getCollections().catch(() => []);
 
   const navCollections = collections
-    .filter((collection) => !collection.handle.startsWith("hidden-homepage"))
+    .filter(
+      (collection) =>
+        !collection.handle.startsWith("hidden-homepage") &&
+        collection.handle !== "frontpage",
+    )
     .map((collection) => ({
       handle: collection.handle,
       title: collection.title,
@@ -83,7 +94,7 @@ export default async function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${display.variable} ${body.variable} ${mono.variable} bg-background`}
+      className={`${display.variable} ${editorial.variable} ${body.variable} ${mono.variable} bg-background`}
     >
       <body className="bg-background font-sans text-foreground antialiased">
         <CartProvider cartPromise={cart}>

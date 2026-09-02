@@ -2,6 +2,7 @@ import { GridTileImage } from "components/grid/tile";
 import { Gallery } from "components/product/gallery";
 import { ProductDescription } from "components/product/product-description";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
+import { collectionStories } from "lib/collection-copy";
 import { getProduct, getProductRecommendations } from "lib/shopify";
 import type { Image } from "lib/shopify/types";
 import type { Metadata } from "next";
@@ -102,6 +103,26 @@ export default async function ProductPage(props: {
             </Suspense>
           </div>
         </div>
+
+        {product.collection ? (
+          <div className="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
+            <p className="label-xs text-signal">The story behind the piece</p>
+            <div className="mt-6 grid gap-8 md:grid-cols-12">
+              <p className="editorial text-xl italic leading-relaxed md:col-span-8 md:text-2xl">
+                {collectionStories[product.collection.handle] ??
+                  `Cette pièce fait partie de ${product.collection.title}.`}
+              </p>
+              <Link
+                href={`/search/${product.collection.handle}`}
+                className="label-xs inline-flex items-start gap-2 text-muted-foreground transition-colors duration-300 hover:text-foreground md:col-span-4 md:justify-self-end"
+              >
+                {product.collection.title}
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        ) : null}
+
         <RelatedProducts id={product.id} />
       </div>
     </>
@@ -114,9 +135,9 @@ async function RelatedProducts({ id }: { id: string }) {
   if (!relatedProducts.length) return null;
 
   return (
-    <div className="mt-20 border-t border-border/60 pt-16">
-      <h2 className="label-xs mb-8 text-muted-foreground/60">
-        Pièces liées
+    <div className="mt-16 border-t border-border pt-12 md:pt-16">
+      <h2 className="label-xs mb-8 text-muted-foreground">
+        Related transmission
       </h2>
       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
         {relatedProducts.map((product) => (

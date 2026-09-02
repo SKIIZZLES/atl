@@ -3,13 +3,7 @@ import type { Product } from "lib/shopify/types";
 import Image from "next/image";
 import Link from "next/link";
 
-export function ProductCard({
-  product,
-  index,
-}: {
-  product: Product;
-  index?: number;
-}) {
+export function ProductCard({ product }: { product: Product }) {
   const image = product.featuredImage ?? product.images[0] ?? null;
   const secondary = product.images[1] ?? null;
 
@@ -19,7 +13,7 @@ export function ProductCard({
       className="group block"
       aria-label={product.title}
     >
-      <div className="tag-frame relative aspect-4/5 overflow-hidden bg-card transition-colors duration-300 group-hover:border-signal">
+      <div className="relative aspect-4/5 overflow-hidden bg-card">
         {image ? (
           <Image
             src={image.url}
@@ -38,24 +32,17 @@ export function ProductCard({
             className="object-cover opacity-0 transition-opacity duration-500 ease-out group-hover:opacity-100"
           />
         ) : null}
-        {typeof index === "number" ? (
-          <span className="label-xs absolute left-3 top-3 border-2 border-foreground bg-background px-1.5 py-1 text-foreground">
-            {(index + 1).toString().padStart(3, "0")}
-          </span>
-        ) : null}
         {!product.availableForSale ? (
-          <span className="label-xs absolute bottom-3 left-3 border-2 border-signal bg-background px-1.5 py-1 text-signal">
-            Épuisé
+          <span className="label-xs absolute bottom-3 left-3 bg-background/90 px-2 py-1 text-muted-foreground">
+            Sold out
           </span>
         ) : null}
       </div>
 
       <div className="mt-4 flex items-baseline justify-between gap-4">
-        <h3 className="font-display text-xs uppercase tracking-tight text-foreground">
-          {product.title}
-        </h3>
+        <h3 className="text-sm text-foreground">{product.title}</h3>
         <Price
-          className="text-xs tabular-nums text-muted-foreground"
+          className="label-xs tabular-nums text-muted-foreground"
           amount={product.priceRange.minVariantPrice.amount}
           currencyCode={product.priceRange.minVariantPrice.currencyCode}
           currencyCodeClassName="hidden"

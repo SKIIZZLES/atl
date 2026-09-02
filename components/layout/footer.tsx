@@ -10,24 +10,21 @@ export default function Footer({
 }) {
   return (
     <footer>
-      <WaveDivider color="var(--indigo)" />
+      <WaveDivider color="var(--brass)" />
       <div className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
-            <p className="font-display text-lg uppercase tracking-tight">
-              Onde Noire
+            <p className="font-display text-lg tracking-tight">
+              ONDE NOIRE®
             </p>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
-              Ils ont transformé les vêtements en produits. Nous les voyons
-              comme des archives.
+              We don&apos;t wear history. We continue it.
             </p>
           </div>
 
           <div className="flex flex-col gap-10 sm:flex-row sm:gap-20">
-            <nav aria-label="Collections" className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">
-                Collections
-              </span>
+            <nav aria-label="Shop" className="flex flex-col gap-4">
+              <span className="label-xs text-muted-foreground/60">Shop</span>
               {collections.map((collection) => (
                 <Link
                   key={collection.handle}
@@ -41,20 +38,54 @@ export default function Footer({
 
             <div className="flex flex-col gap-4">
               <span className="label-xs text-muted-foreground/60">
-                Maison
+                Information
               </span>
               <Link
                 href="/#manifeste"
                 className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
               >
-                Manifeste
+                About
               </Link>
               <Link
-                href="/#archive"
+                href="/contact"
                 className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
               >
-                Archive
+                Contact
               </Link>
+              <Link
+                href="/#shop"
+                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+              >
+                Shipping
+              </Link>
+              <Link
+                href="/#shop"
+                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+              >
+                Returns
+              </Link>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <span className="label-xs text-muted-foreground/60">
+                Social
+              </span>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+              >
+                Instagram
+              </a>
+              <a
+                href="https://tiktok.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+              >
+                TikTok
+              </a>
             </div>
           </div>
         </div>
@@ -64,7 +95,7 @@ export default function Footer({
             © {new Date().getFullYear()} Onde Noire
           </p>
           <p className="label-xs text-muted-foreground/60">
-            Culture × Design × Transmission
+            Culture doesn&apos;t disappear. It moves.
           </p>
         </div>
       </div>

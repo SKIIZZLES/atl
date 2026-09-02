@@ -6,6 +6,7 @@
 @theme inline {
   --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: var(--font-editorial), Georgia, serif;
   --font-mono: var(--font-mono), ui-monospace, monospace;
 
   --color-border: var(--border);
@@ -19,37 +20,46 @@
   --color-foreground: var(--foreground);
   --color-background: var(--background);
 
-  --color-indigo: var(--indigo);
-  --color-ocre: var(--ocre);
   --color-brass: var(--brass);
-  --color-kraft: var(--kraft);
-  --color-kraft-foreground: var(--kraft-foreground);
+  --color-brun: var(--brun);
+  --color-brun-foreground: var(--brun-foreground);
+  --color-terre: var(--terre);
+  --color-terre-foreground: var(--terre-foreground);
 
   --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
+  --radius-md: 1px;
+  --radius-lg: 1px;
+  --radius-xl: 2px;
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --background: #17120d;
-  --foreground: #f3e9d2;
-  --card: #201a13;
-  --card-foreground: #f3e9d2;
-  --muted: #241d14;
-  --muted-foreground: #b0a183;
-  --signal: #c2452f;
-  --border: #362c1e;
-  --input: #3a2f1f;
-  --ring: #c2452f;
+  /* Blanc Cassé */
+  --background: #f3efe7;
+  /* Brun Profond */
+  --foreground: #3d2a22;
+  /* Crème / Os */
+  --card: #ded2bd;
+  --card-foreground: #3d2a22;
+  /* Beige Sable */
+  --muted: #c8b08b;
+  /* Marron Terre */
+  --muted-foreground: #7a5238;
+  /* Terre Cuite — accent principal */
+  --signal: #a9462d;
+  --border: #c8b08b;
+  --input: #ded2bd;
+  --ring: #a9462d;
 
-  --indigo: #2b4a63;
-  --ocre: #c97a2a;
-  --brass: #b98a3d;
-  --kraft: #e7dec4;
-  --kraft-foreground: #191309;
+  /* Or Mat — très discret, usage rare */
+  --brass: #a88852;
+  /* Brun Profond en bloc plein, texte clair dessus */
+  --brun: #3d2a22;
+  --brun-foreground: #f3efe7;
+  /* Marron Terre en bloc plein, texte clair dessus */
+  --terre: #7a5238;
+  --terre-foreground: #f3efe7;
 }
 
 @layer base {
@@ -62,7 +72,7 @@
   }
 
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
 
   body {
@@ -71,15 +81,15 @@
   }
 
   ::selection {
-    background: var(--brass);
-    color: var(--kraft-foreground);
+    background: var(--signal);
+    color: var(--background);
   }
 }
 
 a,
 input,
 button {
-  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-brass focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }
 
 @supports (font: -apple-system-body) and (-webkit-appearance: none) {
@@ -88,20 +98,31 @@ button {
   }
 }
 
+/* Utility tier: tiny mono tags — SIZE — M / PRICE — €65 */
 @utility label-xs {
   font-family: var(--font-mono), monospace;
   font-size: 0.6875rem;
   line-height: 1;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-@utility grain-overlay {
-  background-image: radial-gradient(rgb(0 0 0 / 18%) 0.5px, transparent 0.5px);
-  background-size: 3px 3px;
+/* Street/display tier headline treatment */
+@utility headline {
+  font-family: var(--font-display), sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 0.92;
 }
 
-@utility tag-frame {
-  border-width: 3px;
-  border-color: var(--foreground);
+/* Editorial tier: manifestos, quotes, storytelling */
+@utility editorial {
+  font-family: var(--font-editorial), serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+@utility grain-overlay {
+  background-image: radial-gradient(rgb(61 42 34 / 12%) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
 }
