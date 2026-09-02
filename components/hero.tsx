@@ -5,14 +5,14 @@ export function Hero() {
   return (
     <section className="relative flex h-svh min-h-[640px] flex-col justify-end overflow-hidden bg-brun">
       <Image
-        src="/editorial/hero.png"
-        alt="Deux mannequins en streetwear Onde Noire dans un hall de béton, photographie éditoriale"
+        src="https://cdn.shopify.com/s/files/1/1088/9438/8549/files/Image_Codex_2_sept._2026_20_12_39.png?v=1788378548"
+        alt="Un couple en tenue traditionnelle — elle porte un tignon noué haut, lui un boubou rayé — assis contre un mur de terre"
         fill
         priority
         sizes="100vw"
-        className="object-cover"
+        className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-linear-to-t from-brun via-brun/35 to-brun/10" />
+      <div className="absolute inset-0 bg-linear-to-t from-brun via-brun/45 to-brun/5" />
       <div className="grain-overlay absolute inset-0 opacity-40" />
 
       <div className="relative mx-auto w-full max-w-[1600px] px-5 pb-14 md:px-10 md:pb-20">
