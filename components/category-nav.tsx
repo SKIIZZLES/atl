@@ -3,11 +3,11 @@ import Link from "next/link";
 
 export const CATEGORIES = [
   "T-Shirts",
-  "Hoodies",
-  "Sweatshirts",
-  "Outerwear",
+  "Hoodies & Sweats",
+  "Vestes & Manteaux",
+  "Ensembles",
+  "Robes",
   "Accessoires",
-  "Pièces",
 ] as const;
 
 export function CategoryNav({ active }: { active?: string }) {
