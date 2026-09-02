@@ -98,9 +98,7 @@ export async function shopifyFetch<T>({
     const body = await result.json();
 
     if (body.errors) {
-      console.error(
-        `[shopify-debug] httpStatus=${result.status} requestId=${result.headers.get("x-request-id")} fullBody=${JSON.stringify(body)}`,
-      );
+      console.error("Shopify Storefront API error:", body.errors[0]);
       throw body.errors[0];
     }
 
