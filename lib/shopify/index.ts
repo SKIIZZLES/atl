@@ -82,6 +82,10 @@ export async function shopifyFetch<T>({
       throw new Error("SHOPIFY_STORE_DOMAIN environment variable is not set");
     }
 
+    console.error(
+      `[shopify-debug] endpoint=${endpoint} keyLength=${key?.length} keyPreview=${key ? `${key.slice(0, 4)}...${key.slice(-4)}` : "MISSING"}`,
+    );
+
     const result = await fetch(endpoint, {
       method: "POST",
       headers: {
