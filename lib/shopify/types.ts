@@ -307,6 +307,7 @@ export type ShopifyShopPoliciesOperation = {
       refundPolicy: Maybe<ShopPolicy>;
       shippingPolicy: Maybe<ShopPolicy>;
       termsOfService: Maybe<ShopPolicy>;
+      termsOfSale: Maybe<ShopPolicy>;
     };
   };
 };
