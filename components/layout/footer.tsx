@@ -79,7 +79,7 @@ export default async function Footer({
             <div className="flex flex-col gap-4">
               <span className="label-xs text-muted-foreground/60">Réseaux</span>
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/onde.noire"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
@@ -87,7 +87,7 @@ export default async function Footer({
                 Instagram
               </a>
               <a
-                href="https://tiktok.com"
+                href="https://tiktok.com/@le88emeecho"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
