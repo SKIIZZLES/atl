@@ -276,3 +276,37 @@ export type ShopifyProductsOperation = {
     sortKey?: string;
   };
 };
+
+export type ShopPolicy = {
+  id: string;
+  title: string;
+  handle: string;
+  body: string;
+  url: string;
+};
+
+/**
+ * Shopify holds at most one policy of each kind. They are keyed here by the
+ * French slug the storefront routes on, and a kind the merchant has not
+ * written yet is simply absent — the site links only what exists.
+ */
+export type PolicySlug =
+  | "mentions-legales"
+  | "confidentialite"
+  | "remboursement"
+  | "livraison"
+  | "conditions-generales";
+
+export type ShopPolicies = Partial<Record<PolicySlug, ShopPolicy>>;
+
+export type ShopifyShopPoliciesOperation = {
+  data: {
+    shop: {
+      legalNotice: Maybe<ShopPolicy>;
+      privacyPolicy: Maybe<ShopPolicy>;
+      refundPolicy: Maybe<ShopPolicy>;
+      shippingPolicy: Maybe<ShopPolicy>;
+      termsOfService: Maybe<ShopPolicy>;
+    };
+  };
+};

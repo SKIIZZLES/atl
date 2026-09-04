@@ -1,22 +1,26 @@
 import { WaveDivider } from "components/wave-divider";
+import { POLICY_LABELS } from "lib/policies";
+import { getShopPolicies } from "lib/shopify";
 import Link from "next/link";
 
 type NavCollection = { handle: string; title: string };
 
-export default function Footer({
+export default async function Footer({
   collections,
 }: {
   collections: NavCollection[];
 }) {
+  // Only the policies the merchant has actually written are linked — a dead
+  // "Livraison" link is worse than no link on a shop taking real orders.
+  const policies = await getShopPolicies();
+
   return (
     <footer>
       <WaveDivider color="var(--brass)" />
       <div className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
-            <p className="font-display text-lg tracking-tight">
-              ONDE NOIRE®
-            </p>
+            <p className="font-display text-lg tracking-tight">ONDE NOIRE®</p>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
               We don&apos;t wear history. We continue it.
             </p>
@@ -54,10 +58,26 @@ export default function Footer({
               </Link>
             </div>
 
+            <nav
+              aria-label="Informations légales"
+              className="flex flex-col gap-4"
+            >
+              <span className="label-xs text-muted-foreground/60">Légal</span>
+              {Object.entries(policies).map(([handle, policy]) =>
+                policy ? (
+                  <Link
+                    key={handle}
+                    href={`/politiques/${handle}`}
+                    className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                  >
+                    {POLICY_LABELS[handle as keyof typeof POLICY_LABELS]}
+                  </Link>
+                ) : null,
+              )}
+            </nav>
+
             <div className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">
-                Réseaux
-              </span>
+              <span className="label-xs text-muted-foreground/60">Réseaux</span>
               <a
                 href="https://instagram.com"
                 target="_blank"
