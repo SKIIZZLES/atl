@@ -26,6 +26,7 @@ import {
 } from "./queries/collection";
 import { getMenuQuery } from "./queries/menu";
 import { getPageQuery, getPagesQuery } from "./queries/page";
+import { getShopPoliciesQuery } from "./queries/policy";
 import {
   getProductQuery,
   getProductRecommendationsQuery,
@@ -39,6 +40,7 @@ import {
   Menu,
   Page,
   Product,
+  ShopPolicies,
   ShopifyAddToCartOperation,
   ShopifyCart,
   ShopifyCartOperation,
@@ -55,6 +57,7 @@ import {
   ShopifyProductRecommendationsOperation,
   ShopifyProductsOperation,
   ShopifyRemoveFromCartOperation,
+  ShopifyShopPoliciesOperation,
   ShopifyUpdateCartOperation,
 } from "./types";
 
@@ -98,6 +101,7 @@ export async function shopifyFetch<T>({
     const body = await result.json();
 
     if (body.errors) {
+      console.error("Shopify Storefront API error:", body.errors[0]);
       throw body.errors[0];
     }
 
@@ -141,7 +145,7 @@ const reshapeCart = (cart: ShopifyCart): Cart => {
 };
 
 const reshapeCollection = (
-  collection: ShopifyCollection
+  collection: ShopifyCollection,
 ): Collection | undefined => {
   if (!collection) {
     return undefined;
@@ -183,7 +187,7 @@ const reshapeImages = (images: Connection<Image>, productTitle: string) => {
 
 const reshapeProduct = (
   product: ShopifyProduct,
-  filterHiddenProducts: boolean = true
+  filterHiddenProducts: boolean = true,
 ) => {
   if (
     !product ||
@@ -192,12 +196,13 @@ const reshapeProduct = (
     return undefined;
   }
 
-  const { images, variants, ...rest } = product;
+  const { images, variants, collections, ...rest } = product;
 
   return {
     ...rest,
     images: reshapeImages(images, product.title),
     variants: removeEdgesAndNodes(variants),
+    collection: removeEdgesAndNodes(collections)[0] ?? null,
   };
 };
 
@@ -226,7 +231,7 @@ export async function createCart(): Promise<Cart> {
 }
 
 export async function addToCart(
-  lines: { merchandiseId: string; quantity: number }[]
+  lines: { merchandiseId: string; quantity: number }[],
 ): Promise<Cart> {
   const cartId = (await cookies()).get("cartId")?.value!;
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
@@ -253,7 +258,7 @@ export async function removeFromCart(lineIds: string[]): Promise<Cart> {
 }
 
 export async function updateCart(
-  lines: { id: string; merchandiseId: string; quantity: number }[]
+  lines: { id: string; merchandiseId: string; quantity: number }[],
 ): Promise<Cart> {
   const cartId = (await cookies()).get("cartId")?.value!;
   const res = await shopifyFetch<ShopifyUpdateCartOperation>({
@@ -292,7 +297,7 @@ export async function getCart(): Promise<Cart | undefined> {
 }
 
 export async function getCollection(
-  handle: string
+  handle: string,
 ): Promise<Collection | undefined> {
   "use cache";
   cacheTag(TAGS.collections);
@@ -323,7 +328,7 @@ export async function getCollectionProducts({
 
   if (!endpoint) {
     console.log(
-      `Skipping getCollectionProducts for '${collection}' - Shopify not configured`
+      `Skipping getCollectionProducts for '${collection}' - Shopify not configured`,
     );
     return [];
   }
@@ -343,7 +348,7 @@ export async function getCollectionProducts({
   }
 
   return reshapeProducts(
-    removeEdgesAndNodes(res.body.data.collection.products)
+    removeEdgesAndNodes(res.body.data.collection.products),
   );
 }
 
@@ -388,7 +393,7 @@ export async function getCollections(): Promise<Collection[]> {
     // Filter out the `hidden` collections.
     // Collections that start with `hidden-*` need to be hidden on the search page.
     ...reshapeCollections(shopifyCollections).filter(
-      (collection) => !collection.handle.startsWith("hidden")
+      (collection) => !collection.handle.startsWith("hidden"),
     ),
   ];
 
@@ -440,6 +445,45 @@ export async function getPages(): Promise<Page[]> {
   return removeEdgesAndNodes(res.body.data.pages);
 }
 
+export async function getShopPolicies(): Promise<ShopPolicies> {
+  "use cache";
+  cacheLife("days");
+
+  if (!endpoint) {
+    console.log("Skipping getShopPolicies - Shopify not configured");
+    return {};
+  }
+
+  // The footer renders these on every page, so a failure here must not take
+  // the whole site down with it — losing the legal links is recoverable,
+  // a 500 on every route is not.
+  let res;
+  try {
+    res = await shopifyFetch<ShopifyShopPoliciesOperation>({
+      query: getShopPoliciesQuery,
+    });
+  } catch (e) {
+    console.error("Failed to load shop policies:", e);
+    return {};
+  }
+
+  const {
+    legalNotice,
+    privacyPolicy,
+    refundPolicy,
+    shippingPolicy,
+    termsOfService,
+  } = res.body.data.shop;
+
+  return {
+    "mentions-legales": legalNotice ?? undefined,
+    confidentialite: privacyPolicy ?? undefined,
+    remboursement: refundPolicy ?? undefined,
+    livraison: shippingPolicy ?? undefined,
+    "conditions-generales": termsOfService ?? undefined,
+  };
+}
+
 export async function getProduct(handle: string): Promise<Product | undefined> {
   "use cache";
   cacheTag(TAGS.products);
@@ -461,7 +505,7 @@ export async function getProduct(handle: string): Promise<Product | undefined> {
 }
 
 export async function getProductRecommendations(
-  productId: string
+  productId: string,
 ): Promise<Product[]> {
   "use cache";
   cacheTag(TAGS.products);

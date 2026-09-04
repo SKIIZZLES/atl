@@ -6,12 +6,15 @@ import FilterList from "./filter";
 
 async function CollectionList() {
   const collections = await getCollections();
-  return <FilterList list={collections} title="Collections" />;
+  const visible = collections.filter(
+    (collection) => !collection.handle.startsWith("hidden-homepage"),
+  );
+  return <FilterList list={visible} title="Collections" />;
 }
 
 const skeleton = "mb-3 h-4 w-5/6 animate-pulse rounded-sm";
-const activeAndTitles = "bg-neutral-800 dark:bg-neutral-300";
-const items = "bg-neutral-400 dark:bg-neutral-700";
+const activeAndTitles = "bg-border";
+const items = "bg-muted";
 
 export default function Collections() {
   return (

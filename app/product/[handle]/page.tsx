@@ -1,8 +1,8 @@
 import { GridTileImage } from "components/grid/tile";
-import Footer from "components/layout/footer";
 import { Gallery } from "components/product/gallery";
 import { ProductDescription } from "components/product/product-description";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
+import { collectionStories } from "lib/collection-copy";
 import { getProduct, getProductRecommendations } from "lib/shopify";
 import type { Image } from "lib/shopify/types";
 import type { Metadata } from "next";
@@ -80,12 +80,12 @@ export default async function ProductPage(props: {
           __html: JSON.stringify(productJsonLd),
         }}
       />
-      <div className="mx-auto max-w-(--breakpoint-2xl) px-4">
-        <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
-          <div className="h-full w-full basis-full lg:basis-4/6">
+      <div className="mx-auto max-w-[1600px] px-5 pb-24 pt-32 md:px-10">
+        <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
+          <div className="h-full w-full basis-full lg:basis-3/5">
             <Suspense
               fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
+                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden bg-card" />
               }
             >
               <Gallery
@@ -97,15 +97,34 @@ export default async function ProductPage(props: {
             </Suspense>
           </div>
 
-          <div className="basis-full lg:basis-2/6">
+          <div className="basis-full lg:basis-2/5">
             <Suspense fallback={null}>
               <ProductDescription product={product} />
             </Suspense>
           </div>
         </div>
+
+        {product.collection ? (
+          <div className="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
+            <p className="label-xs text-signal">L’histoire de la pièce</p>
+            <div className="mt-6 grid gap-8 md:grid-cols-12">
+              <p className="editorial text-xl italic leading-relaxed md:col-span-8 md:text-2xl">
+                {collectionStories[product.collection.handle] ??
+                  `Cette pièce fait partie de ${product.collection.title}.`}
+              </p>
+              <Link
+                href={`/search/${product.collection.handle}`}
+                className="label-xs inline-flex items-start gap-2 text-muted-foreground transition-colors duration-300 hover:text-foreground md:col-span-4 md:justify-self-end"
+              >
+                {product.collection.title}
+                <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </div>
+        ) : null}
+
         <RelatedProducts id={product.id} />
       </div>
-      <Footer />
     </>
   );
 }
@@ -116,8 +135,10 @@ async function RelatedProducts({ id }: { id: string }) {
   if (!relatedProducts.length) return null;
 
   return (
-    <div className="py-8">
-      <h2 className="mb-4 text-2xl font-bold">Related Products</h2>
+    <div className="mt-16 border-t border-border pt-12 md:pt-16">
+      <h2 className="label-xs mb-8 text-muted-foreground">
+        Dans la même transmission
+      </h2>
       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
         {relatedProducts.map((product) => (
           <li

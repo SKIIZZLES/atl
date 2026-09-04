@@ -68,9 +68,13 @@ export type Page = {
   updatedAt: string;
 };
 
-export type Product = Omit<ShopifyProduct, "variants" | "images"> & {
+export type Product = Omit<
+  ShopifyProduct,
+  "variants" | "images" | "collections"
+> & {
   variants: ProductVariant[];
   images: Image[];
+  collection: { handle: string; title: string } | null;
 };
 
 export type ProductOption = {
@@ -88,6 +92,7 @@ export type ProductVariant = {
     value: string;
   }[];
   price: Money;
+  image?: Image | null;
 };
 
 export type SEO = {
@@ -133,6 +138,7 @@ export type ShopifyProduct = {
   seo: SEO;
   tags: string[];
   updatedAt: string;
+  collections: Connection<{ handle: string; title: string }>;
 };
 
 export type ShopifyCartOperation = {
@@ -268,5 +274,39 @@ export type ShopifyProductsOperation = {
     query?: string;
     reverse?: boolean;
     sortKey?: string;
+  };
+};
+
+export type ShopPolicy = {
+  id: string;
+  title: string;
+  handle: string;
+  body: string;
+  url: string;
+};
+
+/**
+ * Shopify holds at most one policy of each kind. They are keyed here by the
+ * French slug the storefront routes on, and a kind the merchant has not
+ * written yet is simply absent — the site links only what exists.
+ */
+export type PolicySlug =
+  | "mentions-legales"
+  | "confidentialite"
+  | "remboursement"
+  | "livraison"
+  | "conditions-generales";
+
+export type ShopPolicies = Partial<Record<PolicySlug, ShopPolicy>>;
+
+export type ShopifyShopPoliciesOperation = {
+  data: {
+    shop: {
+      legalNotice: Maybe<ShopPolicy>;
+      privacyPolicy: Maybe<ShopPolicy>;
+      refundPolicy: Maybe<ShopPolicy>;
+      shippingPolicy: Maybe<ShopPolicy>;
+      termsOfService: Maybe<ShopPolicy>;
+    };
   };
 };

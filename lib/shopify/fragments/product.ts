@@ -38,6 +38,9 @@ const productFragment = /* GraphQL */ `
             amount
             currencyCode
           }
+          image {
+            ...image
+          }
         }
       }
     }
@@ -56,6 +59,14 @@ const productFragment = /* GraphQL */ `
     }
     tags
     updatedAt
+    collections(first: 1) {
+      edges {
+        node {
+          handle
+          title
+        }
+      }
+    }
   }
   ${imageFragment}
   ${seoFragment}
