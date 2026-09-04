@@ -26,6 +26,9 @@ export const getShopPoliciesQuery = /* GraphQL */ `
       termsOfService {
         ...policy
       }
+      termsOfSale {
+        ...policy
+      }
     }
   }
   ${policyFragment}

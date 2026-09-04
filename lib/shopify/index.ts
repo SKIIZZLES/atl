@@ -473,6 +473,7 @@ export async function getShopPolicies(): Promise<ShopPolicies> {
     refundPolicy,
     shippingPolicy,
     termsOfService,
+    termsOfSale,
   } = res.body.data.shop;
 
   return {
@@ -480,7 +481,9 @@ export async function getShopPolicies(): Promise<ShopPolicies> {
     confidentialite: privacyPolicy ?? undefined,
     remboursement: refundPolicy ?? undefined,
     livraison: shippingPolicy ?? undefined,
-    "conditions-generales": termsOfService ?? undefined,
+    // A French shop files its CGV under Terms of sale, an English-speaking one
+    // under Terms of service. Whichever the merchant filled in is the CGV.
+    "conditions-generales": termsOfSale ?? termsOfService ?? undefined,
   };
 }
 
