@@ -47,7 +47,9 @@
   --muted-foreground: #a2907a;
   /* Or du lettrage — accent principal */
   --signal: #c9a86a;
-  --border: #2e2620;
+  /* Bronze : 3,01:1 sur le fond, le minimum WCAG 1.4.11 pour le
+     contour d'un contrôle (champ, bouton de taille, pastille) */
+  --border: #6b5a47;
   --input: #16120e;
   --ring: #c9a86a;
 
