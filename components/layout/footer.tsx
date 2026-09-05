@@ -1,6 +1,7 @@
 import { WaveDivider } from "components/wave-divider";
 import { POLICY_LABELS } from "lib/policies";
 import { getShopPolicies } from "lib/shopify";
+import Image from "next/image";
 import Link from "next/link";
 
 type NavCollection = { handle: string; title: string };
@@ -20,10 +21,17 @@ export default async function Footer({
       <div className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
-            <p className="font-display text-lg tracking-tight text-signal">
-              ONDE NOIRE®
-            </p>
-            <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
+            {/* Le lockup complet — monogramme, lettrage, signature — a la place
+                de respirer ici. Son fond noir se confond avec le bloc brun. */}
+            <Image
+              src="https://cdn.shopify.com/s/files/1/1088/9438/8549/files/Image_Codex_5_sept._2026_14_56_18.png?v=1788613997"
+              alt="Onde Noire — mémoire, culture, avenir"
+              width={224}
+              height={224}
+              sizes="(min-width: 768px) 224px, 176px"
+              className="h-auto w-44 md:w-56"
+            />
+            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
               We don&apos;t wear history. We continue it.
             </p>
           </div>
