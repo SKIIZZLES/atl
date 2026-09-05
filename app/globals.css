@@ -21,6 +21,7 @@
   --color-background: var(--background);
 
   --color-brass: var(--brass);
+  --color-cuivre: var(--cuivre);
   --color-brun: var(--brun);
   --color-brun-foreground: var(--brun-foreground);
   --color-terre: var(--terre);
@@ -53,6 +54,9 @@
   --input: #16120e;
   --ring: #c9a86a;
 
+  /* Marron cuivré — nom des produits. 5,13:1 sur le fond : franchement
+     marron sans passer sous le seuil de lisibilité. */
+  --cuivre: #a2795a;
   /* Or clair — highlights, survols */
   --brass: #e3c98f;
   /* Bloc le plus profond : hero, pied de page */

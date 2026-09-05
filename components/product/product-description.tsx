@@ -8,7 +8,7 @@ export function ProductDescription({ product }: { product: Product }) {
   return (
     <>
       <div className="mb-8 flex flex-col gap-4 border-b border-border/60 pb-8">
-        <h1 className="font-display text-3xl uppercase tracking-tight text-balance md:text-4xl">
+        <h1 className="font-display text-3xl uppercase tracking-tight text-balance text-cuivre md:text-4xl">
           {product.title}
         </h1>
         <Price
