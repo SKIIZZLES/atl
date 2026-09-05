@@ -20,7 +20,9 @@ export default async function Footer({
       <div className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
-            <p className="font-display text-lg tracking-tight">ONDE NOIRE®</p>
+            <p className="font-display text-lg tracking-tight text-signal">
+              ONDE NOIRE®
+            </p>
             <p className="mt-5 text-sm leading-relaxed text-muted-foreground">
               We don&apos;t wear history. We continue it.
             </p>

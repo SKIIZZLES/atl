@@ -42,7 +42,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-6 px-5 md:h-20 md:px-10">
         <Link
           href="/"
-          className="font-display text-lg tracking-tight text-foreground transition-colors duration-300 hover:text-signal"
+          className="font-display text-lg tracking-tight text-signal transition-colors duration-300 hover:text-brass"
         >
           ONDE NOIRE®
         </Link>
@@ -123,7 +123,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
       {isMenuOpen ? (
         <div className="fixed inset-0 z-50 flex flex-col bg-background md:hidden">
           <div className="flex h-16 items-center justify-between border-b border-border px-5">
-            <span className="font-display text-lg tracking-tight">
+            <span className="font-display text-lg tracking-tight text-signal">
               ONDE NOIRE®
             </span>
             <button

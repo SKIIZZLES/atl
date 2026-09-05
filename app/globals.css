@@ -33,33 +33,32 @@
 }
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 
-  /* Blanc Cassé */
-  --background: #f3efe7;
-  /* Brun Profond */
-  --foreground: #3d2a22;
-  /* Crème / Os */
-  --card: #ded2bd;
-  --card-foreground: #3d2a22;
-  /* Beige Sable */
-  --muted: #c8b08b;
-  /* Marron Terre */
-  --muted-foreground: #7a5238;
-  /* Terre Cuite — accent principal */
-  --signal: #a9462d;
-  --border: #c8b08b;
-  --input: #ded2bd;
-  --ring: #a9462d;
+  /* Noir chaud — le fond du logo, très légèrement réchauffé pour tenir avec l'or */
+  --background: #0b0908;
+  /* Crème — le texte courant, jamais du blanc pur */
+  --foreground: #ece2d0;
+  /* Surface relevée : cartes produit, champs */
+  --card: #16120e;
+  --card-foreground: #ece2d0;
+  --muted: #2a221a;
+  /* Texte secondaire */
+  --muted-foreground: #a2907a;
+  /* Or du lettrage — accent principal */
+  --signal: #c9a86a;
+  --border: #2e2620;
+  --input: #16120e;
+  --ring: #c9a86a;
 
-  /* Or Mat — très discret, usage rare */
-  --brass: #a88852;
-  /* Brun Profond en bloc plein, texte clair dessus */
-  --brun: #3d2a22;
-  --brun-foreground: #f3efe7;
-  /* Marron Terre en bloc plein, texte clair dessus */
-  --terre: #7a5238;
-  --terre-foreground: #f3efe7;
+  /* Or clair — highlights, survols */
+  --brass: #e3c98f;
+  /* Bloc le plus profond : hero, pied de page */
+  --brun: #060505;
+  --brun-foreground: #ece2d0;
+  /* Bloc bronze relevé : manifeste */
+  --terre: #1d1710;
+  --terre-foreground: #ece2d0;
 }
 
 @layer base {
@@ -72,7 +71,7 @@
   }
 
   html {
-    color-scheme: light;
+    color-scheme: dark;
   }
 
   body {
@@ -123,6 +122,9 @@ button {
 }
 
 @utility grain-overlay {
-  background-image: radial-gradient(rgb(61 42 34 / 12%) 0.5px, transparent 0.5px);
+  background-image: radial-gradient(
+    rgb(236 226 208 / 7%) 0.5px,
+    transparent 0.5px
+  );
   background-size: 3px 3px;
 }

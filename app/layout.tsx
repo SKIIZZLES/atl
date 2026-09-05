@@ -4,7 +4,12 @@ import Footer from "components/layout/footer";
 import { getCart, getCollections } from "lib/shopify";
 import { baseUrl } from "lib/utils";
 import type { Metadata, Viewport } from "next";
-import { Anton, Fraunces, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import {
+  Anton,
+  Fraunces,
+  IBM_Plex_Mono,
+  IBM_Plex_Sans,
+} from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 
@@ -68,8 +73,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  colorScheme: "light",
-  themeColor: "#f3efe7",
+  colorScheme: "dark",
+  themeColor: "#0b0908",
 };
 
 export default async function RootLayout({
