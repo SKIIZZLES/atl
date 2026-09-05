@@ -167,7 +167,7 @@ export const sections: Section[] = [
       },
     ],
     pullQuote:
-      "Une fréquence invisible qui traverse le temps, les frontières et les générations.",
+      "Un peuple dispersé peut continuer à produire une culture commune sans partager le même territoire.",
   },
   {
     id: "le-88eme-echo",
@@ -243,16 +243,15 @@ export const sections: Section[] = [
     id: "vision",
     numeral: "X",
     title: "Notre vision",
-    standfirst:
-      "Entrer dans quelque chose qui existait déjà avant vous, et qui continuera après.",
+    standfirst: "Un jour, chaque collection d'Onde Noire sera un chapitre.",
     blocks: [
       {
         kind: "p",
-        text: "Un jour, chaque collection d'Onde Noire sera un chapitre. Chaque chapitre aura ses symboles, ses objets, son histoire, ses références, ses codes cachés, son univers visuel.",
+        text: "Chaque chapitre aura ses symboles, ses objets, son histoire, ses références, ses codes cachés, son univers visuel.",
       },
       {
         kind: "p",
-        text: "La personne qui découvre Onde Noire aujourd'hui ne doit pas seulement voir une marque.",
+        text: "La personne qui découvre Onde Noire aujourd'hui ne doit pas seulement voir une marque. Elle doit avoir l'impression d'entrer dans quelque chose qui existait déjà avant elle. Et qui continuera après.",
       },
       {
         kind: "cadence",
