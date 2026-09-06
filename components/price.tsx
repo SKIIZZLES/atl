@@ -13,6 +13,7 @@ const format = (amount: string, currencyCode: string) =>
 const Price = ({
   amount,
   compareAtAmount,
+  prefix,
   className,
   currencyCode = "USD",
   currencyCodeClassName,
@@ -21,6 +22,9 @@ const Price = ({
   /** Prix de référence. Barré seulement s'il est réellement supérieur :
    *  Shopify renvoie 0,00 quand aucune variante n'a de prix barré. */
   compareAtAmount?: string | null;
+  /** « À partir de » quand les variantes n'ont pas toutes le même prix.
+   *  Le montant affiché est alors le plus bas de la fourchette. */
+  prefix?: string;
   className?: string;
   currencyCode: string;
   currencyCodeClassName?: string;
@@ -30,6 +34,9 @@ const Price = ({
 
   return (
     <p className={className}>
+      {prefix ? (
+        <span className="mr-1.5 text-muted-foreground">{prefix}</span>
+      ) : null}
       {isDiscounted ? (
         <span className="mr-2 text-muted-foreground line-through">
           {format(compareAtAmount, currencyCode)}
