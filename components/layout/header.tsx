@@ -85,7 +85,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           </div>
 
           <Link
-            href="/#story"
+            href="/stories"
             className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
           >
             Stories
@@ -158,7 +158,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
               ))}
             </div>
             <Link
-              href="/#story"
+              href="/stories"
               onClick={() => setIsMenuOpen(false)}
               className="headline text-3xl"
             >

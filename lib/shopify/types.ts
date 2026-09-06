@@ -132,6 +132,12 @@ export type ShopifyProduct = {
     maxVariantPrice: Money;
     minVariantPrice: Money;
   };
+  /** Prix de référence barré. Shopify renvoie 0,00 quand aucune variante
+   *  n'en porte, jamais null — d'où la comparaison stricte à l'affichage. */
+  compareAtPriceRange: {
+    maxVariantPrice: Money;
+    minVariantPrice: Money;
+  };
   variants: Connection<ProductVariant>;
   featuredImage: Image;
   images: Connection<Image>;

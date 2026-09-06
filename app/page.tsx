@@ -97,7 +97,7 @@ export default async function HomePage() {
             Des mémoires différentes. Une histoire qui continue de circuler.
           </p>
           <Link
-            href="/#story"
+            href="/stories"
             className="label-xs mt-10 inline-flex items-center gap-3 border-b border-terre-foreground/50 pb-2 text-terre-foreground transition-colors duration-300 hover:border-terre-foreground"
           >
             Découvrir l&apos;histoire →

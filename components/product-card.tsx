@@ -6,6 +6,10 @@ import Link from "next/link";
 export function ProductCard({ product }: { product: Product }) {
   const image = product.featuredImage ?? product.images[0] ?? null;
   const secondary = product.images[1] ?? null;
+  const { minVariantPrice, maxVariantPrice } = product.priceRange;
+  // Les tailles au-delà du XL coûtent parfois plus cher : on annonce
+  // le prix le plus bas, en le disant.
+  const hasRange = minVariantPrice.amount !== maxVariantPrice.amount;
 
   return (
     <Link
@@ -43,8 +47,10 @@ export function ProductCard({ product }: { product: Product }) {
         <h3 className="text-sm text-cuivre">{product.title}</h3>
         <Price
           className="label-xs tabular-nums text-muted-foreground"
-          amount={product.priceRange.minVariantPrice.amount}
-          currencyCode={product.priceRange.minVariantPrice.currencyCode}
+          prefix={hasRange ? "À partir de" : undefined}
+          amount={minVariantPrice.amount}
+          compareAtAmount={product.compareAtPriceRange.minVariantPrice.amount}
+          currencyCode={minVariantPrice.currencyCode}
           currencyCodeClassName="hidden"
         />
       </div>

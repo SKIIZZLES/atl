@@ -5,6 +5,11 @@ import { Product } from "lib/shopify/types";
 import { VariantSelector } from "./variant-selector";
 
 export function ProductDescription({ product }: { product: Product }) {
+  const { minVariantPrice, maxVariantPrice } = product.priceRange;
+  // Même règle que sur la carte, sans quoi un même produit annonce deux
+  // prix différents selon la page où on le regarde.
+  const hasRange = minVariantPrice.amount !== maxVariantPrice.amount;
+
   return (
     <>
       <div className="mb-8 flex flex-col gap-4 border-b border-border/60 pb-8">
@@ -13,8 +18,10 @@ export function ProductDescription({ product }: { product: Product }) {
         </h1>
         <Price
           className="text-sm tabular-nums text-muted-foreground"
-          amount={product.priceRange.maxVariantPrice.amount}
-          currencyCode={product.priceRange.maxVariantPrice.currencyCode}
+          prefix={hasRange ? "À partir de" : undefined}
+          amount={minVariantPrice.amount}
+          compareAtAmount={product.compareAtPriceRange.minVariantPrice.amount}
+          currencyCode={minVariantPrice.currencyCode}
           currencyCodeClassName="hidden"
         />
       </div>
