@@ -1,5 +1,3 @@
-import clsx from "clsx";
-
 // Boutique française : le format est figé en fr-FR (« 27,99 € »), jamais
 // laissé à la locale de l'environnement. Sans ça le serveur rend « €27.99 »
 // et le navigateur français « 27,99 € » — deux formats pour un même prix.
@@ -16,7 +14,6 @@ const Price = ({
   prefix,
   className,
   currencyCode = "USD",
-  currencyCodeClassName,
 }: {
   amount: string;
   /** Prix de référence. Barré seulement s'il est réellement supérieur :
@@ -27,7 +24,6 @@ const Price = ({
   prefix?: string;
   className?: string;
   currencyCode: string;
-  currencyCodeClassName?: string;
 } & React.ComponentProps<"p">) => {
   const isDiscounted =
     compareAtAmount != null && parseFloat(compareAtAmount) > parseFloat(amount);
@@ -45,9 +41,6 @@ const Price = ({
       <span className={isDiscounted ? "text-signal" : undefined}>
         {format(amount, currencyCode)}
       </span>
-      <span
-        className={clsx("ml-1 inline", currencyCodeClassName)}
-      >{`${currencyCode}`}</span>
     </p>
   );
 };

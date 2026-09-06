@@ -51,7 +51,6 @@ export function ProductCard({ product }: { product: Product }) {
           amount={minVariantPrice.amount}
           compareAtAmount={product.compareAtPriceRange.minVariantPrice.amount}
           currencyCode={minVariantPrice.currencyCode}
-          currencyCodeClassName="hidden"
         />
       </div>
     </Link>
