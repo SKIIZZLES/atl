@@ -44,6 +44,7 @@ export function ProductCard({ product }: { product: Product }) {
         <Price
           className="label-xs tabular-nums text-muted-foreground"
           amount={product.priceRange.minVariantPrice.amount}
+          compareAtAmount={product.compareAtPriceRange.minVariantPrice.amount}
           currencyCode={product.priceRange.minVariantPrice.currencyCode}
           currencyCodeClassName="hidden"
         />

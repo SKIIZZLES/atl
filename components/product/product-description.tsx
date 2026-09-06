@@ -14,6 +14,7 @@ export function ProductDescription({ product }: { product: Product }) {
         <Price
           className="text-sm tabular-nums text-muted-foreground"
           amount={product.priceRange.maxVariantPrice.amount}
+          compareAtAmount={product.compareAtPriceRange.maxVariantPrice.amount}
           currencyCode={product.priceRange.maxVariantPrice.currencyCode}
           currencyCodeClassName="hidden"
         />
