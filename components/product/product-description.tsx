@@ -22,7 +22,6 @@ export function ProductDescription({ product }: { product: Product }) {
           amount={minVariantPrice.amount}
           compareAtAmount={product.compareAtPriceRange.minVariantPrice.amount}
           currencyCode={minVariantPrice.currencyCode}
-          currencyCodeClassName="hidden"
         />
       </div>
       <VariantSelector options={product.options} variants={product.variants} />

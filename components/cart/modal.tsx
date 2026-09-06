@@ -88,9 +88,7 @@ export default function CartModal() {
 
               {!cart || cart.lines.length === 0 ? (
                 <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
-                  <p className="label-xs text-muted-foreground">
-                    Panier vide
-                  </p>
+                  <p className="label-xs text-muted-foreground">Panier vide</p>
                   <p className="max-w-xs text-sm leading-relaxed text-muted-foreground/70">
                     Chaque pièce est éditée en série courte. Parcourez les
                     collections pour commencer votre archive.
@@ -136,19 +134,19 @@ export default function CartModal() {
                                 sizes="80px"
                                 alt={
                                   item.merchandise.product.featuredImage
-                                    .altText ||
-                                  item.merchandise.product.title
+                                    .altText || item.merchandise.product.title
                                 }
-                                src={
-                                  item.merchandise.product.featuredImage.url
-                                }
+                                src={item.merchandise.product.featuredImage.url}
                               />
                             </Link>
 
                             <div className="flex min-w-0 flex-1 flex-col gap-2">
                               <div className="flex items-start justify-between gap-3">
                                 <div className="min-w-0">
-                                  <Link href={merchandiseUrl} onClick={closeCart}>
+                                  <Link
+                                    href={merchandiseUrl}
+                                    onClick={closeCart}
+                                  >
                                     <p className="font-display text-sm uppercase tracking-tight">
                                       {item.merchandise.product.title}
                                     </p>
@@ -165,7 +163,6 @@ export default function CartModal() {
                                   currencyCode={
                                     item.cost.totalAmount.currencyCode
                                   }
-                                  currencyCodeClassName="hidden"
                                 />
                               </div>
 
@@ -204,7 +201,6 @@ export default function CartModal() {
                         className="text-sm tabular-nums"
                         amount={cart.cost.subtotalAmount.amount}
                         currencyCode={cart.cost.subtotalAmount.currencyCode}
-                        currencyCodeClassName="hidden"
                       />
                     </div>
                     <p className="mt-2 text-xs text-muted-foreground/60">
@@ -233,7 +229,11 @@ function CheckoutButton() {
       type="submit"
       disabled={pending}
     >
-      {pending ? <LoadingDots className="bg-background" /> : "Passer au paiement"}
+      {pending ? (
+        <LoadingDots className="bg-background" />
+      ) : (
+        "Passer au paiement"
+      )}
     </button>
   );
 }

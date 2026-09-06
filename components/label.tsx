@@ -27,7 +27,6 @@ const Label = ({
           className="flex-none text-muted-foreground"
           amount={amount}
           currencyCode={currencyCode}
-          currencyCodeClassName="hidden"
         />
       </div>
     </div>
