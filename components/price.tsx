@@ -1,7 +1,10 @@
 import clsx from "clsx";
 
+// Boutique française : le format est figé en fr-FR (« 27,99 € »), jamais
+// laissé à la locale de l'environnement. Sans ça le serveur rend « €27.99 »
+// et le navigateur français « 27,99 € » — deux formats pour un même prix.
 const format = (amount: string, currencyCode: string) =>
-  new Intl.NumberFormat(undefined, {
+  new Intl.NumberFormat("fr-FR", {
     style: "currency",
     currency: currencyCode,
     currencyDisplay: "narrowSymbol",
@@ -26,7 +29,7 @@ const Price = ({
     compareAtAmount != null && parseFloat(compareAtAmount) > parseFloat(amount);
 
   return (
-    <p suppressHydrationWarning={true} className={className}>
+    <p className={className}>
       {isDiscounted ? (
         <span className="mr-2 text-muted-foreground line-through">
           {format(compareAtAmount, currencyCode)}
