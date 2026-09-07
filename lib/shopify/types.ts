@@ -116,6 +116,9 @@ export type ShopifyCollection = {
   handle: string;
   title: string;
   description: string;
+  /** Visuel de campagne. Nul tant que le marchand n'en a pas posé un
+   *  dans l'admin — l'appelant retombe alors sur une photo produit. */
+  image?: Image | null;
   seo: SEO;
   updatedAt: string;
 };
