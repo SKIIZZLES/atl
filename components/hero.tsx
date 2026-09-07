@@ -22,7 +22,7 @@ export function Hero() {
         fill
         priority
         sizes="100vw"
-        className="object-cover object-[70%_center]"
+        className="object-cover object-center"
       />
       {/* Dégradé latéral, pas vertical : le texte occupe la moitié gauche et
           le sujet la droite. Un voile du bas éteindrait le visage. */}
