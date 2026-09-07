@@ -121,7 +121,10 @@ export default async function HomePage() {
                   href={`/search/${entry.handle}`}
                   className="group flex h-full flex-col"
                 >
-                  <div className="relative aspect-video overflow-hidden bg-card">
+                  {/* Portrait 4:5 : les visuels de collection sont cadrés
+                      verticalement (tignon, capuche relevée). Un 16:9 les
+                      réduisait à une bande médiane qui coupait les têtes. */}
+                  <div className="relative aspect-4/5 overflow-hidden bg-card">
                     {entry.image ? (
                       <Image
                         src={entry.image.url}
