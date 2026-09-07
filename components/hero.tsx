@@ -57,6 +57,18 @@ export function Hero() {
           ))}
         </ul>
       </div>
+
+      {/* Le repère de la maquette. Il est décoratif : il n'y a qu'un visuel de
+          hero, donc rien à faire défiler. Le jour où il y en a trois, il
+          devient l'index d'un vrai carrousel — d'ici là il ne prétend pas
+          l'être, d'où l'`aria-hidden` et l'absence de contrôles. */}
+      <div
+        aria-hidden
+        className="absolute bottom-10 left-5 flex items-center gap-4 md:left-10"
+      >
+        <span className="label-xs text-brun-foreground/60">01 / 03</span>
+        <span className="block h-px w-20 bg-brun-foreground/30" />
+      </div>
     </section>
   );
 }

@@ -52,10 +52,10 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           className="hidden items-center gap-8 md:flex"
         >
           <Link
-            href="/search"
+            href="/"
             className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
           >
-            Shop
+            Accueil
           </Link>
 
           <div className="relative" ref={collectionsRef}>
@@ -80,6 +80,16 @@ export function Header({ collections }: { collections: NavCollection[] }) {
                     {collection.title}
                   </Link>
                 ))}
+                {/* « Accueil » a remplacé « Shop » dans la barre : le catalogue
+                    complet reste joignable ici, pour ne pas retirer un chemin
+                    de navigation que la maquette ne montre simplement pas. */}
+                <Link
+                  href="/search"
+                  onClick={() => setIsCollectionsOpen(false)}
+                  className="label-xs mt-2 block border-t border-border px-4 py-2.5 pt-4 text-muted-foreground transition-colors duration-300 hover:bg-card hover:text-signal"
+                >
+                  Toutes les pièces
+                </Link>
               </div>
             ) : null}
           </div>
@@ -88,7 +98,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
             href="/stories"
             className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
           >
-            Stories
+            Manifeste
           </Link>
           <Link
             href="/#manifeste"

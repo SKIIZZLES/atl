@@ -1,10 +1,26 @@
 import { WaveDivider } from "components/wave-divider";
 import { POLICY_LABELS } from "lib/policies";
 import { getShopPolicies } from "lib/shopify";
+import type { PolicySlug } from "lib/shopify/types";
 import Image from "next/image";
 import Link from "next/link";
 
 type NavCollection = { handle: string; title: string };
+
+/**
+ * Les politiques sont réparties en deux colonnes plutôt qu'en une seule :
+ * livraison et retours répondent à une question avant l'achat, les mentions
+ * légales à une obligation. Elles n'ont rien à faire au même endroit.
+ */
+const HELP_SLUGS: PolicySlug[] = ["livraison", "remboursement"];
+const LEGAL_SLUGS: PolicySlug[] = [
+  "mentions-legales",
+  "conditions-generales",
+  "confidentialite",
+];
+
+const LINK_CLASS =
+  "text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground";
 
 export default async function Footer({
   collections,
@@ -14,6 +30,8 @@ export default async function Footer({
   // Only the policies the merchant has actually written are linked — a dead
   // "Livraison" link is worse than no link on a shop taking real orders.
   const policies = await getShopPolicies();
+  const help = HELP_SLUGS.filter((slug) => policies[slug]);
+  const legal = LEGAL_SLUGS.filter((slug) => policies[slug]);
 
   return (
     <footer>
@@ -31,8 +49,8 @@ export default async function Footer({
               sizes="(min-width: 768px) 224px, 176px"
               className="h-auto w-44 md:w-56"
             />
-            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-              We don&apos;t wear history. We continue it.
+            <p className="label-xs mt-6 text-muted-foreground">
+              Culture in motion
             </p>
           </div>
 
@@ -43,48 +61,41 @@ export default async function Footer({
                 <Link
                   key={collection.handle}
                   href={`/search/${collection.handle}`}
-                  className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                  className={LINK_CLASS}
                 >
                   {collection.title}
                 </Link>
               ))}
+              <Link href="/search" className={LINK_CLASS}>
+                Toutes les pièces
+              </Link>
+            </nav>
+
+            <nav aria-label="Aide" className="flex flex-col gap-4">
+              <span className="label-xs text-muted-foreground/60">Aide</span>
+              {help.map((slug) => (
+                <Link
+                  key={slug}
+                  href={`/politiques/${slug}`}
+                  className={LINK_CLASS}
+                >
+                  {POLICY_LABELS[slug]}
+                </Link>
+              ))}
+              <Link href="/contact" className={LINK_CLASS}>
+                Contact
+              </Link>
             </nav>
 
             <div className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">
-                Informations
-              </span>
-              <Link
-                href="/#manifeste"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
-              >
+              <span className="label-xs text-muted-foreground/60">Maison</span>
+              <Link href="/stories" className={LINK_CLASS}>
+                Manifeste
+              </Link>
+              <Link href="/#manifeste" className={LINK_CLASS}>
                 À propos
               </Link>
-              <Link
-                href="/contact"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
-              >
-                Contact
-              </Link>
             </div>
-
-            <nav
-              aria-label="Informations légales"
-              className="flex flex-col gap-4"
-            >
-              <span className="label-xs text-muted-foreground/60">Légal</span>
-              {Object.entries(policies).map(([handle, policy]) =>
-                policy ? (
-                  <Link
-                    key={handle}
-                    href={`/politiques/${handle}`}
-                    className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
-                  >
-                    {POLICY_LABELS[handle as keyof typeof POLICY_LABELS]}
-                  </Link>
-                ) : null,
-              )}
-            </nav>
 
             <div className="flex flex-col gap-4">
               <span className="label-xs text-muted-foreground/60">Réseaux</span>
@@ -92,7 +103,7 @@ export default async function Footer({
                 href="https://instagram.com/onde.noire"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                className={LINK_CLASS}
               >
                 Instagram
               </a>
@@ -100,7 +111,7 @@ export default async function Footer({
                 href="https://tiktok.com/@le88emeecho"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                className={LINK_CLASS}
               >
                 TikTok
               </a>
@@ -108,13 +119,26 @@ export default async function Footer({
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-16 flex flex-col gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
           <p className="label-xs text-muted-foreground/60">
             © {new Date().getFullYear()} Onde Noire
           </p>
-          <p className="label-xs text-muted-foreground/60">
-            Culture doesn&apos;t disappear. It moves.
-          </p>
+          {legal.length > 0 ? (
+            <nav
+              aria-label="Informations légales"
+              className="flex flex-wrap gap-x-6 gap-y-2"
+            >
+              {legal.map((slug) => (
+                <Link
+                  key={slug}
+                  href={`/politiques/${slug}`}
+                  className="label-xs text-muted-foreground/60 transition-colors duration-300 hover:text-foreground"
+                >
+                  {POLICY_LABELS[slug]}
+                </Link>
+              ))}
+            </nav>
+          ) : null}
         </div>
       </div>
     </footer>

@@ -30,6 +30,30 @@ export const metadata = {
  * qui n'existent pas.
  */
 const MISSION_FIELD = ["Culture", "Héritage", "Identité", "Création", "Demain"];
+/**
+ * Les trois entrées de la section transmission. Chacune n'énonce que ce que
+ * le catalogue atteste : les matières viennent des fiches produit, la
+ * production à la demande de l'immatriculation. Rien sur un atelier ou une
+ * provenance qui ne serait pas documenté.
+ */
+const CRAFT = [
+  {
+    term: "Matières",
+    detail:
+      "Coton lourd, molleton gratté, mailles denses. Des bords-côtes qui empêchent une pièce de s'avachir au dixième lavage.",
+  },
+  {
+    term: "Détails",
+    detail:
+      "Le motif n'est pas un fond. Il se pose là où il compte — une bande, une colonne dans le dos, un empiècement.",
+  },
+  {
+    term: "Savoir-faire",
+    detail:
+      "Impression à la demande. Rien n'est produit avant d'être commandé, rien n'est détruit faute d'avoir été vendu.",
+  },
+];
+
 const JOIN_FIELD = [
   "Vêtements",
   "Articles",
@@ -73,6 +97,26 @@ export default async function HomePage() {
   // pas une constante : si elle se vide un jour, la bande suit au lieu de
   // pointer vers une page sans produit.
   const featured = officialCollections[0];
+
+  const allProducts = officialCollections.flatMap((entry) => entry.products);
+
+  // La maquette demande un macro textile et quatre silhouettes de lookbook.
+  // Ces prises de vue n'existent pas : on prend les photos du catalogue
+  // plutôt que d'inventer une direction que le reste de la page ne tiendrait
+  // pas. Les deux blocs piochent à des endroits différents pour ne pas
+  // répéter la planche contact de la bande claire.
+  const storyShots = allProducts
+    .flatMap((product) =>
+      product.images.map((image) => ({ image, title: product.title })),
+    )
+    .slice(0, 2);
+
+  const lookbookShots = allProducts
+    .flatMap((product) => {
+      const image = product.images[1] ?? product.featuredImage;
+      return image ? [{ image, title: product.title }] : [];
+    })
+    .slice(0, 4);
 
   const domain = process.env.SHOPIFY_STORE_DOMAIN;
 
@@ -222,6 +266,95 @@ export default async function HomePage() {
                       ) : null}
                     </div>
                   </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      ) : null}
+
+      {storyShots.length > 0 ? (
+        <section
+          id="transmission"
+          className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28"
+        >
+          <div className="grid gap-4 md:grid-cols-2 md:gap-6">
+            {storyShots.map((shot) => (
+              <div
+                key={shot.image.url}
+                className="relative aspect-4/5 overflow-hidden bg-card"
+              >
+                <Image
+                  src={shot.image.url}
+                  alt={shot.image.altText || shot.title}
+                  fill
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="object-cover"
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-14 grid gap-12 md:grid-cols-[1fr_minmax(0,34rem)] md:items-end">
+            <div>
+              <h2 className="editorial text-4xl leading-[1.1] md:text-5xl">
+                Plus qu&apos;un vêtement.
+                <br />
+                Une transmission.
+              </h2>
+              <Link
+                href="/stories"
+                className="label-xs mt-8 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
+              >
+                Notre histoire →
+              </Link>
+            </div>
+
+            <dl className="grid gap-8 sm:grid-cols-3">
+              {CRAFT.map((item) => (
+                <div key={item.term}>
+                  <dt className="label-xs text-signal">{item.term}</dt>
+                  <dd className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {item.detail}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        </section>
+      ) : null}
+
+      {featured && lookbookShots.length > 0 ? (
+        <section className="bg-craie text-craie-foreground">
+          <div className="mx-auto grid max-w-[1600px] items-end gap-10 px-5 py-16 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-14 md:px-10 md:py-20">
+            <div>
+              <p className="label-xs text-craie-foreground/60">Lookbook</p>
+              <h2 className="editorial mt-5 text-4xl md:text-5xl">
+                {featured.collection.title}
+              </h2>
+              <p className="mt-5 max-w-xs text-sm leading-relaxed text-craie-foreground/75">
+                Des silhouettes pour aujourd&apos;hui. Des racines pour demain.
+              </p>
+              <Link
+                href={`/search/${featured.handle}`}
+                className="label-xs mt-8 inline-flex items-center gap-3 border-b border-craie-foreground/40 pb-2 transition-colors duration-300 hover:border-craie-foreground"
+              >
+                Voir le lookbook →
+              </Link>
+            </div>
+
+            <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
+              {lookbookShots.map((shot) => (
+                <li key={shot.image.url}>
+                  <div className="relative aspect-2/3 overflow-hidden bg-craie-foreground/5">
+                    <Image
+                      src={shot.image.url}
+                      alt={shot.image.altText || shot.title}
+                      fill
+                      sizes="(min-width: 768px) 20vw, 45vw"
+                      className="object-cover"
+                    />
+                  </div>
                 </li>
               ))}
             </ul>

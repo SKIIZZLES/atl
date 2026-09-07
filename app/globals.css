@@ -141,3 +141,18 @@ button {
   );
   background-size: 3px 3px;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    /* Les zooms au survol et les révélations au défilement sont du confort.
+       Pour qui les supporte mal, ils déclenchent de vrais symptômes : on les
+       coupe, on ne les ralentit pas. `1ms` plutôt que `0s` garde les
+       événements `transitionend` qui pilotent certains états. */
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+}
