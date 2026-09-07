@@ -4,6 +4,7 @@ import {
   Bars3Icon,
   ChevronDownIcon,
   MagnifyingGlassIcon,
+  UserIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import CartModal from "components/cart/modal";
@@ -38,11 +39,11 @@ export function Header({ collections }: { collections: NavCollection[] }) {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-brun/95 backdrop-blur-xl">
       <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-6 px-5 md:h-20 md:px-10">
         <Link
           href="/"
-          className="font-display text-lg tracking-tight text-signal transition-colors duration-300 hover:text-brass"
+          className="font-display text-lg tracking-tight text-foreground transition-colors duration-300 hover:text-signal"
         >
           ONDE NOIRE®
         </Link>
@@ -100,6 +101,16 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           >
             Manifeste
           </Link>
+          {/* La maquette liste « Journal ». La page n'existe pas encore :
+              l'entrée tient sa place dans la composition sans prétendre
+              mener quelque part — ni lien, ni focus clavier. */}
+          <span
+            aria-hidden
+            className="label-xs cursor-default text-muted-foreground/50"
+            title="Bientôt"
+          >
+            Journal
+          </span>
           <Link
             href="/#manifeste"
             className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
@@ -116,6 +127,12 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           >
             <MagnifyingGlassIcon className="size-5" strokeWidth={1.5} />
           </Link>
+
+          <UserIcon
+            aria-hidden
+            className="hidden size-5 text-muted-foreground/50 md:block"
+            strokeWidth={1.5}
+          />
 
           <CartModal />
 

@@ -1,17 +1,12 @@
-import { CategoryNav } from "components/category-nav";
 import { Hero } from "components/hero";
 import { NewsletterForm } from "components/newsletter-form";
-import { ProductCard } from "components/product-card";
+import { ART } from "lib/art-direction";
 import {
   OFFICIAL_COLLECTION_HANDLES,
   collectionKickers,
   collectionTaglines,
 } from "lib/collection-copy";
-import {
-  getCollectionProducts,
-  getCollections,
-  getProducts,
-} from "lib/shopify";
+import { getCollectionProducts, getCollections } from "lib/shopify";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,36 +19,11 @@ export const metadata = {
 };
 
 /**
- * Les mots posés dans la marge du bloc mission et de la bannière de fin.
- * Ce ne sont pas des liens : c'est le champ lexical de la marque, une
- * signature typographique. En faire une navigation promettrait des pages
- * qui n'existent pas.
+ * Les mots posés dans la marge du manifeste et de la bannière finale. Ce ne
+ * sont pas des liens : c'est le champ lexical de la marque. En faire une
+ * navigation promettrait des pages qui n'existent pas.
  */
 const MISSION_FIELD = ["Culture", "Héritage", "Identité", "Création", "Demain"];
-/**
- * Les trois entrées de la section transmission. Chacune n'énonce que ce que
- * le catalogue atteste : les matières viennent des fiches produit, la
- * production à la demande de l'immatriculation. Rien sur un atelier ou une
- * provenance qui ne serait pas documenté.
- */
-const CRAFT = [
-  {
-    term: "Matières",
-    detail:
-      "Coton lourd, molleton gratté, mailles denses. Des bords-côtes qui empêchent une pièce de s'avachir au dixième lavage.",
-  },
-  {
-    term: "Détails",
-    detail:
-      "Le motif n'est pas un fond. Il se pose là où il compte — une bande, une colonne dans le dos, un empiècement.",
-  },
-  {
-    term: "Savoir-faire",
-    detail:
-      "Impression à la demande. Rien n'est produit avant d'être commandé, rien n'est détruit faute d'avoir été vendu.",
-  },
-];
-
 const JOIN_FIELD = [
   "Vêtements",
   "Articles",
@@ -63,10 +33,7 @@ const JOIN_FIELD = [
 ];
 
 export default async function HomePage() {
-  const [allCollections, newArrivals] = await Promise.all([
-    getCollections().catch(() => []),
-    getProducts({ sortKey: "CREATED_AT", reverse: true }).catch(() => []),
-  ]);
+  const allCollections = await getCollections().catch(() => []);
 
   const collectionsByHandle = new Map(
     allCollections.map((collection) => [collection.handle, collection]),
@@ -93,30 +60,10 @@ export default async function HomePage() {
     )
   ).filter((entry): entry is NonNullable<typeof entry> => entry !== null);
 
-  // La collection mise en avant sur la bande claire est la première publiée,
+  // La collection mise en avant sur la bande ivoire est la première publiée,
   // pas une constante : si elle se vide un jour, la bande suit au lieu de
   // pointer vers une page sans produit.
   const featured = officialCollections[0];
-
-  const allProducts = officialCollections.flatMap((entry) => entry.products);
-
-  // La maquette demande un macro textile et quatre silhouettes de lookbook.
-  // Ces prises de vue n'existent pas : on prend les photos du catalogue
-  // plutôt que d'inventer une direction que le reste de la page ne tiendrait
-  // pas. Les deux blocs piochent à des endroits différents pour ne pas
-  // répéter la planche contact de la bande claire.
-  const storyShots = allProducts
-    .flatMap((product) =>
-      product.images.map((image) => ({ image, title: product.title })),
-    )
-    .slice(0, 2);
-
-  const lookbookShots = allProducts
-    .flatMap((product) => {
-      const image = product.images[1] ?? product.featuredImage;
-      return image ? [{ image, title: product.title }] : [];
-    })
-    .slice(0, 4);
 
   const domain = process.env.SHOPIFY_STORE_DOMAIN;
 
@@ -127,15 +74,15 @@ export default async function HomePage() {
       {officialCollections.length > 0 ? (
         <section id="collections" className="scroll-mt-20">
           <h2 className="sr-only">Collections</h2>
-          {/* Les trois chapitres sur une seule rangée, texte posé sur l'image
-              plutôt qu'en dessous : les visuels ont leur sujet à droite, la
-              moitié gauche est du décor sur lequel on peut écrire. */}
+          {/* Trois cartes compactes en 4:3, le format relevé sur la maquette.
+              Le texte est posé sur l'image, pas empilé dessous : ce ne sont
+              pas des cartes produit, ce sont des chapitres. */}
           <ul className="grid gap-px border-y border-border bg-border md:grid-cols-3">
             {officialCollections.map((entry, index) => (
               <li key={entry.handle} className="bg-background">
                 <Link
                   href={`/search/${entry.handle}`}
-                  className="group relative flex aspect-3/2 flex-col justify-between overflow-hidden p-6 md:p-8"
+                  className="group relative flex aspect-4/3 flex-col justify-between overflow-hidden p-6 md:p-8"
                 >
                   {entry.image ? (
                     <Image
@@ -143,17 +90,20 @@ export default async function HomePage() {
                       alt={entry.image.altText || entry.collection.title}
                       fill
                       sizes="(min-width: 768px) 33vw, 100vw"
-                      className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
                     />
                   ) : null}
-                  <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/70 to-brun/10" />
+                  {/* Deux voiles : latéral pour la colonne de texte, du bas
+                      pour décoller le titre du sujet. */}
+                  <div className="absolute inset-0 bg-linear-to-r from-brun/95 via-brun/55 to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-brun/90 to-transparent" />
 
                   <p className="label-xs relative inline-flex self-start border-b border-signal pb-1 text-signal">
                     {String(index + 1).padStart(2, "0")}
                   </p>
 
                   <div className="relative">
-                    <h3 className="headline text-2xl text-brun-foreground md:text-3xl">
+                    <h3 className="headline text-3xl text-brun-foreground md:text-4xl">
                       {entry.collection.title}
                     </h3>
                     <p className="label-xs mt-2 text-brun-foreground/70">
@@ -171,10 +121,10 @@ export default async function HomePage() {
       ) : null}
 
       <section id="manifeste" className="bg-terre text-terre-foreground">
-        <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 md:grid-cols-[1fr_minmax(0,24rem)_12rem] md:items-center md:gap-14 md:px-10 md:py-28">
+        <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 md:grid-cols-[1fr_minmax(0,34rem)_11rem] md:items-center md:gap-14 md:px-10 md:py-24">
           <div>
             <p className="label-xs text-terre-foreground/60">Notre mission</p>
-            <h2 className="editorial mt-8 text-4xl leading-[1.1] md:text-5xl">
+            <h2 className="editorial mt-8 text-4xl leading-[1.05] md:text-6xl">
               Transformer
               <br />
               la mémoire
@@ -195,12 +145,13 @@ export default async function HomePage() {
             </Link>
           </div>
 
-          <div className="relative aspect-4/5 overflow-hidden">
+          {/* Paysage 3:2, et non portrait : c'est le cadrage de la maquette. */}
+          <div className="relative aspect-3/2 overflow-hidden">
             <Image
-              src="/editorial/archive.png"
-              alt="Vêtements pliés sur une surface de béton dans la pénombre"
+              src={ART.manifesto.url}
+              alt={ART.manifesto.alt}
               fill
-              sizes="(min-width: 768px) 24rem, 100vw"
+              sizes="(min-width: 768px) 34rem, 100vw"
               className="object-cover"
             />
           </div>
@@ -222,12 +173,12 @@ export default async function HomePage() {
 
       {featured ? (
         <section className="bg-craie text-craie-foreground">
-          <div className="mx-auto grid max-w-[1600px] items-center gap-10 px-5 py-16 md:grid-cols-[minmax(0,20rem)_1fr] md:gap-14 md:px-10 md:py-20">
+          <div className="mx-auto grid max-w-[1600px] items-center gap-10 px-5 py-14 md:grid-cols-[minmax(0,20rem)_1fr] md:gap-14 md:px-10 md:py-16">
             <div>
               <p className="label-xs text-craie-foreground/60">
                 Collection en cours
               </p>
-              <h2 className="editorial mt-5 text-4xl md:text-5xl">
+              <h2 className="editorial mt-5 text-5xl md:text-6xl">
                 {featured.collection.title}
               </h2>
               <p className="mt-5 max-w-xs text-sm leading-relaxed text-craie-foreground/75">
@@ -247,14 +198,14 @@ export default async function HomePage() {
               {featured.products.slice(0, 5).map((product) => (
                 <li
                   key={product.id}
-                  className="w-40 shrink-0 snap-start md:w-auto md:flex-1"
+                  className="w-36 shrink-0 snap-start md:w-auto md:flex-1"
                 >
                   <Link
                     href={`/product/${product.handle}`}
                     className="group block"
                     aria-label={product.title}
                   >
-                    <div className="relative aspect-4/5 overflow-hidden bg-craie-foreground/5">
+                    <div className="relative aspect-3/4 overflow-hidden bg-archive">
                       {product.featuredImage ? (
                         <Image
                           src={product.featuredImage.url}
@@ -273,147 +224,31 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      {storyShots.length > 0 ? (
-        <section
-          id="transmission"
-          className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28"
-        >
-          <div className="grid gap-4 md:grid-cols-2 md:gap-6">
-            {storyShots.map((shot) => (
-              <div
-                key={shot.image.url}
-                className="relative aspect-4/5 overflow-hidden bg-card"
-              >
-                <Image
-                  src={shot.image.url}
-                  alt={shot.image.altText || shot.title}
-                  fill
-                  sizes="(min-width: 768px) 50vw, 100vw"
-                  className="object-cover"
-                />
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-14 grid gap-12 md:grid-cols-[1fr_minmax(0,34rem)] md:items-end">
-            <div>
-              <h2 className="editorial text-4xl leading-[1.1] md:text-5xl">
-                Plus qu&apos;un vêtement.
-                <br />
-                Une transmission.
-              </h2>
-              <Link
-                href="/stories"
-                className="label-xs mt-8 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
-              >
-                Notre histoire →
-              </Link>
-            </div>
-
-            <dl className="grid gap-8 sm:grid-cols-3">
-              {CRAFT.map((item) => (
-                <div key={item.term}>
-                  <dt className="label-xs text-signal">{item.term}</dt>
-                  <dd className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {item.detail}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-        </section>
-      ) : null}
-
-      {featured && lookbookShots.length > 0 ? (
-        <section className="bg-craie text-craie-foreground">
-          <div className="mx-auto grid max-w-[1600px] items-end gap-10 px-5 py-16 md:grid-cols-[minmax(0,18rem)_1fr] md:gap-14 md:px-10 md:py-20">
-            <div>
-              <p className="label-xs text-craie-foreground/60">Lookbook</p>
-              <h2 className="editorial mt-5 text-4xl md:text-5xl">
-                {featured.collection.title}
-              </h2>
-              <p className="mt-5 max-w-xs text-sm leading-relaxed text-craie-foreground/75">
-                Des silhouettes pour aujourd&apos;hui. Des racines pour demain.
-              </p>
-              <Link
-                href={`/search/${featured.handle}`}
-                className="label-xs mt-8 inline-flex items-center gap-3 border-b border-craie-foreground/40 pb-2 transition-colors duration-300 hover:border-craie-foreground"
-              >
-                Voir le lookbook →
-              </Link>
-            </div>
-
-            <ul className="grid grid-cols-2 gap-4 md:grid-cols-4">
-              {lookbookShots.map((shot) => (
-                <li key={shot.image.url}>
-                  <div className="relative aspect-2/3 overflow-hidden bg-craie-foreground/5">
-                    <Image
-                      src={shot.image.url}
-                      alt={shot.image.altText || shot.title}
-                      fill
-                      sizes="(min-width: 768px) 20vw, 45vw"
-                      className="object-cover"
-                    />
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </section>
-      ) : null}
-
-      {newArrivals.length > 0 ? (
-        <section
-          id="shop"
-          className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24"
-        >
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="label-xs text-signal">Dernières pièces</p>
-              <h2 className="headline mt-3 text-4xl md:text-6xl">Nouveautés</h2>
-            </div>
-            <Link
-              href="/search"
-              className="label-xs shrink-0 self-start border border-foreground px-5 py-3 text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background md:self-auto"
-            >
-              Voir tout le shop →
-            </Link>
-          </div>
-
-          <div className="mt-8">
-            <CategoryNav />
-          </div>
-
-          <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 md:mt-14 md:grid-cols-4 md:gap-x-6 md:gap-y-16">
-            {newArrivals.slice(0, 8).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      <section id="rejoindre" className="relative overflow-hidden bg-brun">
+      {/* Bannière finale : très large et peu haute, comme la maquette. */}
+      <section
+        id="rejoindre"
+        className="relative flex items-center overflow-hidden bg-brun md:aspect-5/2 md:max-h-[560px]"
+      >
         <Image
-          src="/editorial/hero.png"
-          alt=""
-          aria-hidden
+          src={ART.finale.url}
+          alt={ART.finale.alt}
+          aria-hidden={ART.finale.alt === ""}
           fill
           sizes="100vw"
           className="object-cover object-center"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/80 to-brun/20" />
+        <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/80 to-brun/15" />
 
-        <div className="relative mx-auto flex max-w-[1600px] flex-col gap-12 px-5 py-20 text-brun-foreground md:flex-row md:items-center md:justify-between md:px-10 md:py-28">
+        <div className="relative mx-auto flex w-full max-w-[1600px] flex-col gap-12 px-5 py-16 text-brun-foreground md:flex-row md:items-center md:justify-between md:px-10 md:py-20">
           <div className="max-w-xl">
             <p className="label-xs text-brun-foreground/60">Onde Noire®</p>
-            <h2 className="editorial mt-6 text-4xl leading-[1.1] md:text-5xl">
-              La culture ne disparaît pas.
+            <h2 className="editorial mt-6 text-4xl leading-[1.05] md:text-6xl">
+              Culture
               <br />
-              Elle se déplace.
+              doesn&apos;t disappear.
+              <br />
+              It moves.
             </h2>
-            <p className="mt-6 text-sm leading-relaxed text-brun-foreground/70">
-              Nouveaux drops. Histoires. Archives. Signaux.
-            </p>
             {domain ? (
               <div className="mt-8">
                 <NewsletterForm domain={domain} />

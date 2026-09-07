@@ -28,6 +28,7 @@
   --color-terre-foreground: var(--terre-foreground);
   --color-craie: var(--craie);
   --color-craie-foreground: var(--craie-foreground);
+  --color-archive: var(--archive);
 
   --radius-sm: 0px;
   --radius-md: 1px;
@@ -38,40 +39,42 @@
 :root {
   color-scheme: dark;
 
-  /* Noir chaud — le fond du logo, très légèrement réchauffé pour tenir avec l'or */
-  --background: #0b0908;
-  /* Crème — le texte courant, jamais du blanc pur */
-  --foreground: #ece2d0;
+  /* Noir profond — le fond de la marque */
+  --background: #0a0a0a;
+  /* Ivoire — le texte courant, jamais du blanc pur */
+  --foreground: #e8e2d6;
   /* Surface relevée : cartes produit, champs */
-  --card: #16120e;
-  --card-foreground: #ece2d0;
-  --muted: #2a221a;
+  --card: #111111;
+  --card-foreground: #e8e2d6;
+  --muted: #1a1a1a;
   /* Texte secondaire */
   --muted-foreground: #a2907a;
-  /* Or du lettrage — accent principal */
-  --signal: #c9a86a;
-  /* Bronze : 3,01:1 sur le fond, le minimum WCAG 1.4.11 pour le
-     contour d'un contrôle (champ, bouton de taille, pastille) */
-  --border: #6b5a47;
-  --input: #16120e;
-  --ring: #c9a86a;
+  /* Or du lettrage — accent principal, jamais dominant. 7,25:1 sur le fond. */
+  --signal: #c8942e;
+  /* Terre : 3,18:1 sur le fond noir — au-dessus du minimum WCAG 1.4.11
+     de 3:1 pour le contour d'un contrôle (champ, bouton de taille). */
+  --border: #755c45;
+  --input: #111111;
+  --ring: #c8942e;
 
   /* Marron cuivré — nom des produits. 5,13:1 sur le fond : franchement
      marron sans passer sous le seuil de lisibilité. */
   --cuivre: #a2795a;
   /* Or clair — highlights, survols */
-  --brass: #e3c98f;
+  --brass: #ddb268;
   /* Bloc le plus profond : hero, pied de page */
-  --brun: #060505;
-  --brun-foreground: #ece2d0;
-  /* Bloc bronze relevé : manifeste */
-  --terre: #1d1710;
-  --terre-foreground: #ece2d0;
-  /* Craie — la seule respiration claire de la page. Un blanc cassé chaud,
-     jamais du blanc pur : le noir du site est chaud, un blanc froid le
-     ferait virer au bleu. Le texte y passe en noir chaud, 17:1. */
-  --craie: #ece5d9;
-  --craie-foreground: #0b0908;
+  --brun: #0a0a0a;
+  --brun-foreground: #e8e2d6;
+  /* Second noir. La maquette pose le manifeste sur du noir, pas sur du
+     brun : ce jeton n'est plus qu'un noir relevé d'un cran. */
+  --terre: #111111;
+  --terre-foreground: #e8e2d6;
+  /* Ivoire — la seule respiration claire de la page. Le texte y passe en
+     noir profond, 15:1. */
+  --craie: #e8e2d6;
+  --craie-foreground: #0a0a0a;
+  /* Beige archive — surfaces et séparateurs sur la bande ivoire. */
+  --archive: #d8cbb8;
 }
 
 @layer base {
