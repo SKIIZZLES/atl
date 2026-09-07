@@ -26,6 +26,8 @@
   --color-brun-foreground: var(--brun-foreground);
   --color-terre: var(--terre);
   --color-terre-foreground: var(--terre-foreground);
+  --color-craie: var(--craie);
+  --color-craie-foreground: var(--craie-foreground);
 
   --radius-sm: 0px;
   --radius-md: 1px;
@@ -65,6 +67,11 @@
   /* Bloc bronze relevé : manifeste */
   --terre: #1d1710;
   --terre-foreground: #ece2d0;
+  /* Craie — la seule respiration claire de la page. Un blanc cassé chaud,
+     jamais du blanc pur : le noir du site est chaud, un blanc froid le
+     ferait virer au bleu. Le texte y passe en noir chaud, 17:1. */
+  --craie: #ece5d9;
+  --craie-foreground: #0b0908;
 }
 
 @layer base {

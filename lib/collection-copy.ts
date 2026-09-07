@@ -18,3 +18,16 @@ export const collectionStories: Record<string, string> = {
   "transmission-001":
     "Transmission 001 est le premier signal : origine, archive, diaspora en mouvement.",
 };
+
+/**
+ * Le mot unique posé sous le titre sur la carte de collection.
+ *
+ * Distinct de `collectionTaglines`, qui est une phrase : sur la carte, la
+ * ligne passe sous un titre en gros et doit tenir sur un seul niveau de
+ * lecture. C'est une étiquette, pas une description.
+ */
+export const collectionKickers: Record<string, string> = {
+  "le-tignon": "Mémoire portée",
+  "n-gri-tud": "Affirmation",
+  "transmission-001": "Le premier signal",
+};
