@@ -6,7 +6,11 @@ import {
   OFFICIAL_COLLECTION_HANDLES,
   collectionTaglines,
 } from "lib/collection-copy";
-import { getCollectionProducts, getCollections, getProducts } from "lib/shopify";
+import {
+  getCollectionProducts,
+  getCollections,
+  getProducts,
+} from "lib/shopify";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -41,7 +45,7 @@ export default async function HomePage() {
           handle,
           collection,
           tagline: collectionTaglines[handle] ?? "",
-          image: products[0]?.featuredImage,
+          image: collection.image ?? products[0]?.featuredImage,
         };
       }),
     )
@@ -106,40 +110,47 @@ export default async function HomePage() {
       </section>
 
       {officialCollections.length > 0 ? (
-        <section id="collections">
-          {officialCollections.map((entry, index) => (
-            <Link
-              key={entry.handle}
-              href={`/search/${entry.handle}`}
-              className="group relative flex h-[75svh] min-h-[520px] items-end overflow-hidden md:h-[85svh]"
-            >
-              {entry.image ? (
-                <Image
-                  src={entry.image.url}
-                  alt={entry.image.altText || entry.collection.title}
-                  fill
-                  sizes="100vw"
-                  className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
-                />
-              ) : null}
-              <div className="absolute inset-0 bg-linear-to-t from-brun via-brun/45 to-brun/10" />
+        <section id="collections" className="scroll-mt-20">
+          <h2 className="sr-only">Collections</h2>
+          {/* Une seule rangée : les trois chapitres tiennent dans un écran
+              au lieu des trois qu'imposait l'empilement pleine hauteur. */}
+          <ul className="grid gap-px border-y border-border bg-border md:grid-cols-3">
+            {officialCollections.map((entry, index) => (
+              <li key={entry.handle} className="bg-background">
+                <Link
+                  href={`/search/${entry.handle}`}
+                  className="group flex h-full flex-col"
+                >
+                  <div className="relative aspect-video overflow-hidden bg-card">
+                    {entry.image ? (
+                      <Image
+                        src={entry.image.url}
+                        alt={entry.image.altText || entry.collection.title}
+                        fill
+                        sizes="(min-width: 768px) 33vw, 100vw"
+                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
+                      />
+                    ) : null}
+                  </div>
 
-              <div className="relative mx-auto w-full max-w-[1600px] px-5 pb-14 md:px-10 md:pb-20">
-                <p className="label-xs text-brun-foreground/70">
-                  {String(index + 1).padStart(2, "0")}
-                </p>
-                <h3 className="headline mt-3 text-5xl text-brun-foreground md:text-8xl">
-                  {entry.collection.title}
-                </h3>
-                <p className="editorial mt-5 max-w-md text-lg italic leading-relaxed text-brun-foreground/85 md:text-xl">
-                  {entry.tagline}
-                </p>
-                <span className="label-xs mt-8 inline-flex items-center gap-3 border border-brun-foreground px-5 py-3 text-brun-foreground transition-colors duration-300 group-hover:bg-brun-foreground group-hover:text-brun">
-                  Découvrir →
-                </span>
-              </div>
-            </Link>
-          ))}
+                  <div className="flex flex-1 flex-col p-6 md:p-8">
+                    <p className="label-xs inline-flex self-start border-b border-signal pb-1 text-signal">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <h3 className="headline mt-5 text-2xl md:text-3xl">
+                      {entry.collection.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                      {entry.tagline}
+                    </p>
+                    <span className="label-xs mt-6 inline-flex items-center gap-3 self-start border-b border-signal/50 pb-2 text-signal transition-colors duration-300 group-hover:border-signal">
+                      Découvrir →
+                    </span>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </section>
       ) : null}
 
