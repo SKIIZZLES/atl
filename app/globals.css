@@ -138,8 +138,11 @@ button {
 }
 
 @utility grain-overlay {
+  /* L'ivoire de --foreground, en dur : une variable ne peut pas servir de
+     couleur d'arrêt dans un `radial-gradient` sur tous les navigateurs
+     visés. À tenir à jour avec le jeton. */
   background-image: radial-gradient(
-    rgb(236 226 208 / 7%) 0.5px,
+    rgb(232 226 214 / 7%) 0.5px,
     transparent 0.5px
   );
   background-size: 3px 3px;
