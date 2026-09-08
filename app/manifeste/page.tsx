@@ -120,7 +120,7 @@ export default function StoriesPage() {
           texte. Le fond noir est posé sur la section elle-même, pas laissé
           à l'image : si elle ne charge pas, l'ouverture reste sombre au
           lieu de découvrir un vide clair. */}
-      <header className="relative isolate overflow-hidden bg-brun pt-28 pb-20 md:pt-36 md:pb-28">
+      <header className="relative isolate overflow-hidden bg-background pt-28 pb-20 md:pt-36 md:pb-28">
         <Image
           src={ART.manifesto.url}
           alt=""
@@ -134,7 +134,7 @@ export default function StoriesPage() {
             du presque noir en bas. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 z-10 bg-linear-to-b from-brun/25 to-brun/95"
+          className="absolute inset-0 z-10 bg-linear-to-b from-background/25 to-background/95"
         />
         <div className="shell relative z-20">
           <p className="type-label text-signal">Onde Noire — Stories</p>
@@ -390,7 +390,7 @@ export default function StoriesPage() {
       <ProseSection section={sectionById("vision")} tone="base" />
 
       {/* Clôture */}
-      <section className="bg-brun text-brun-foreground">
+      <section className="bg-background text-foreground">
         <div className="shell py-24 md:py-32">
           <p className="headline max-w-4xl text-3xl leading-[1.05] md:text-6xl">
             Ce qui a été oublié n&apos;a pas disparu.
@@ -406,7 +406,7 @@ export default function StoriesPage() {
               <p className="type-label text-muted-foreground">La marque</p>
             </div>
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
-              <div className="space-y-6 text-base leading-relaxed text-brun-foreground/75 md:text-lg">
+              <div className="space-y-6 text-base leading-relaxed text-foreground/75 md:text-lg">
                 <p>
                   Onde Noire est éditée depuis Bourg-en-Bresse, dans l&apos;Ain,
                   et immatriculée en juillet 2026. Une partie des pièces est

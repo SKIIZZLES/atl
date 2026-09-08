@@ -121,7 +121,7 @@ export default function AProposPage() {
         </div>
       </section>
 
-      <section className="bg-brun text-brun-foreground">
+      <section className="bg-background text-foreground">
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
           <p className="headline max-w-4xl text-3xl leading-[1.05] md:text-5xl">
             Certaines histoires se racontent.

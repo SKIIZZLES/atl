@@ -40,7 +40,7 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
     // le rendait bien plus profond, ce qui écrasait le titre en proportion —
     // d'où le ratio explicite dès le desktop, borné pour les très grands
     // écrans. Sur mobile la composition se recompose en hauteur d'écran.
-    <section className="relative flex w-full min-h-[88svh] overflow-hidden bg-brun pt-16 md:aspect-9/4 md:min-h-[620px] md:max-h-[880px] md:pt-20">
+    <section className="relative flex w-full min-h-[88svh] overflow-hidden bg-background pt-16 md:aspect-9/4 md:min-h-[620px] md:max-h-[880px] md:pt-20">
       {HERO_SLIDES.map((slide, position) => {
         const active = position === index;
         return (
@@ -93,7 +93,7 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
 
       {/* Dégradé latéral, pas vertical : le texte occupe la moitié gauche et
           le sujet la droite. Un voile du bas éteindrait le visage. */}
-      <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/75 to-brun/5" />
+      <div className="absolute inset-0 bg-linear-to-r from-background via-background/75 to-background/5" />
       <div className="grain-overlay absolute inset-0 opacity-40" />
 
       {/* Le repère n'est plus posé en absolu au bas de la section : il vit
@@ -106,20 +106,20 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
           <div className="max-w-3xl">
             <SectionLabel
               tone="muted"
-              className="border-transparent text-brun-foreground/70"
+              className="border-transparent text-foreground/70"
             >
               Culture in motion
             </SectionLabel>
 
             {/* Le titre doit dominer : deux lignes occupent environ 36 % de
                 la hauteur du hero, la proportion relevée sur la maquette. */}
-            <h1 className="type-display mt-6 text-brun-foreground md:mt-8">
+            <h1 className="type-display mt-6 text-foreground md:mt-8">
               Onde
               <br />
               Noire<span className="align-super text-[0.28em]">®</span>
             </h1>
 
-            <p className="type-label mt-6 leading-loose text-brun-foreground/85">
+            <p className="type-label mt-6 leading-loose text-foreground/85">
               Nous ne portons pas l&apos;histoire.
               <br />
               Nous la continuons.
@@ -135,7 +135,7 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
 
           <ul
             aria-hidden
-            className="type-label ml-auto hidden shrink-0 space-y-2 text-right text-brun-foreground/55 lg:block"
+            className="type-label ml-auto hidden shrink-0 space-y-2 text-right text-foreground/55 lg:block"
           >
             {FIELD.map((word) => (
               <li key={word}>{word}</li>
@@ -155,7 +155,7 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
           </Link>
 
           <div className="mt-4 flex items-center gap-4">
-            <span className="type-label tabular-nums text-brun-foreground/60">
+            <span className="type-label tabular-nums text-foreground/60">
               {String(index + 1).padStart(2, "0")} /{" "}
               {String(HERO_SLIDES.length).padStart(2, "0")}
             </span>
@@ -172,8 +172,8 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
                   <span
                     className={
                       position === index
-                        ? "block h-px w-10 bg-brun-foreground transition-colors duration-300 ease-onde"
-                        : "block h-px w-10 bg-brun-foreground/25 transition-colors duration-300 ease-onde group-hover:bg-brun-foreground/60"
+                        ? "block h-px w-10 bg-foreground transition-colors duration-300 ease-onde"
+                        : "block h-px w-10 bg-foreground/25 transition-colors duration-300 ease-onde group-hover:bg-foreground/60"
                     }
                   />
                 </button>

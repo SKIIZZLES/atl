@@ -18,7 +18,7 @@ export function SectionLabel({
   children: ReactNode;
   /** Le trait or sous le mot, pour les ouvertures de section. */
   rule?: boolean;
-  tone?: "signal" | "muted" | "inverse";
+  tone?: "signal" | "muted";
   className?: string;
 }) {
   return (
@@ -28,8 +28,6 @@ export function SectionLabel({
         rule && "inline-flex border-b pb-1.5",
         tone === "signal" && "border-signal text-signal",
         tone === "muted" && "border-border text-muted-foreground",
-        tone === "inverse" &&
-          "border-craie-foreground/40 text-craie-foreground/70",
         className,
       )}
     >

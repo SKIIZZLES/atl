@@ -31,7 +31,7 @@ export function CollectionHero({
   cta?: { label: string; href: string };
 }) {
   return (
-    <section className="relative flex w-full min-h-[70svh] items-end overflow-hidden bg-brun pt-16 md:aspect-9/4 md:min-h-[540px] md:max-h-[760px] md:items-center md:pt-20">
+    <section className="relative flex w-full min-h-[70svh] items-end overflow-hidden bg-background pt-16 md:aspect-9/4 md:min-h-[540px] md:max-h-[760px] md:items-center md:pt-20">
       {image ? (
         <Image
           src={image.url}
@@ -44,7 +44,7 @@ export function CollectionHero({
       ) : null}
 
       {/* Voile latéral : le texte occupe la gauche, le sujet la droite. */}
-      <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/75 to-brun/10" />
+      <div className="absolute inset-0 bg-linear-to-r from-background via-background/75 to-background/10" />
       <div className="grain-overlay absolute inset-0 opacity-40" />
 
       <div className="shell relative py-14 md:py-12">
@@ -53,10 +53,10 @@ export function CollectionHero({
         <div className="mt-10 max-w-2xl md:mt-14">
           <SectionLabel rule>Collection</SectionLabel>
 
-          <h1 className="type-h1 mt-7 text-brun-foreground">{title}</h1>
+          <h1 className="type-h1 mt-7 text-foreground">{title}</h1>
 
           {signature.length > 0 ? (
-            <p className="type-label mt-8 leading-loose text-brun-foreground/85">
+            <p className="type-label mt-8 leading-loose text-foreground/85">
               {signature.map((line) => (
                 <span key={line} className="block">
                   {line}
@@ -66,7 +66,7 @@ export function CollectionHero({
           ) : null}
 
           {intro ? (
-            <p className="type-body mt-7 max-w-lg text-brun-foreground/75">
+            <p className="type-body mt-7 max-w-lg text-foreground/75">
               {intro}
             </p>
           ) : null}

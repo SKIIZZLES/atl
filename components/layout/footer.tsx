@@ -40,7 +40,7 @@ export default async function Footer({
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
             {/* Le lockup complet — monogramme, lettrage, signature — a la place
-                de respirer ici. Son fond noir se confond avec le bloc brun. */}
+                de respirer ici. Son fond noir se confond avec celui de la page. */}
             <Image
               src="https://cdn.shopify.com/s/files/1/1088/9438/8549/files/Image_Codex_5_sept._2026_14_56_18.png?v=1788613997"
               alt="Onde Noire — mémoire, culture, avenir"

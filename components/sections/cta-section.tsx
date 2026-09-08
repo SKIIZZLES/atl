@@ -34,7 +34,7 @@ export function CTASection({
   return (
     <section
       id={id}
-      className="relative flex w-full items-center overflow-hidden bg-brun md:aspect-5/2 md:max-h-[560px]"
+      className="relative flex w-full items-center overflow-hidden bg-background md:aspect-5/2 md:max-h-[560px]"
     >
       <Image
         src={image.url}
@@ -44,9 +44,9 @@ export function CTASection({
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/80 to-brun/15" />
+      <div className="absolute inset-0 bg-linear-to-r from-background via-background/80 to-background/15" />
 
-      <div className="shell section-y relative text-brun-foreground">
+      <div className="shell section-y relative text-foreground">
         <Reveal className="max-w-xl">
           {label ? <SectionLabel>{label}</SectionLabel> : null}
           <h2 className="type-h2 mt-6">{title}</h2>

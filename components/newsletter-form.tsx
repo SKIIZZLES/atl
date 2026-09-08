@@ -17,7 +17,7 @@ export function NewsletterForm({ domain }: { domain: string }) {
         name="contact[email]"
         required
         placeholder="votre@email.com"
-        className="type-label w-full border border-brun-foreground/40 bg-transparent px-4 py-3 text-brun-foreground placeholder:text-brun-foreground/50 focus-visible:ring-offset-brun"
+        className="type-label w-full border border-foreground/40 bg-transparent px-4 py-3 text-foreground placeholder:text-foreground/50 focus-visible:ring-offset-background"
       />
       <button
         type="submit"

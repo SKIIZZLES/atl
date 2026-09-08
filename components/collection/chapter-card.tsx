@@ -50,19 +50,19 @@ export function ChapterCard({
 
       {/* Deux voiles : latéral pour la colonne de texte, du bas pour
           décoller le titre du sujet. */}
-      <div className="absolute inset-0 bg-linear-to-r from-brun/95 via-brun/55 to-transparent" />
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-brun/90 to-transparent" />
+      <div className="absolute inset-0 bg-linear-to-r from-background/95 via-background/55 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-background/90 to-transparent" />
 
       <SectionLabel rule className="relative self-start">
         {String(index).padStart(2, "0")}
       </SectionLabel>
 
       <div className="relative">
-        <EditorialTitle level="h3" as="h3" className="text-brun-foreground">
+        <EditorialTitle level="h3" as="h3" className="text-foreground">
           {title}
         </EditorialTitle>
         {kicker ? (
-          <p className="type-label mt-2 text-brun-foreground/70">{kicker}</p>
+          <p className="type-label mt-2 text-foreground/70">{kicker}</p>
         ) : null}
         <span className="type-label mt-6 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 ease-onde group-hover:border-signal">
           Découvrir

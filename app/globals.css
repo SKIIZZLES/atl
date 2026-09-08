@@ -65,12 +65,11 @@
      texte secondaire si celui-ci change de valeur. */
   --color-brun-doux: var(--brun-doux);
 
-  /* Blocs de rupture éditoriale : la bande claire et ses contrastes. */
-  --color-brun: var(--brun);
-  --color-brun-foreground: var(--brun-foreground);
-  --color-craie: var(--craie);
-  --color-craie-foreground: var(--craie-foreground);
-  --color-archive: var(--archive);
+  /* L'ivoire et le beige de la charte restent déclarés — ils font partie
+     de la palette — même si aucune page ne les peint aujourd'hui : le site
+     est sombre d'un bout à l'autre. Ils sont exposés sous leur nom de
+     charte uniquement, `on-ivory` et `on-beige`, et pas une deuxième fois
+     sous un autre. */
 
   /* --- 3. MOUVEMENT -----------------------------------------------------
      Une seule courbe sur tout le site : elle démarre vite et s'arrête très
@@ -125,13 +124,15 @@
   /* Le marron doux demandé pour la barre de navigation : 6,42:1. */
   --brun-doux: #a2907a;
 
-  /* Alias de composition, tous repris des sept valeurs ci-dessus.
-     `brun` nomme le fond des blocs photographiques, `craie` la bande claire
-     et son texte inversé, `archive` le beige des surfaces sur cette bande. */
-  --brun: #0a0a0a;
-  --brun-foreground: #e8e2d6;
+  /* Ivoire et beige de la charte. Plus aucune page ne s'en sert comme
+     fond ; ils restent des valeurs de la palette, pas des surfaces.
+
+     Le fond des blocs photographiques et le texte qui s'y pose avaient
+     leurs propres noms — `brun` et sa contrepartie. Le premier valait déjà
+     le fond du site ; le second était un second ivoire, légèrement plus
+     sombre que le texte courant. Deux noms pour une valeur d'un côté, deux
+     valeurs pour un même rôle de l'autre : les deux sont supprimés. */
   --craie: #e8e2d6;
-  --craie-foreground: #0a0a0a;
   --archive: #d8cbb8;
 
   /* ---- 3. MOUVEMENT — trois durées, pas une de plus -------------------- */
