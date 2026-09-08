@@ -5,11 +5,15 @@ import type { ComponentProps, ReactNode } from "react";
 /**
  * Le bouton du site. Un seul.
  *
- * Avant, chaque page inventait le sien : le hero en or avec `px-6 py-4`,
- * la bande claire en ivoire inversé, « Ajouter au panier » en pleine
- * largeur sur `bg-foreground`, les puces de catégorie en `px-4 py-2.5`.
- * Cinq boutons pour un même geste. Ici il n'y a plus qu'une hauteur, une
- * typographie, un interlettrage, une transition — et deux intentions.
+ * Avant, chaque page inventait le sien : le hero en or, la bande claire en
+ * ivoire inversé, « Ajouter au panier » en pleine largeur sur un aplat
+ * clair, les puces de catégorie dans un troisième format. Cinq boutons
+ * pour un même geste. Ici il n'y a plus qu'une hauteur, une typographie,
+ * un interlettrage, une transition — et deux intentions.
+ *
+ * Les classes fautives ne sont pas citées : le scanner de Tailwind lit
+ * aussi les commentaires, et les nommer suffirait à réémettre les
+ * utilitaires qu'on vient de retirer.
  *
  * `primary` porte l'action principale d'un écran : fond or, texte noir.
  * `secondary` accompagne : transparent, contour, texte ivoire.

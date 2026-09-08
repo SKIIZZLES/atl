@@ -1,6 +1,7 @@
 import { ProductCard } from "components/product-card";
 import { Gallery } from "components/product/gallery";
 import { ProductDetails } from "components/product/product-details";
+import { ProductHeroSkeleton } from "components/product/product-hero-skeleton";
 import { ProductInfo } from "components/product/product-info";
 import { CTASection } from "components/sections/cta-section";
 import { EditorialSection } from "components/sections/editorial-section";
@@ -114,29 +115,29 @@ export default async function ProductPage(props: {
           ]}
         />
 
-        {/* 60 / 40 : la galerie domine, la colonne de décision respire. */}
-        <div className="mt-10 grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
-          <div className="min-w-0">
-            <Suspense
-              fallback={
-                <div className="aspect-square w-full overflow-hidden bg-background" />
-              }
-            >
-              <Gallery
-                images={images.map((image) => ({
-                  src: image.url,
-                  altText: image.altText || product.title,
-                }))}
-                colorImages={colorImageMap(product)}
-              />
-            </Suspense>
-          </div>
+        {/* 60 / 40 : la galerie domine, la colonne de décision respire.
+            Une seule suspension pour les deux colonnes, avec une empreinte
+            à la bonne taille : deux frontières séparées se remplissaient
+            l'une après l'autre, et le vide laissé par la seconde faisait
+            remonter tout le bas de la page. */}
+        <div className="mt-10">
+          <Suspense fallback={<ProductHeroSkeleton />}>
+            <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
+              <div className="min-w-0">
+                <Gallery
+                  images={images.map((image) => ({
+                    src: image.url,
+                    altText: image.altText || product.title,
+                  }))}
+                  colorImages={colorImageMap(product)}
+                />
+              </div>
 
-          <div className="min-w-0">
-            <Suspense fallback={null}>
-              <ProductInfo product={product} sizeGuideHref={sizeGuide?.url} />
-            </Suspense>
-          </div>
+              <div className="min-w-0">
+                <ProductInfo product={product} sizeGuideHref={sizeGuide?.url} />
+              </div>
+            </div>
+          </Suspense>
         </div>
       </section>
 
@@ -172,7 +173,14 @@ export default async function ProductPage(props: {
 
       <section className="bg-background">
         <div className="shell section-y">
-          <Suspense fallback={null}>
+          {/* Même raison qu'au-dessus : la place est réservée, sinon la
+              bannière finale remonte puis redescend à l'arrivée des
+              recommandations. */}
+          <Suspense
+            fallback={
+              <div className="h-72 w-full md:h-96" aria-hidden="true" />
+            }
+          >
             <RelatedProducts id={product.id} />
           </Suspense>
         </div>
