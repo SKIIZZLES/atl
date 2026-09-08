@@ -1,5 +1,6 @@
 import { ProductCard } from "components/product-card";
 import { Gallery } from "components/product/gallery";
+import { ProductDetails } from "components/product/product-details";
 import { ProductInfo } from "components/product/product-info";
 import { CTASection } from "components/sections/cta-section";
 import { EditorialSection } from "components/sections/editorial-section";
@@ -92,7 +93,11 @@ export default async function ProductPage(props: {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
 
-      <div className="shell below-header pb-20 md:pb-24">
+      {/* L'ordre est structurel, pas rattrapé au positionnement : hero,
+          puis les volets, puis le récit, puis les recommandations, puis la
+          bannière. Rien n'est déplacé en absolu, rien ne remonte par un
+          `z-index`. */}
+      <section className="shell below-header pb-16 md:pb-20">
         <Breadcrumb
           items={[
             { label: "Accueil", href: "/" },
@@ -109,11 +114,12 @@ export default async function ProductPage(props: {
           ]}
         />
 
-        <div className="mt-10 flex flex-col gap-12 lg:flex-row lg:gap-16">
-          <div className="w-full lg:basis-3/5">
+        {/* 60 / 40 : la galerie domine, la colonne de décision respire. */}
+        <div className="mt-10 grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
+          <div className="min-w-0">
             <Suspense
               fallback={
-                <div className="aspect-square w-full overflow-hidden bg-card" />
+                <div className="aspect-square w-full overflow-hidden bg-background" />
               }
             >
               <Gallery
@@ -126,31 +132,27 @@ export default async function ProductPage(props: {
             </Suspense>
           </div>
 
-          <div className="lg:basis-2/5">
+          <div className="min-w-0">
             <Suspense fallback={null}>
-              <ProductInfo
-                product={product}
-                policies={{
-                  livraison: policies.livraison?.body,
-                  retours: policies.remboursement?.body,
-                }}
-                sizeGuideHref={sizeGuide?.url}
-              />
+              <ProductInfo product={product} sizeGuideHref={sizeGuide?.url} />
             </Suspense>
           </div>
         </div>
+      </section>
 
-        <Suspense fallback={null}>
-          <RelatedProducts id={product.id} />
-        </Suspense>
-      </div>
+      <ProductDetails
+        product={product}
+        policies={{
+          livraison: policies.livraison?.body,
+          retours: policies.remboursement?.body,
+        }}
+      />
 
       {/* Le récit du chapitre auquel la pièce appartient. Même composant que
           sur la page collection : c'est la même histoire, pas une variante
           écrite pour la fiche. */}
       {product.collection ? (
         <EditorialSection
-          tone="soft"
           side="left"
           label={product.collection.title}
           title={page?.editorial.title ?? product.collection.title}
@@ -168,13 +170,18 @@ export default async function ProductPage(props: {
         />
       ) : null}
 
+      <section className="bg-background">
+        <div className="shell section-y">
+          <Suspense fallback={null}>
+            <RelatedProducts id={product.id} />
+          </Suspense>
+        </div>
+      </section>
+
       <CTASection
         label="Onde Noire®"
         title={(
-          page?.finale.title ?? [
-            "Certaines histoires se racontent.",
-            "D'autres se portent.",
-          ]
+          page?.finale.title ?? ["Plus qu'un vêtement.", "Un mouvement."]
         ).map((line) => (
           <span key={line} className="block">
             {line}
@@ -198,7 +205,7 @@ async function RelatedProducts({ id }: { id: string }) {
   if (!relatedProducts.length) return null;
 
   return (
-    <div className="mt-20 border-t border-border pt-12 md:mt-24 md:pt-16">
+    <>
       <h2 className="type-label mb-8 text-muted-foreground">
         Vous aimerez aussi
       </h2>
@@ -218,6 +225,6 @@ async function RelatedProducts({ id }: { id: string }) {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   );
 }

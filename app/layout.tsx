@@ -107,7 +107,12 @@ export default async function RootLayout({
         </noscript>
         <CartProvider cartPromise={cart}>
           <Header collections={navCollections} />
-          <main className="min-h-screen">{children}</main>
+          {/* Le fond est posé explicitement ici aussi : `html` et `body` le
+              portent déjà, mais une section sans fond déclaré hériterait
+              sinon du blanc du navigateur si l'un des deux venait à sauter. */}
+          <main className="min-h-screen bg-background text-foreground">
+            {children}
+          </main>
           <Footer collections={navCollections} />
         </CartProvider>
       </body>

@@ -1,9 +1,7 @@
 import { AddToCart } from "components/cart/add-to-cart";
 import Price from "components/price";
-import Prose from "components/prose";
 import { ShareButton } from "components/product/share-button";
 import { VariantSelector } from "components/product/variant-selector";
-import { Accordion, type AccordionEntry } from "components/ui/accordion";
 import { SectionLabel } from "components/ui/section-label";
 import { collectionPages, isOfficialHandle } from "lib/collection-copy";
 import type { Product } from "lib/shopify/types";
@@ -22,11 +20,9 @@ import Link from "next/link";
  */
 export function ProductInfo({
   product,
-  policies,
   sizeGuideHref,
 }: {
   product: Product;
-  policies: { livraison?: string; retours?: string };
   /** Le guide des tailles, quand le fournisseur en fournit un. */
   sizeGuideHref?: string;
 }) {
@@ -39,26 +35,6 @@ export function ProductInfo({
   const signature =
     handle && isOfficialHandle(handle) ? collectionPages[handle].signature : [];
 
-  const entries: AccordionEntry[] = [];
-  if (product.descriptionHtml) {
-    entries.push({
-      title: "Description",
-      content: <Prose className="text-sm" html={product.descriptionHtml} />,
-    });
-  }
-  if (policies.livraison) {
-    entries.push({
-      title: "Livraison",
-      content: <Prose className="text-sm" html={policies.livraison} />,
-    });
-  }
-  if (policies.retours) {
-    entries.push({
-      title: "Retours",
-      content: <Prose className="text-sm" html={policies.retours} />,
-    });
-  }
-
   return (
     <div>
       {product.collection ? (
@@ -67,12 +43,12 @@ export function ProductInfo({
         </Link>
       ) : null}
 
-      <h1 className="type-h1 mt-6 text-balance text-foreground">
+      <h1 className="type-product-title mt-6 text-balance text-foreground">
         {product.title}
       </h1>
 
       {signature.length > 0 ? (
-        <p className="type-label mt-6 leading-loose text-muted-foreground">
+        <p className="type-subtitle mt-6 text-muted-foreground">
           {signature.map((line) => (
             <span key={line} className="block">
               {line}
@@ -83,7 +59,7 @@ export function ProductInfo({
 
       <div className="mt-8 border-b border-border pb-8">
         <Price
-          className="type-price text-base text-foreground"
+          className="type-price-lg text-foreground"
           prefix={hasRange ? "À partir de" : undefined}
           amount={minVariantPrice.amount}
           compareAtAmount={product.compareAtPriceRange.minVariantPrice.amount}
@@ -134,12 +110,6 @@ export function ProductInfo({
           </li>
         ))}
       </ul>
-
-      {entries.length > 0 ? (
-        <div className="mt-10">
-          <Accordion entries={entries} />
-        </div>
-      ) : null}
     </div>
   );
 }

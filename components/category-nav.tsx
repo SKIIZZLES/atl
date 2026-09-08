@@ -27,8 +27,8 @@ export function CategoryNav({ active }: { active?: string }) {
         className={clsx(
           "type-label shrink-0 border px-4 py-2.5 transition-colors duration-300",
           active
-            ? "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-            : "border-foreground bg-foreground text-background",
+            ? "border-border-control text-muted-foreground hover:border-foreground hover:text-foreground"
+            : "border-signal text-signal",
         )}
       >
         Tout
@@ -40,8 +40,8 @@ export function CategoryNav({ active }: { active?: string }) {
           className={clsx(
             "type-label shrink-0 border px-4 py-2.5 transition-colors duration-300",
             active === category
-              ? "border-foreground bg-foreground text-background"
-              : "border-border text-muted-foreground hover:border-foreground hover:text-foreground",
+              ? "border-signal text-signal"
+              : "border-border-control text-muted-foreground hover:border-foreground hover:text-foreground",
           )}
         >
           {category}

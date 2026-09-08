@@ -23,8 +23,9 @@ const BASE =
   "type-button inline-flex items-center justify-center gap-3 transition-all duration-300 ease-onde";
 
 /* Le rectangle plein : même hauteur pour `primary` et `secondary`, sans quoi
-   deux boutons côte à côte ne s'alignent pas. */
-const BOX = "h-12 px-7 md:h-14 md:px-8";
+   deux boutons côte à côte ne s'alignent pas. 52 px au doigt, 56 px à la
+   souris — au-dessus des 44 px que recommande WCAG pour une cible tactile. */
+const BOX = "h-[52px] px-7 md:h-14 md:px-8";
 
 const VARIANTS: Record<Variant, string> = {
   primary: clsx(

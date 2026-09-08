@@ -110,7 +110,7 @@ export function Gallery({
             c'est-à-dire les manches d'un vêtement oversize. Le guide des
             tailles, lui, est en 1200 × 580 : il se pose dans le cadre au
             lieu d'être rogné jusqu'à l'illisible. */}
-        <div className="relative hidden aspect-square overflow-hidden bg-card lg:block">
+        <div className="relative hidden aspect-square overflow-hidden bg-background lg:block">
           <Image
             src={images[index]!.src}
             alt={images[index]!.altText}
@@ -162,7 +162,7 @@ export function Gallery({
             {images.map((image, position) => (
               <li
                 key={image.src}
-                className="relative aspect-square w-screen shrink-0 snap-center bg-card"
+                className="relative aspect-square w-screen shrink-0 snap-center bg-background"
               >
                 <Image
                   src={image.src}

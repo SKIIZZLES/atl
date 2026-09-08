@@ -46,14 +46,19 @@
 
   /* Les mêmes valeurs sous leur nom de scène, parce que la maquette parle
      d'ivoire et de terre, pas de « foreground ». Chacune pointe sur un des
-     sept jetons ci-dessous — aucune n'en ajoute un huitième. */
-  --color-noir: var(--background);
-  --color-noir-doux: var(--card);
-  --color-ivoire: var(--foreground);
-  --color-beige: var(--archive);
-  --color-terre: var(--border);
-  --color-or: var(--signal);
-  --color-blanc: var(--blanc);
+     jetons ci-dessous — aucune n'en ajoute un de plus. */
+  --color-on-black: var(--background);
+  --color-on-black-soft: var(--card);
+  --color-on-white: var(--foreground);
+  --color-on-ivory: var(--craie);
+  --color-on-beige: var(--archive);
+  --color-on-earth: var(--terre);
+  --color-on-gold: var(--signal);
+  --color-on-muted: var(--muted-foreground);
+
+  /* La bordure de contrôle : plus dense que le filet décoratif, parce
+     qu'elle délimite quelque chose qui se clique. */
+  --color-border-control: var(--border-control);
 
   /* Blocs de rupture éditoriale : la bande claire et ses contrastes. */
   --color-brun: var(--brun);
@@ -85,27 +90,33 @@
   --card: #111111;
   --card-foreground: #e8e2d6;
   --muted: #111111;
-  /* Ivoire : le texte courant. Jamais de blanc pur sur le noir. */
-  --foreground: #e8e2d6;
-  /* Terre : les contours. 3,18:1 sur le noir, au-dessus du minimum WCAG
-     1.4.11 de 3:1 exigé pour le contour d'un contrôle. */
-  --border: #755c45;
+  /* Blanc cassé : le texte courant. Jamais de blanc pur sur le noir. */
+  --foreground: #f4f1ea;
+  /* Terre : la couleur, encore utilisée comme aplat et comme accent. */
+  --terre: #755c45;
+
+  /* Deux bordures, et la raison de leur écart.
+     Le filet décoratif — séparateurs, cadres d'image, traits de section —
+     est l'ivoire à 18 % demandé par la charte : il structure sans peser.
+     Mais à 18 % il sort à 1,6:1 sur le noir, quand WCAG 1.4.11 exige 3:1
+     pour le contour d'un élément qu'on manipule. Les contrôles — tailles,
+     coloris, cases à cocher, champs — prennent donc le même ivoire monté à
+     40 %, qui atteint 3,16:1. Même teinte, même famille, une densité de
+     plus là où elle porte du sens. */
+  --border: rgb(244 241 234 / 0.18);
+  --border-control: rgb(244 241 234 / 0.4);
   --input: #111111;
   /* Or : couleur SIGNAL, jamais dominante. 7,25:1 sur le noir. */
   --signal: #c8942e;
   --ring: #c8942e;
-  /* Blanc cassé : réservé au lettrage de marque et aux fonds clairs. */
-  --blanc: #f4f1ea;
 
   /* L'or éclairci du survol. Ce n'est pas une huitième couleur : c'est la
      même teinte montée en luminosité, pour que le survol d'un bouton or se
      voie sans changer de famille chromatique. */
   --brass: #ddb268;
 
-  /* Texte secondaire : la terre éclaircie, même teinte, montée en
-     luminosité jusqu'à 6,42:1 sur le noir — au-dessus du 4,5:1 exigé pour
-     du texte courant, parce que c'est bien du texte, pas un ornement. */
-  --muted-foreground: #a2907a;
+  /* Texte secondaire, valeur de la charte : 9,84:1 sur le noir. */
+  --muted-foreground: #bdb6aa;
 
   /* Alias de composition, tous repris des sept valeurs ci-dessus.
      `brun` nomme le fond des blocs photographiques, `craie` la bande claire
@@ -205,7 +216,7 @@ button,
 @utility type-h2 {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(1.875rem, 4vw, 3.75rem);
+  font-size: clamp(2rem, 1.25rem + 2.6vw, 3.5rem);
   line-height: 1.05;
   letter-spacing: -0.015em;
 }
@@ -218,6 +229,39 @@ button,
   font-size: clamp(1.25rem, 2vw, 1.875rem);
   line-height: 1.05;
   letter-spacing: -0.01em;
+}
+
+/* TITRE PRODUIT — le seul titre de la fiche.
+   Les titres monumentaux appartiennent au hero d'accueil et à celui d'une
+   collection ; une fiche produit est un écran de décision, pas une affiche.
+   La courbe est calée sur trois repères plutôt que sur un `vw` seul :
+   34 px à 390, 50 px à 1024, 60 px à 1440, plafonné à 64. */
+@utility type-product-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(2.125rem, 1.5875rem + 2.4vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+/* PRIX de la fiche produit — le chiffre qu'on cherche des yeux. Sur la
+   carte d'une grille il reste petit ; ici il porte la décision. */
+@utility type-price-lg {
+  font-family: var(--font-sans);
+  font-size: clamp(1.375rem, 1.125rem + 0.8vw, 1.625rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* SOUS-TITRE — la signature du chapitre sous le titre produit. */
+@utility type-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
 }
 
 /* BODY — texte courant. */

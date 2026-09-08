@@ -150,10 +150,12 @@ export function VariantSelector({
                   disabled={!isAvailableForSale}
                   title={`${value}${!isAvailableForSale ? " — épuisé" : ""}`}
                   className={clsx(
-                    "type-button flex h-11 min-w-[48px] items-center justify-center border border-border px-4 transition-colors duration-300 ease-onde",
+                    // Fond transparent, bordure sobre, or quand la taille est
+                    // choisie. L'état actif était un aplat ivoire : un
+                    // deuxième bloc clair sur la même colonne.
+                    "type-button flex h-11 min-w-[48px] items-center justify-center border border-border-control px-4 transition-colors duration-300 ease-onde",
                     {
-                      "cursor-default border-foreground bg-foreground text-background":
-                        isActive,
+                      "cursor-default border-signal text-signal": isActive,
                       "hover:border-foreground":
                         !isActive && isAvailableForSale,
                       // Contraste volontairement bas : WCAG 1.4.3 exempte

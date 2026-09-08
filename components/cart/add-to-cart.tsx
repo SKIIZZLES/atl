@@ -14,9 +14,13 @@ function SubmitButton({
   availableForSale: boolean;
   selectedVariantId: string | undefined;
 }) {
+  // L'action principale de la fiche : fond or, texte noir. Elle était en
+  // ivoire pleine largeur — un bloc clair au milieu d'une page sombre, et
+  // le seul aplat de cette taille sur tout l'écran.
   const buttonClasses =
-    "type-label flex w-full items-center justify-center bg-foreground py-4 text-background transition-opacity duration-300";
-  const disabledClasses = "cursor-not-allowed opacity-40 hover:opacity-40";
+    "type-button flex h-[52px] w-full items-center justify-center bg-signal text-background transition-colors duration-500 ease-onde md:h-14";
+  const disabledClasses =
+    "cursor-not-allowed bg-border-control text-foreground/60 hover:bg-border-control";
 
   if (!availableForSale) {
     return (
@@ -41,7 +45,7 @@ function SubmitButton({
   return (
     <button
       aria-label="Ajouter au panier"
-      className={clsx(buttonClasses, "hover:opacity-80")}
+      className={clsx(buttonClasses, "hover:bg-brass")}
     >
       Ajouter au panier
     </button>
