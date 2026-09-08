@@ -40,7 +40,7 @@ export function ProductCard({
       className="group block"
       aria-label={product.title}
     >
-      <div className="relative aspect-4/5 overflow-hidden bg-card">
+      <div className="relative aspect-4/5 overflow-hidden bg-background">
         {image ? (
           <Image
             src={image.url}

@@ -58,7 +58,7 @@ function Blocks({ blocks }: { blocks: readonly Block[] }) {
 function SectionRail({ numeral, title }: { numeral: string; title: string }) {
   return (
     <div className="md:col-span-4 lg:col-span-3">
-      <p className="headline text-5xl text-signal md:text-6xl">{numeral}</p>
+      <p className="headline text-5xl text-foreground md:text-6xl">{numeral}</p>
       <h2 className="headline mt-4 text-2xl md:text-3xl">{title}</h2>
     </div>
   );
@@ -91,7 +91,7 @@ function ProseSection({
               <Blocks blocks={section.blocks} />
             </div>
             {section.pullQuote ? (
-              <blockquote className="mt-12 border-l-2 border-signal pl-6">
+              <blockquote className="mt-12 border-l-2 border-border-control pl-6">
                 <p className="editorial text-xl leading-relaxed md:text-2xl">
                   {section.pullQuote}
                 </p>
@@ -137,7 +137,7 @@ export default function StoriesPage() {
           className="absolute inset-0 z-10 bg-linear-to-b from-background/25 to-background/95"
         />
         <div className="shell relative z-20">
-          <p className="type-label text-signal">Onde Noire — Stories</p>
+          <p className="type-label text-foreground">Onde Noire — Stories</p>
           <h1 className="type-manifesto-title mt-5 max-w-5xl">
             {opening.title}
           </h1>
@@ -169,7 +169,9 @@ export default function StoriesPage() {
                 href={`#${entry.id}`}
                 className="flex h-full flex-col gap-3 p-5 transition-colors duration-300 hover:bg-card"
               >
-                <span className="type-label text-signal">{entry.numeral}</span>
+                <span className="type-label text-foreground">
+                  {entry.numeral}
+                </span>
                 <span className="text-sm text-foreground">{entry.title}</span>
               </a>
             </li>
@@ -217,7 +219,7 @@ export default function StoriesPage() {
             <div className="grid gap-12 md:grid-cols-12 md:gap-16">
               {/* Colonne de repère : index, date, lieu */}
               <div className="md:col-span-4 lg:col-span-3">
-                <p className="headline text-6xl text-signal md:text-7xl">
+                <p className="headline text-6xl text-foreground md:text-7xl">
                   {chapter.index}
                 </p>
                 <h3 className="headline mt-4 text-2xl md:text-3xl">
@@ -235,7 +237,7 @@ export default function StoriesPage() {
                 </dl>
                 <Link
                   href={`/collections/${chapter.handle}`}
-                  className="type-label mt-10 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
+                  className="type-label mt-10 inline-flex items-center gap-3 border-b border-border-control pb-2 text-foreground transition-colors duration-300 hover:border-foreground"
                 >
                   Voir la collection →
                 </Link>
@@ -251,7 +253,7 @@ export default function StoriesPage() {
                     <p key={paragraph.slice(0, 40)}>{paragraph}</p>
                   ))}
                 </div>
-                <blockquote className="mt-12 border-l-2 border-signal pl-6">
+                <blockquote className="mt-12 border-l-2 border-border-control pl-6">
                   <p className="editorial text-xl leading-relaxed md:text-2xl">
                     {chapter.pullQuote}
                   </p>
@@ -308,7 +310,7 @@ export default function StoriesPage() {
           <ul className="mt-16 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
             {axes.map((axis) => (
               <li key={axis.index} className="bg-card p-8 md:p-10">
-                <p className="type-label text-signal">{axis.index}</p>
+                <p className="type-label text-foreground">{axis.index}</p>
                 <p className="headline mt-4 text-xl md:text-2xl">
                   {axis.title}
                 </p>
@@ -340,7 +342,7 @@ export default function StoriesPage() {
                     key={principle.title}
                     className="flex gap-6 py-8 md:gap-10"
                   >
-                    <span className="type-label mt-1 shrink-0 text-signal">
+                    <span className="type-label mt-1 shrink-0 text-foreground">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div>
@@ -397,7 +399,7 @@ export default function StoriesPage() {
             <br />
             Nous sommes encore en transmission.
           </p>
-          <p className="type-label mt-10 text-signal">
+          <p className="type-label mt-10 text-foreground">
             Mémoire · Culture · Avenir
           </p>
 

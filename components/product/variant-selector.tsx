@@ -129,7 +129,7 @@ export function VariantSelector({
                     className={clsx(
                       "relative size-9 overflow-hidden rounded-full border transition-all duration-300 ease-onde",
                       {
-                        "border-signal ring-1 ring-signal": isActive,
+                        "border-foreground ring-1 ring-foreground": isActive,
                         "border-border-control hover:border-foreground":
                           !isActive && isAvailableForSale,
                         "cursor-not-allowed border-border opacity-35":
@@ -161,7 +161,8 @@ export function VariantSelector({
                     // deuxième bloc clair sur la même colonne.
                     "type-button flex h-11 min-w-[48px] items-center justify-center border border-border-control px-4 transition-colors duration-300 ease-onde",
                     {
-                      "cursor-default border-signal text-signal": isActive,
+                      "cursor-default border-foreground text-foreground":
+                        isActive,
                       "hover:border-foreground":
                         !isActive && isAvailableForSale,
                       // Contraste volontairement bas : WCAG 1.4.3 exempte

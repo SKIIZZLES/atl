@@ -23,7 +23,7 @@ function SubmitButton({
   // L'action principale de la fiche : fond or, texte noir. Elle était en
   // ivoire pleine largeur — un bloc clair au milieu d'une page sombre, et
   // le seul aplat de cette taille sur tout l'écran.
-  const enabled = "bg-signal text-background hover:bg-brass";
+  const enabled = "bg-foreground text-background hover:opacity-90";
   // Épuisé, ou taille non choisie : contour et texte éteint, pas un aplat.
   const disabled =
     "cursor-not-allowed border border-border-control text-muted-foreground";

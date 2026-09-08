@@ -73,10 +73,10 @@ export default async function HomePage() {
       {/* Les libellés viennent de Shopify : renommer une collection dans
           l'admin met le défilé à jour, sans toucher au code. */}
       <Hero
-        labels={Object.fromEntries(
+        chapters={Object.fromEntries(
           officialCollections.map((entry) => [
             entry.handle,
-            entry.collection.title,
+            { title: entry.collection.title, kicker: entry.kicker },
           ]),
         )}
       />

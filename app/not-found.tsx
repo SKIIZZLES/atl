@@ -8,7 +8,7 @@ import { Arrow, Button } from "components/ui/button";
 export default function NotFound() {
   return (
     <div className="shell flex min-h-[60svh] flex-col justify-center py-24">
-      <p className="type-label text-signal">404</p>
+      <p className="type-label text-foreground">404</p>
       <h1 className="type-h2 mt-6 max-w-3xl">Cette page n&apos;existe pas.</h1>
       <p className="type-body mt-8 max-w-xl text-muted-foreground">
         L&apos;adresse est peut-être ancienne, ou mal recopiée. Les trois

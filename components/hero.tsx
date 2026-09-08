@@ -18,7 +18,10 @@ const FIELD = ["Vêtements", "Culture", "Transmission", "Diaspora", "Demain"];
  *  qu'il y a une suite. */
 const INTERVAL_MS = 6000;
 
-export function Hero({ labels }: { labels: Record<string, string> }) {
+/** Le nom d'un chapitre et sa devise, tels qu'ils sont dans l'admin. */
+export type ChapterLabel = { title: string; kicker: string };
+
+export function Hero({ chapters }: { chapters: Record<string, ChapterLabel> }) {
   const [index, setIndex] = useState(0);
   const current = HERO_SLIDES[index]!;
 
@@ -40,7 +43,7 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
     // le rendait bien plus profond, ce qui écrasait le titre en proportion —
     // d'où le ratio explicite dès le desktop, borné pour les très grands
     // écrans. Sur mobile la composition se recompose en hauteur d'écran.
-    <section className="relative flex w-full min-h-[88svh] overflow-hidden bg-background pt-16 md:aspect-9/4 md:min-h-[620px] md:max-h-[880px] md:pt-20">
+    <section className="relative flex w-full min-h-[92svh] overflow-hidden bg-background pt-16 md:aspect-16/9 md:min-h-[660px] md:max-h-[900px] md:pt-20">
       {HERO_SLIDES.map((slide, position) => {
         const active = position === index;
         return (
@@ -126,7 +129,11 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
             </p>
 
             <div className="mt-7">
-              <Button href="/#collections" className="group">
+              <Button
+                href="/#collections"
+                variant="secondary"
+                className="group"
+              >
                 Entrer dans l&apos;onde
                 <Arrow />
               </Button>
@@ -145,20 +152,31 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
 
         {/* Le repère de la maquette, devenu réel : il indexe le défilé, nomme
             le chapitre affiché et permet d'y naviguer. */}
-        <div className="shrink-0 pt-8">
-          <Link
-            href={`/collections/${current.handle}`}
-            className="type-label group inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 ease-onde hover:border-signal"
-          >
-            {labels[current.handle] ?? current.handle}
-            <Arrow />
-          </Link>
-
-          <div className="mt-4 flex items-center gap-4">
-            <span className="type-label tabular-nums text-foreground/60">
+        <div className="shrink-0 pt-6">
+          <Link href={`/collections/${current.handle}`} className="group block">
+            {/* Le compteur ouvre, le nom domine, la devise le précise, le
+                lien conclut. Une vue de défilé doit se lire d'un coup :
+                où j'en suis, ce que je regarde, ce que ça veut dire, où ça
+                mène. */}
+            <span className="type-label block tabular-nums text-muted-foreground">
               {String(index + 1).padStart(2, "0")} /{" "}
               {String(HERO_SLIDES.length).padStart(2, "0")}
             </span>
+            <span className="type-h3 mt-3 block text-foreground">
+              {chapters[current.handle]?.title ?? current.handle}
+            </span>
+            {chapters[current.handle]?.kicker ? (
+              <span className="type-label mt-2 block text-muted-foreground">
+                {chapters[current.handle]!.kicker}
+              </span>
+            ) : null}
+            <span className="type-label mt-4 inline-flex items-center gap-3 border-b border-border-control pb-2 text-foreground transition-colors duration-300 ease-onde group-hover:border-foreground">
+              Découvrir
+              <Arrow />
+            </span>
+          </Link>
+
+          <div className="mt-5 flex items-center gap-4">
             <div className="flex items-center gap-1.5">
               {HERO_SLIDES.map((slide, position) => (
                 <button

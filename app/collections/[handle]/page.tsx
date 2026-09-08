@@ -156,7 +156,7 @@ export default async function CollectionPage(props: PageProps) {
             <section className="bg-background">
               <div className="shell section-y">
                 <Reveal className="mx-auto max-w-4xl text-center">
-                  <SectionLabel className="text-signal">
+                  <SectionLabel className="text-foreground">
                     {collection.title}
                   </SectionLabel>
                   <EditorialTitle level="h2" className="mt-8 text-balance">

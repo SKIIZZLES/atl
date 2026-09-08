@@ -85,7 +85,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
   // passé à la valeur de la charte, plus froide, et la barre ne devait pas
   // suivre ce changement. 6,42:1 sur le noir, au-dessus du seuil.
   const linkClass =
-    "type-nav text-brun-doux transition-colors duration-300 ease-onde hover:text-signal";
+    "type-nav text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground";
 
   return (
     <header
@@ -108,7 +108,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
       <div className="shell relative flex h-16 items-center justify-between gap-6 md:h-20">
         <Link
           href="/"
-          className="type-nav shrink-0 text-sm tracking-[0.22em] text-foreground transition-colors duration-300 ease-onde hover:text-signal"
+          className="type-nav shrink-0 text-sm tracking-[0.22em] text-foreground transition-colors duration-300 ease-onde hover:text-foreground"
         >
           ONDE NOIRE®
         </Link>
@@ -131,7 +131,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
                 onClick={() => setIsCollectionsOpen((open) => !open)}
                 aria-expanded={isCollectionsOpen}
                 aria-label="Voir les chapitres"
-                className="text-brun-doux transition-colors duration-300 ease-onde hover:text-signal"
+                className="text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground"
               >
                 <svg
                   viewBox="0 0 10 6"
@@ -157,14 +157,14 @@ export function Header({ collections }: { collections: NavCollection[] }) {
                   <Link
                     key={collection.handle}
                     href={`/collections/${collection.handle}`}
-                    className="type-nav block px-4 py-3 text-brun-doux transition-colors duration-300 ease-onde hover:bg-card hover:text-signal"
+                    className="type-nav block px-4 py-3 text-muted-foreground transition-colors duration-300 ease-onde hover:bg-card hover:text-foreground"
                   >
                     {collection.title}
                   </Link>
                 ))}
                 <Link
                   href="/search"
-                  className="type-nav mt-2 block border-t border-border px-4 py-3 pt-4 text-muted-foreground transition-colors duration-300 ease-onde hover:bg-card hover:text-signal"
+                  className="type-nav mt-2 block border-t border-border px-4 py-3 pt-4 text-muted-foreground transition-colors duration-300 ease-onde hover:bg-card hover:text-foreground"
                 >
                   Toutes les pièces
                 </Link>
@@ -182,7 +182,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
         <div className="flex items-center gap-5">
           <Link
             href="/search"
-            className="hidden text-brun-doux transition-colors duration-300 ease-onde hover:text-signal md:block"
+            className="hidden text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground md:block"
             aria-label="Rechercher"
           >
             <SearchGlyph />
@@ -204,7 +204,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           <button
             type="button"
             onClick={() => setIsMenuOpen(true)}
-            className="text-brun-doux transition-colors duration-300 ease-onde hover:text-signal lg:hidden"
+            className="text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground lg:hidden"
             aria-label="Ouvrir le menu"
           >
             <MenuGlyph />
@@ -223,7 +223,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           className="fixed inset-0 z-50 flex flex-col bg-background lg:hidden"
         >
           <div className="shell flex h-16 shrink-0 items-center justify-between">
-            <span className="type-nav text-sm tracking-[0.22em] text-signal">
+            <span className="type-nav text-sm tracking-[0.22em] text-foreground">
               ONDE NOIRE®
             </span>
             <button
@@ -253,7 +253,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
                   {collection.title}
                 </Link>
               ))}
-              <Link href="/search" className="type-label mt-1 text-signal">
+              <Link href="/search" className="type-label mt-1 text-foreground">
                 Toutes les pièces →
               </Link>
             </div>

@@ -85,7 +85,7 @@ export function Gallery({
                 className={clsx(
                   "relative block aspect-4/5 w-full overflow-hidden border transition-colors duration-300 ease-onde",
                   position === index
-                    ? "border-signal"
+                    ? "border-foreground"
                     : "border-border hover:border-foreground",
                 )}
               >
@@ -189,7 +189,9 @@ export function Gallery({
                       aria-current={position === index}
                       className={clsx(
                         "relative block size-14 overflow-hidden border transition-colors duration-300 ease-onde",
-                        position === index ? "border-signal" : "border-border",
+                        position === index
+                          ? "border-foreground"
+                          : "border-border",
                       )}
                     >
                       <Image

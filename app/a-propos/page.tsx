@@ -21,14 +21,14 @@ export default function AProposPage() {
     <>
       <section className="border-b border-border">
         <div className="mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-32">
-          <p className="type-label text-signal">À propos</p>
+          <p className="type-label text-foreground">À propos</p>
           <h1 className="headline mt-6 max-w-4xl text-[13vw] leading-[0.88] md:text-[7vw]">
             Onde Noire<span className="align-super text-[0.28em]">®</span>
           </h1>
           <p className="editorial mt-10 max-w-2xl text-xl italic leading-relaxed text-muted-foreground md:text-2xl">
             {opening.standfirst}
           </p>
-          <p className="type-label mt-10 text-signal">
+          <p className="type-label mt-10 text-foreground">
             Mémoire · Culture · Avenir
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function AProposPage() {
 
       <section className="border-b border-border">
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
-          <p className="type-label text-signal">Le futurisme sobre</p>
+          <p className="type-label text-foreground">Le futurisme sobre</p>
           <h2 className="editorial mt-6 max-w-3xl text-3xl leading-[1.1] md:text-5xl">
             Cinq axes, et rien qui ne serve la transmission.
           </h2>
@@ -74,7 +74,7 @@ export default function AProposPage() {
           <ul className="mt-14 grid gap-px bg-border md:grid-cols-2">
             {axes.map((axis) => (
               <li key={axis.index} className="bg-background p-8 md:p-10">
-                <p className="type-label text-signal">{axis.index}</p>
+                <p className="type-label text-foreground">{axis.index}</p>
                 <h3 className="headline mt-4 text-xl md:text-2xl">
                   {axis.title}
                 </h3>
@@ -107,7 +107,9 @@ export default function AProposPage() {
 
       <section>
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
-          <p className="type-label text-signal">Onde Noire n&apos;est pas</p>
+          <p className="type-label text-foreground">
+            Onde Noire n&apos;est pas
+          </p>
           <ul className="mt-10 max-w-3xl divide-y divide-border border-y border-border">
             {refusals.map((refusal) => (
               <li

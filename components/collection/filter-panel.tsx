@@ -91,7 +91,7 @@ function FacetGroup({
                   className={clsx(
                     "flex size-4 shrink-0 items-center justify-center border transition-colors duration-300 ease-onde",
                     active
-                      ? "border-signal bg-signal"
+                      ? "border-foreground bg-foreground"
                       : "border-border group-hover:border-foreground",
                   )}
                 >
@@ -260,7 +260,9 @@ export function FilterDrawer({
         className="type-label flex items-center gap-2 border border-border px-4 py-2.5 text-foreground transition-colors duration-300 ease-onde hover:border-foreground"
       >
         Filtrer
-        {active > 0 ? <span className="text-signal">({active})</span> : null}
+        {active > 0 ? (
+          <span className="text-foreground">({active})</span>
+        ) : null}
       </button>
 
       {open ? (
@@ -296,7 +298,7 @@ export function FilterDrawer({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="type-button h-14 w-full bg-signal text-background transition-colors duration-300 ease-onde hover:bg-brass"
+              className="type-button h-14 w-full bg-foreground text-background transition-opacity duration-300 ease-onde hover:opacity-90"
             >
               Voir {count} {count > 1 ? "pièces" : "pièce"}
             </button>

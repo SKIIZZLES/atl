@@ -32,16 +32,20 @@ const BASE =
 const BOX = "h-[52px] px-7 md:h-14 md:px-8";
 
 const VARIANTS: Record<Variant, string> = {
+  /* L'action décisive : un aplat blanc, texte noir. C'est le seul aplat
+     clair de la page, et il ne sert qu'à ça. */
   primary: clsx(
     BOX,
-    "bg-signal text-background hover:-translate-y-0.5 hover:bg-brass",
+    "bg-foreground text-background hover:-translate-y-0.5 hover:opacity-90",
   ),
+  /* L'appel de navigation : transparent, filet blanc très fin. Au survol
+     c'est le voile du système qui se pose, pas un renversement de couleur. */
   secondary: clsx(
     BOX,
-    "border border-signal/60 text-foreground hover:-translate-y-0.5 hover:border-signal hover:bg-signal hover:text-background",
+    "border border-border-control text-foreground hover:-translate-y-0.5 hover:border-foreground hover:bg-hover",
   ),
   quiet:
-    "border-b border-signal/50 pb-2 text-signal hover:border-signal hover:text-brass",
+    "border-b border-border-control pb-2 text-foreground hover:border-foreground",
 };
 
 type CommonProps = {

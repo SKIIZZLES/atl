@@ -34,8 +34,8 @@ export default async function Footer({
   const legal = LEGAL_SLUGS.filter((slug) => policies[slug]);
 
   return (
-    <footer>
-      <WaveDivider color="var(--brass)" />
+    <footer className="bg-black">
+      <WaveDivider color="var(--border-control)" />
       <div className="shell py-16 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">

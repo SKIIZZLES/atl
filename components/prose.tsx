@@ -19,7 +19,7 @@ const Prose = ({ html, className }: { html: string; className?: string }) => {
         "[&_ul]:mt-5 [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:mt-5 [&_ol]:list-decimal [&_ol]:pl-5",
         "[&_li]:mt-2 [&_li]:pl-1",
         "[&_strong]:font-semibold [&_strong]:text-foreground",
-        "[&_a]:text-signal [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-foreground",
+        "[&_a]:text-foreground [&_a]:underline [&_a]:underline-offset-4 [&_a:hover]:text-foreground",
         className,
       )}
       dangerouslySetInnerHTML={{ __html: html }}

@@ -12,13 +12,13 @@ import type { ReactNode } from "react";
 export function SectionLabel({
   children,
   rule = false,
-  tone = "signal",
+  tone = "bright",
   className,
 }: {
   children: ReactNode;
   /** Le trait or sous le mot, pour les ouvertures de section. */
   rule?: boolean;
-  tone?: "signal" | "muted";
+  tone?: "bright" | "muted";
   className?: string;
 }) {
   return (
@@ -26,7 +26,7 @@ export function SectionLabel({
       className={clsx(
         "type-label",
         rule && "inline-flex border-b pb-1.5",
-        tone === "signal" && "border-signal text-signal",
+        tone === "bright" && "border-foreground text-foreground",
         tone === "muted" && "border-border text-muted-foreground",
         className,
       )}

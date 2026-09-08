@@ -38,7 +38,7 @@ const Price = ({
           {format(compareAtAmount, currencyCode)}
         </span>
       ) : null}
-      <span className={isDiscounted ? "text-signal" : undefined}>
+      <span className={isDiscounted ? "text-foreground" : undefined}>
         {format(amount, currencyCode)}
       </span>
     </p>

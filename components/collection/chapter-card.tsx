@@ -64,7 +64,7 @@ export function ChapterCard({
         {kicker ? (
           <p className="type-label mt-2 text-foreground/70">{kicker}</p>
         ) : null}
-        <span className="type-label mt-6 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 ease-onde group-hover:border-signal">
+        <span className="type-label mt-6 inline-flex items-center gap-3 border-b border-border-control pb-2 text-foreground transition-colors duration-300 ease-onde group-hover:border-foreground">
           Découvrir
           <span
             aria-hidden="true"

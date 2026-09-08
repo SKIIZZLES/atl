@@ -40,7 +40,7 @@ export function Accordion({ entries }: { entries: AccordionEntry[] }) {
                 aria-expanded={expanded}
                 aria-controls={panelId}
                 onClick={() => setOpen(expanded ? -1 : index)}
-                className="type-label flex w-full items-center justify-between gap-6 py-5 text-left text-foreground transition-colors duration-300 ease-onde hover:text-signal"
+                className="type-label flex w-full items-center justify-between gap-6 py-5 text-left text-foreground transition-colors duration-300 ease-onde hover:text-foreground"
               >
                 {entry.title}
                 {/* Un chevron dessiné en deux traits : pas d'icône

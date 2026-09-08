@@ -20,7 +20,7 @@ import { Arrow, Button } from "components/ui/button";
 export default function Error({ reset }: { reset: () => void }) {
   return (
     <div className="shell flex min-h-[60svh] flex-col justify-center py-24">
-      <p className="type-label text-signal">Erreur</p>
+      <p className="type-label text-foreground">Erreur</p>
       <h1 className="type-h2 mt-6 max-w-3xl">
         Le signal s&apos;est interrompu.
       </h1>
