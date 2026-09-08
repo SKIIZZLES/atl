@@ -1,5 +1,6 @@
 import { GridTileImage } from "components/grid/tile";
 import { Gallery } from "components/product/gallery";
+import { orderProductImages } from "lib/product-images";
 import { ProductDescription } from "components/product/product-description";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
 import { collectionStories } from "lib/collection-copy";
@@ -88,11 +89,16 @@ export default async function ProductPage(props: {
                 <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden bg-card" />
               }
             >
+              {/* `slice(0, 5)` ne laissait passer que cinq visuels, et le
+                  fournisseur les livre par séries : c'étaient cinq faces de
+                  cinq coloris. Le dos n'atteignait jamais la galerie. */}
               <Gallery
-                images={product.images.slice(0, 5).map((image: Image) => ({
-                  src: image.url,
-                  altText: image.altText,
-                }))}
+                images={orderProductImages(product.images).map(
+                  (image: Image) => ({
+                    src: image.url,
+                    altText: image.altText,
+                  }),
+                )}
               />
             </Suspense>
           </div>

@@ -1,11 +1,12 @@
 import Price from "components/price";
+import { hoverImage } from "lib/product-images";
 import type { Product } from "lib/shopify/types";
 import Image from "next/image";
 import Link from "next/link";
 
 export function ProductCard({ product }: { product: Product }) {
   const image = product.featuredImage ?? product.images[0] ?? null;
-  const secondary = product.images[1] ?? null;
+  const secondary = hoverImage(product.images);
   const { minVariantPrice, maxVariantPrice } = product.priceRange;
   // Les tailles au-delà du XL coûtent parfois plus cher : on annonce
   // le prix le plus bas, en le disant.
