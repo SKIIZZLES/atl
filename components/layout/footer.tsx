@@ -60,7 +60,7 @@ export default async function Footer({
               {collections.map((collection) => (
                 <Link
                   key={collection.handle}
-                  href={`/search/${collection.handle}`}
+                  href={`/collections/${collection.handle}`}
                   className={LINK_CLASS}
                 >
                   {collection.title}

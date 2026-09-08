@@ -4,9 +4,9 @@ import { getCollection } from "lib/shopify";
 export default async function Image({
   params,
 }: {
-  params: { collection: string };
+  params: { handle: string };
 }) {
-  const collection = await getCollection(params.collection);
+  const collection = await getCollection(params.handle);
   const title = collection?.seo?.title || collection?.title;
 
   return await OpengraphImage({ title });

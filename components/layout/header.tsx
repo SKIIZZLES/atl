@@ -74,7 +74,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
                 {collections.map((collection) => (
                   <Link
                     key={collection.handle}
-                    href={`/search/${collection.handle}`}
+                    href={`/collections/${collection.handle}`}
                     onClick={() => setIsCollectionsOpen(false)}
                     className="label-xs block px-4 py-2.5 text-foreground transition-colors duration-300 hover:bg-card hover:text-signal"
                   >
@@ -176,7 +176,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
               {collections.map((collection) => (
                 <Link
                   key={collection.handle}
-                  href={`/search/${collection.handle}`}
+                  href={`/collections/${collection.handle}`}
                   onClick={() => setIsMenuOpen(false)}
                   className="headline text-2xl"
                 >

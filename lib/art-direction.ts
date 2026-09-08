@@ -20,6 +20,23 @@ export type ArtDirectionSlot = {
   alt: string;
 };
 
+/**
+ * Une image venue de Shopify, ramenée à la forme des emplacements ci-dessus.
+ *
+ * Shopify livre `altText` et le laisse à `null` quand la marque ne l'a pas
+ * renseigné ; nos composants exigent une chaîne, parce qu'une alternative
+ * absente et une alternative vide ne veulent pas dire la même chose à un
+ * lecteur d'écran. Le repli nomme donc le sujet plutôt que de laisser le
+ * vide décider.
+ */
+export function slotFromImage(
+  image: { url: string; altText?: string | null } | null | undefined,
+  fallbackAlt: string,
+): ArtDirectionSlot | null {
+  if (!image) return null;
+  return { url: image.url, alt: image.altText || fallbackAlt };
+}
+
 const FILES = "https://cdn.shopify.com/s/files/1/1088/9438/8549/files";
 
 /**

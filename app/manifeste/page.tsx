@@ -212,7 +212,7 @@ export default function StoriesPage() {
                   </div>
                 </dl>
                 <Link
-                  href={`/search/${chapter.handle}`}
+                  href={`/collections/${chapter.handle}`}
                   className="label-xs mt-10 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
                 >
                   Voir la collection →

@@ -90,7 +90,7 @@ export default async function HomePage() {
             {officialCollections.map((entry, index) => (
               <li key={entry.handle} className="bg-background">
                 <Link
-                  href={`/search/${entry.handle}`}
+                  href={`/collections/${entry.handle}`}
                   className="group relative flex aspect-4/3 flex-col justify-between overflow-hidden p-6 md:p-8"
                 >
                   {entry.image ? (
@@ -194,7 +194,7 @@ export default async function HomePage() {
                 {featured.tagline}
               </p>
               <Link
-                href={`/search/${featured.handle}`}
+                href={`/collections/${featured.handle}`}
                 className="label-xs mt-8 inline-flex items-center gap-3 bg-craie-foreground px-6 py-4 text-craie transition-opacity duration-300 hover:opacity-80"
               >
                 Voir la collection →
@@ -210,7 +210,7 @@ export default async function HomePage() {
                   className="w-36 shrink-0 snap-start md:w-auto md:flex-1"
                 >
                   <Link
-                    href={`/product/${product.handle}`}
+                    href={`/products/${product.handle}`}
                     className="group block"
                     aria-label={product.title}
                   >

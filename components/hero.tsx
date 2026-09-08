@@ -134,7 +134,7 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
           le chapitre affiché et permet d'y naviguer. */}
       <div className="absolute inset-x-5 bottom-8 md:inset-x-10 md:bottom-10">
         <Link
-          href={`/search/${current.handle}`}
+          href={`/collections/${current.handle}`}
           className="label-xs inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
         >
           {labels[current.handle] ?? current.handle} →
