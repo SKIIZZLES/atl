@@ -60,6 +60,11 @@
      qu'elle délimite quelque chose qui se clique. */
   --color-border-control: var(--border-control);
 
+  /* Le marron doux de la barre de navigation. Il a sa propre entrée parce
+     qu'il répond à une demande précise, et qu'il ne doit pas suivre le
+     texte secondaire si celui-ci change de valeur. */
+  --color-brun-doux: var(--brun-doux);
+
   /* Blocs de rupture éditoriale : la bande claire et ses contrastes. */
   --color-brun: var(--brun);
   --color-brun-foreground: var(--brun-foreground);
@@ -117,6 +122,8 @@
 
   /* Texte secondaire, valeur de la charte : 9,84:1 sur le noir. */
   --muted-foreground: #bdb6aa;
+  /* Le marron doux demandé pour la barre de navigation : 6,42:1. */
+  --brun-doux: #a2907a;
 
   /* Alias de composition, tous repris des sept valeurs ci-dessus.
      `brun` nomme le fond des blocs photographiques, `craie` la bande claire
