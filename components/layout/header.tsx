@@ -81,8 +81,11 @@ export function Header({ collections }: { collections: NavCollection[] }) {
     return () => window.removeEventListener("keydown", onKey);
   }, [isMenuOpen]);
 
+  // Le marron doux `--muted-foreground` et non la terre `--border` : la
+  // terre sort à 3,18:1 sur le noir, sous le 4,5:1 qu'exige du texte
+  // courant. Celui-ci tient 6,42:1 — même famille, luminosité montée.
   const linkClass =
-    "type-nav text-foreground transition-colors duration-300 ease-onde hover:text-signal";
+    "type-nav text-muted-foreground transition-colors duration-300 ease-onde hover:text-signal";
 
   return (
     <header
@@ -128,7 +131,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
                 onClick={() => setIsCollectionsOpen((open) => !open)}
                 aria-expanded={isCollectionsOpen}
                 aria-label="Voir les chapitres"
-                className="text-foreground transition-colors duration-300 ease-onde hover:text-signal"
+                className="text-muted-foreground transition-colors duration-300 ease-onde hover:text-signal"
               >
                 <svg
                   viewBox="0 0 10 6"
@@ -154,7 +157,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
                   <Link
                     key={collection.handle}
                     href={`/collections/${collection.handle}`}
-                    className="type-nav block px-4 py-3 text-foreground transition-colors duration-300 ease-onde hover:bg-card hover:text-signal"
+                    className="type-nav block px-4 py-3 text-muted-foreground transition-colors duration-300 ease-onde hover:bg-card hover:text-signal"
                   >
                     {collection.title}
                   </Link>
@@ -179,7 +182,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
         <div className="flex items-center gap-5">
           <Link
             href="/search"
-            className="hidden text-foreground transition-colors duration-300 ease-onde hover:text-signal md:block"
+            className="hidden text-muted-foreground transition-colors duration-300 ease-onde hover:text-signal md:block"
             aria-label="Rechercher"
           >
             <SearchGlyph />
@@ -201,7 +204,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           <button
             type="button"
             onClick={() => setIsMenuOpen(true)}
-            className="text-foreground lg:hidden"
+            className="text-muted-foreground transition-colors duration-300 ease-onde hover:text-signal lg:hidden"
             aria-label="Ouvrir le menu"
           >
             <MenuGlyph />

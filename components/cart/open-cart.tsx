@@ -11,7 +11,7 @@ export default function OpenCart({
   const count = quantity ?? 0;
 
   return (
-    <div className="group flex items-center gap-1.5 text-foreground">
+    <div className="group flex items-center gap-1.5 text-muted-foreground transition-colors duration-300 ease-onde group-hover:text-signal">
       <ShoppingBagIcon
         className={clsx(
           "size-4 transition-transform duration-300 group-hover:-translate-y-0.5",
