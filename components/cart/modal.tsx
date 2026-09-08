@@ -147,7 +147,7 @@ export default function CartModal() {
                                     href={merchandiseUrl}
                                     onClick={closeCart}
                                   >
-                                    <p className="font-display text-sm uppercase tracking-tight">
+                                    <p className="type-label">
                                       {item.merchandise.product.title}
                                     </p>
                                   </Link>

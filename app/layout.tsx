@@ -4,41 +4,38 @@ import Footer from "components/layout/footer";
 import { getCart, getCollections } from "lib/shopify";
 import { baseUrl } from "lib/utils";
 import type { Metadata, Viewport } from "next";
-import {
-  Anton,
-  Fraunces,
-  IBM_Plex_Mono,
-  IBM_Plex_Sans,
-} from "next/font/google";
+import { Fraunces, IBM_Plex_Sans } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 
-const display = Anton({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-display",
-  display: "swap",
-});
-
+/**
+ * Deux familles, et deux seulement.
+ *
+ * Le brief impose une serif éditoriale pour les très grands titres et une
+ * sans moderne pour la navigation et les petits textes. Le site en chargeait
+ * quatre : une display condensée pour les titres, une serif pour les
+ * citations, une sans pour le texte, une mono pour les libellés. Quatre
+ * familles, c'est quatre dialectes — et deux téléchargements de police pour
+ * rien.
+ *
+ * `opsz` est un axe variable de Fraunces : la lettre se resserre et ses
+ * empattements s'affinent à mesure que la taille monte, ce qui est
+ * exactement ce qu'on attend d'un titre de deux lignes en pleine page.
+ */
 const editorial = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-editorial",
+  // Police variable : on ne liste pas de graisses, on prend l'axe entier —
+  // c'est la condition posée par `next/font` pour demander un axe
+  // supplémentaire, et cela évite de télécharger trois coupes figées.
+  axes: ["opsz"],
+  variable: "--font-editorial-face",
   display: "swap",
 });
 
-const body = IBM_Plex_Sans({
+const sans = IBM_Plex_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-mono",
+  variable: "--font-sans-face",
   display: "swap",
 });
 
@@ -99,9 +96,15 @@ export default async function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${display.variable} ${editorial.variable} ${body.variable} ${mono.variable} bg-background`}
+      className={`${editorial.variable} ${sans.variable} bg-background`}
     >
       <body className="bg-background font-sans text-foreground antialiased">
+        {/* Les blocs à révéler partent transparents. Sans script, ils le
+            resteraient : cette règle les rend visibles d'emblée. L'entrée
+            est un confort, le contenu ne l'est pas. */}
+        <noscript>
+          <style>{`.reveal{opacity:1;transform:none}`}</style>
+        </noscript>
         <CartProvider cartPromise={cart}>
           <Header collections={navCollections} />
           <main className="min-h-screen">{children}</main>

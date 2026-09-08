@@ -9,7 +9,10 @@ export default function Loading() {
           .fill(0)
           .map((_, index) => {
             return (
-              <Grid.Item key={index} className="aspect-4/5 animate-pulse bg-card" />
+              <Grid.Item
+                key={index}
+                className="aspect-4/5 animate-pulse bg-card"
+              />
             );
           })}
       </Grid>

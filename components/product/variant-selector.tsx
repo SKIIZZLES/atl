@@ -62,7 +62,8 @@ export function VariantSelector({
     variants.find((variant) =>
       variant.selectedOptions.some(
         (selected) =>
-          selected.name.toLowerCase() === optionName && selected.value === value,
+          selected.name.toLowerCase() === optionName &&
+          selected.value === value,
       ),
     )?.image ?? null;
 
@@ -76,7 +77,12 @@ export function VariantSelector({
           <dt className="label-xs mb-4 text-muted-foreground">
             {OPTION_LABELS[optionNameLowerCase] ?? option.name}
           </dt>
-          <dd className={clsx("flex flex-wrap", isColorOption ? "gap-2" : "gap-3")}>
+          <dd
+            className={clsx(
+              "flex flex-wrap",
+              isColorOption ? "gap-2" : "gap-3",
+            )}
+          >
             {option.values.map((value) => {
               // Base option params on current searchParams so we can preserve any other param state.
               const optionParams: Record<string, string> = {};
@@ -148,7 +154,8 @@ export function VariantSelector({
                     {
                       "cursor-default border-foreground bg-foreground text-background":
                         isActive,
-                      "hover:border-foreground": !isActive && isAvailableForSale,
+                      "hover:border-foreground":
+                        !isActive && isAvailableForSale,
                       "relative cursor-not-allowed overflow-hidden text-muted-foreground/40 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-border":
                         !isAvailableForSale,
                     },

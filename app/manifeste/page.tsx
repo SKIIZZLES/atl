@@ -322,7 +322,7 @@ export default function StoriesPage() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div>
-                      <p className="headline text-xl text-cuivre md:text-2xl">
+                      <p className="headline text-xl text-foreground md:text-2xl">
                         {principle.title}
                       </p>
                       <p className="mt-3 text-base leading-relaxed text-muted-foreground">

@@ -45,7 +45,7 @@ export function ProductCard({ product }: { product: Product }) {
       </div>
 
       <div className="mt-4 flex items-baseline justify-between gap-4">
-        <h3 className="text-sm text-cuivre">{product.title}</h3>
+        <h3 className="text-sm text-foreground">{product.title}</h3>
         <Price
           className="label-xs tabular-nums text-muted-foreground"
           prefix={hasRange ? "À partir de" : undefined}
