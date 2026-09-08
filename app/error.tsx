@@ -8,10 +8,14 @@ import Link from "next/link";
  * exclut, et qui n'apparaissaient qu'en cas de pépin — donc jamais pendant
  * une relecture.
  *
- * Le `bg-white` du gabarit n'était même pas compensé par son `dark:bg-black` :
- * la variante `dark:` de Tailwind suit `prefers-color-scheme`, alors que le
- * site est sombre en permanence. Sur un téléphone réglé en clair, le bloc
+ * Son fond clair n'était même pas rattrapé par sa contrepartie sombre : la
+ * variante conditionnelle de Tailwind suit `prefers-color-scheme`, alors que
+ * le site est sombre en permanence. Sur un téléphone réglé en clair, le bloc
  * ressortait donc blanc au milieu du noir.
+ *
+ * Les noms de classes fautifs ne sont pas cités ici : le scanner de Tailwind
+ * lit aussi les commentaires, et les rappeler suffirait à réémettre les
+ * utilitaires qu'on vient de retirer.
  */
 export default function Error({ reset }: { reset: () => void }) {
   return (
