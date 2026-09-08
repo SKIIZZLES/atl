@@ -127,7 +127,7 @@ export function VariantSelector({
                        fichier de design de la variante — un aplat clair
                        posé trois fois dans la colonne d'achat. */
                     className={clsx(
-                      "relative size-9 overflow-hidden rounded-full border transition-all duration-300 ease-onde",
+                      "relative size-9 overflow-hidden rounded-full border bg-background transition-all duration-300 ease-onde",
                       {
                         "border-foreground ring-1 ring-foreground": isActive,
                         "border-border-control hover:border-foreground":

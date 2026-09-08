@@ -87,6 +87,9 @@ export function Gallery({
                   position === index
                     ? "border-foreground"
                     : "border-border hover:border-foreground",
+                  /* Le fond du cadre : une miniature au format PNG laisse
+                     voir ce qu'il y a dessous par ses zones transparentes. */
+                  "bg-background",
                 )}
               >
                 <Image

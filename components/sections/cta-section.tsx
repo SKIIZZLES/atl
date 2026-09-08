@@ -44,7 +44,7 @@ export function CTASection({
         sizes="100vw"
         className="object-cover object-center"
       />
-      <div className="absolute inset-0 bg-linear-to-r from-background via-background/80 to-background/15" />
+      <div className="voile-photo absolute inset-0" />
 
       <div className="shell section-y relative text-foreground">
         <Reveal className="max-w-xl">

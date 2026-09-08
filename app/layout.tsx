@@ -78,7 +78,7 @@ export const viewport: Viewport = {
   colorScheme: "dark",
   // Le fond du site. Recopié à la main, et il avait dérivé : il valait encore
   // le noir d'avant la palette neutre.
-  themeColor: "#050505",
+  themeColor: "#000000",
 };
 
 export default async function RootLayout({
@@ -113,12 +113,12 @@ export default async function RootLayout({
          La déclaration ci-dessous s'efface devant le jeton quand il est là,
          et ne sert que de canot de sauvetage quand il manque : aucune valeur
          à tenir à jour, contrairement aux deux qui avaient déjà dérivé. */
-      style={{ backgroundColor: "var(--background, #050505)" }}
+      style={{ backgroundColor: "var(--background, #000000)" }}
     >
       <body
         className="bg-background font-sans text-foreground antialiased"
         style={{
-          backgroundColor: "var(--background, #050505)",
+          backgroundColor: "var(--background, #000000)",
           color: "var(--foreground, #f5f5f5)",
         }}
       >
@@ -133,7 +133,10 @@ export default async function RootLayout({
           {/* Le fond est posé explicitement ici aussi : `html` et `body` le
               portent déjà, mais une section sans fond déclaré hériterait
               sinon du blanc du navigateur si l'un des deux venait à sauter. */}
-          <main className="min-h-screen bg-background text-foreground">
+          <main
+            className="min-h-screen bg-background text-foreground"
+            style={{ backgroundColor: "var(--background, #000000)" }}
+          >
             {children}
           </main>
           <Footer collections={navCollections} />
