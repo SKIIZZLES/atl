@@ -14,17 +14,23 @@ function SubmitButton({
   availableForSale: boolean;
   selectedVariantId: string | undefined;
 }) {
+  // La forme, sans couleur de fond : deux classes de fond sur le même
+  // élément se départageraient par leur ordre d'émission dans la feuille de
+  // style, pas par l'ordre où on les écrit. Chaque état pose donc le sien,
+  // et un seul à la fois.
+  const shape =
+    "type-button flex h-[52px] w-full items-center justify-center transition-colors duration-500 ease-onde md:h-14";
   // L'action principale de la fiche : fond or, texte noir. Elle était en
   // ivoire pleine largeur — un bloc clair au milieu d'une page sombre, et
   // le seul aplat de cette taille sur tout l'écran.
-  const buttonClasses =
-    "type-button flex h-[52px] w-full items-center justify-center bg-signal text-background transition-colors duration-500 ease-onde md:h-14";
-  const disabledClasses =
-    "cursor-not-allowed bg-border-control text-foreground/60 hover:bg-border-control";
+  const enabled = "bg-signal text-background hover:bg-brass";
+  // Épuisé, ou taille non choisie : contour et texte éteint, pas un aplat.
+  const disabled =
+    "cursor-not-allowed border border-border-control text-muted-foreground";
 
   if (!availableForSale) {
     return (
-      <button disabled className={clsx(buttonClasses, disabledClasses)}>
+      <button disabled className={clsx(shape, disabled)}>
         Épuisé
       </button>
     );
@@ -35,7 +41,7 @@ function SubmitButton({
       <button
         aria-label="Merci de sélectionner une option"
         disabled
-        className={clsx(buttonClasses, disabledClasses)}
+        className={clsx(shape, disabled)}
       >
         Ajouter au panier
       </button>
@@ -43,10 +49,7 @@ function SubmitButton({
   }
 
   return (
-    <button
-      aria-label="Ajouter au panier"
-      className={clsx(buttonClasses, "hover:bg-brass")}
-    >
+    <button aria-label="Ajouter au panier" className={clsx(shape, enabled)}>
       Ajouter au panier
     </button>
   );
