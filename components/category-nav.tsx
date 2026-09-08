@@ -1,11 +1,17 @@
 import clsx from "clsx";
 import Link from "next/link";
 
+/**
+ * Ces libellés ne sont pas décoratifs : `/search?category=` interroge Shopify
+ * avec `product_type:"<libellé>"`. Toute entrée ajoutée ici doit exister mot
+ * pour mot dans le champ « type de produit » d'au moins un article, sinon le
+ * filtre renvoie une page vide.
+ */
 export const CATEGORIES = [
   "T-Shirts",
   "Hoodies & Sweats",
+  "Pantalons",
   "Vestes & Manteaux",
-  "Ensembles",
   "Robes",
   "Accessoires",
 ] as const;
