@@ -1,6 +1,9 @@
-import { ART } from "lib/art-direction";
+"use client";
+
+import { HERO_SLIDES } from "lib/art-direction";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 /**
  * Les cinq mots posés dans la marge droite. Ce ne sont pas des liens : c'est
@@ -9,38 +12,82 @@ import Link from "next/link";
  */
 const FIELD = ["Vêtements", "Culture", "Transmission", "Diaspora", "Demain"];
 
+/** Assez lent pour qu'on ait le temps de lire, assez court pour qu'on voie
+ *  qu'il y a une suite. */
+const INTERVAL_MS = 6000;
+
 export function Hero() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    // Un défilement automatique est du confort ; pour qui le supporte mal,
+    // c'est un symptôme. On ne le ralentit pas, on ne le lance pas.
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (reduced.matches) return;
+
+    const id = window.setInterval(
+      () => setIndex((current) => (current + 1) % HERO_SLIDES.length),
+      INTERVAL_MS,
+    );
+    return () => window.clearInterval(id);
+  }, []);
+
   return (
     // La maquette pose le hero à 2,26:1. En viewport haut, une hauteur libre
     // le rendait bien plus profond, ce qui écrasait le titre en proportion —
     // d'où le ratio explicite dès le desktop, borné pour les très grands
     // écrans. Sur mobile la composition se recompose en hauteur d'écran.
     <section className="relative flex min-h-[88svh] items-center overflow-hidden bg-brun md:aspect-9/4 md:min-h-[620px] md:max-h-[880px]">
-      {/* Deux sources, pas une image redimensionnée : le fichier large est en
-          2,36:1, l'écran d'un téléphone en 1:2 environ. Recadré en `cover` il
-          n'en resterait qu'une tranche verticale, tignon coupé. `hidden
-          md:block` et non `md:inline` — à spécificité égale Tailwind tranche
-          par l'ordre d'émission, et `.hidden` sort avant `.inline`. */}
-      <div className="absolute inset-0 md:hidden">
-        <Image
-          src={ART.heroPortrait.url}
-          alt={ART.heroPortrait.alt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-      </div>
-      <div className="absolute inset-0 hidden md:block">
-        <Image
-          src={ART.hero.url}
-          alt={ART.hero.alt}
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center"
-        />
-      </div>
+      {HERO_SLIDES.map((slide, position) => {
+        const active = position === index;
+        return (
+          <div
+            key={slide.handle}
+            aria-hidden={!active}
+            className="absolute inset-0 transition-opacity duration-1000 ease-out"
+            style={{ opacity: active ? 1 : 0 }}
+          >
+            {/* Deux sources, pas une image redimensionnée : le fichier large
+                est en 2,36:1, l'écran d'un téléphone en 1:2 environ. Recadré
+                en `cover` il n'en resterait qu'une tranche verticale. Tant
+                qu'un chapitre n'a pas son cadrage vertical, il retombe sur le
+                large — moins bon, mais jamais vide. */}
+            {slide.portrait ? (
+              <>
+                <div className="absolute inset-0 md:hidden">
+                  <Image
+                    src={slide.portrait.url}
+                    alt={slide.portrait.alt}
+                    fill
+                    priority={position === 0}
+                    sizes="100vw"
+                    className="object-cover object-center"
+                  />
+                </div>
+                <div className="absolute inset-0 hidden md:block">
+                  <Image
+                    src={slide.wide.url}
+                    alt={slide.wide.alt}
+                    fill
+                    priority={position === 0}
+                    sizes="100vw"
+                    className="object-cover object-center"
+                  />
+                </div>
+              </>
+            ) : (
+              <Image
+                src={slide.wide.url}
+                alt={slide.wide.alt}
+                fill
+                sizes="100vw"
+                className="object-cover object-center"
+              />
+            )}
+          </div>
+        );
+      })}
+
       {/* Dégradé latéral, pas vertical : le texte occupe la moitié gauche et
           le sujet la droite. Un voile du bas éteindrait le visage. */}
       <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/75 to-brun/5" />
@@ -82,15 +129,33 @@ export function Hero() {
         </ul>
       </div>
 
-      {/* Le repère de la maquette. Décoratif : il n'y a qu'un visuel de hero,
-          donc rien à faire défiler. Le jour où il y en a trois, il devient
-          l'index d'un vrai carrousel — d'ici là il ne prétend pas l'être. */}
-      <div
-        aria-hidden
-        className="absolute bottom-8 left-5 flex items-center gap-4 md:bottom-10 md:left-10"
-      >
-        <span className="label-xs text-brun-foreground/60">01 / 03</span>
-        <span className="block h-px w-20 bg-brun-foreground/30" />
+      {/* Le repère de la maquette, devenu réel : il indexe le défilé et
+          permet d'y naviguer. La barre se remplit à la position courante. */}
+      <div className="absolute bottom-8 left-5 flex items-center gap-4 md:bottom-10 md:left-10">
+        <span className="label-xs tabular-nums text-brun-foreground/60">
+          {String(index + 1).padStart(2, "0")} /{" "}
+          {String(HERO_SLIDES.length).padStart(2, "0")}
+        </span>
+        <div className="flex items-center gap-1.5">
+          {HERO_SLIDES.map((slide, position) => (
+            <button
+              key={slide.handle}
+              type="button"
+              onClick={() => setIndex(position)}
+              aria-label={`Vue ${position + 1} sur ${HERO_SLIDES.length}`}
+              aria-current={position === index}
+              className="group py-3"
+            >
+              <span
+                className={
+                  position === index
+                    ? "block h-px w-10 bg-brun-foreground transition-colors duration-300"
+                    : "block h-px w-10 bg-brun-foreground/25 transition-colors duration-300 group-hover:bg-brun-foreground/60"
+                }
+              />
+            </button>
+          ))}
+        </div>
       </div>
     </section>
   );

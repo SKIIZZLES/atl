@@ -22,6 +22,52 @@ export type ArtDirectionSlot = {
 
 const FILES = "https://cdn.shopify.com/s/files/1/1088/9438/8549/files";
 
+/**
+ * Les trois vues du hero. Le repère « 01 / 03 » de la maquette ne pilotait
+ * rien tant qu'il n'y avait qu'un visuel ; il indexe maintenant un vrai
+ * défilé, un chapitre par vue.
+ *
+ * `portrait` est de la direction artistique, pas du redimensionnement : sur
+ * un téléphone le cadre est proche du 1:2, et un fichier large y perdrait
+ * son sujet. Là où le portrait manque, on retombe sur le cadrage large —
+ * moins bon, mais jamais vide.
+ */
+export type HeroSlide = {
+  handle: string;
+  wide: ArtDirectionSlot;
+  portrait?: ArtDirectionSlot;
+};
+
+export const HERO_SLIDES: HeroSlide[] = [
+  {
+    handle: "le-tignon",
+    wide: {
+      url: `${FILES}/Portrait_cinematographique_ultra_realiste_d_une_femme_noire_africaine_portant_un_immense_tignon_noir.png?v=1788820473`,
+      alt: "Femme portant un immense tignon noir orné de motifs dorés, cadrage cinématographique en lumière chaude",
+    },
+    portrait: {
+      url: `${FILES}/Portrait_de_profil_d_une_femme_noire_portant_un_tignon_noir_orne_de_motifs_dores_cheveux_naturels_l.png?v=1788820474`,
+      alt: "Femme de profil portant un tignon noir orné de motifs dorés, cheveux naturels",
+    },
+  },
+  {
+    handle: "n-gri-tud",
+    // Pas encore de cadrage vertical pour ce chapitre.
+    wide: {
+      url: `${FILES}/Homme_noir_portant_un_hoodie_noir_premium_avec_capuche_relevee_visage_partiellement_plonge_dans_l_o_84dcf57f-d1e5-4d1c-b0cf-ed3f48bf028b.png?v=1788820473`,
+      alt: "Homme portant un hoodie noir premium, capuche relevée, visage partiellement dans l'ombre",
+    },
+  },
+  {
+    handle: "transmission-001",
+    // Pas encore de cadrage vertical pour ce chapitre.
+    wide: {
+      url: `${FILES}/Homme_noir_africain_contemporain_portant_un_hoodie_noir_premium_oversize_vu_de_trois-quarts_dos_to_4caeb02f-ee86-405e-bf14-469d9fa985cc.png?v=1788820475`,
+      alt: "Homme portant un hoodie noir premium oversize, vu de trois-quarts dos",
+    },
+  },
+];
+
 export const ART = {
   /**
    * Hero — femme seule, tignon noir et or, fond minéral, lumière chaude.
