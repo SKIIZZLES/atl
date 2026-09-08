@@ -96,7 +96,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           </div>
 
           <Link
-            href="/stories"
+            href="/manifeste"
             className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
           >
             Manifeste
@@ -112,7 +112,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
             Journal
           </span>
           <Link
-            href="/#manifeste"
+            href="/a-propos"
             className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
           >
             À propos
@@ -185,14 +185,14 @@ export function Header({ collections }: { collections: NavCollection[] }) {
               ))}
             </div>
             <Link
-              href="/stories"
+              href="/manifeste"
               onClick={() => setIsMenuOpen(false)}
               className="headline text-3xl"
             >
               Stories
             </Link>
             <Link
-              href="/#manifeste"
+              href="/a-propos"
               onClick={() => setIsMenuOpen(false)}
               className="headline text-3xl"
             >

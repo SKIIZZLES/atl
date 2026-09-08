@@ -16,14 +16,31 @@ export function Hero() {
     // d'où le ratio explicite dès le desktop, borné pour les très grands
     // écrans. Sur mobile la composition se recompose en hauteur d'écran.
     <section className="relative flex min-h-[88svh] items-center overflow-hidden bg-brun md:aspect-9/4 md:min-h-[620px] md:max-h-[880px]">
-      <Image
-        src={ART.hero.url}
-        alt={ART.hero.alt}
-        fill
-        priority
-        sizes="100vw"
-        className="object-cover object-center"
-      />
+      {/* Deux sources, pas une image redimensionnée : le fichier large est en
+          2,36:1, l'écran d'un téléphone en 1:2 environ. Recadré en `cover` il
+          n'en resterait qu'une tranche verticale, tignon coupé. `hidden
+          md:block` et non `md:inline` — à spécificité égale Tailwind tranche
+          par l'ordre d'émission, et `.hidden` sort avant `.inline`. */}
+      <div className="absolute inset-0 md:hidden">
+        <Image
+          src={ART.heroPortrait.url}
+          alt={ART.heroPortrait.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
+      <div className="absolute inset-0 hidden md:block">
+        <Image
+          src={ART.hero.url}
+          alt={ART.hero.alt}
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
+      </div>
       {/* Dégradé latéral, pas vertical : le texte occupe la moitié gauche et
           le sujet la droite. Un voile du bas éteindrait le visage. */}
       <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/75 to-brun/5" />

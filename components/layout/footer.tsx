@@ -89,10 +89,10 @@ export default async function Footer({
 
             <div className="flex flex-col gap-4">
               <span className="label-xs text-muted-foreground/60">Maison</span>
-              <Link href="/stories" className={LINK_CLASS}>
+              <Link href="/manifeste" className={LINK_CLASS}>
                 Manifeste
               </Link>
-              <Link href="/#manifeste" className={LINK_CLASS}>
+              <Link href="/a-propos" className={LINK_CLASS}>
                 À propos
               </Link>
             </div>

@@ -138,7 +138,7 @@ export default async function HomePage() {
               et une identité en constante évolution.
             </p>
             <Link
-              href="/stories"
+              href="/manifeste"
               className="label-xs mt-10 inline-flex items-center gap-3 border-b border-terre-foreground/50 pb-2 text-terre-foreground transition-colors duration-300 hover:border-terre-foreground"
             >
               Lire le manifeste →

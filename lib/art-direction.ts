@@ -34,6 +34,17 @@ export const ART = {
   },
 
   /**
+   * Hero, version mobile. Direction artistique, pas simple redimensionnement :
+   * le fichier large fait 2,36:1, un écran de téléphone environ 1:2. En
+   * `object-cover` il ne resterait qu'une tranche verticale de l'image, le
+   * tignon coupé en haut. Ce portrait 768 × 1376 tient le cadre mobile.
+   */
+  heroPortrait: {
+    url: `${FILES}/Portrait_de_profil_d_une_femme_noire_portant_un_tignon_noir_orne_de_motifs_dores_cheveux_naturels_l.png?v=1788820474`,
+    alt: "Femme de profil portant un tignon noir orné de motifs dorés, cheveux naturels",
+  },
+
+  /**
    * Manifeste — même univers, cadrage paysage.
    * 1408 × 768, soit 1,83:1, recadré en 3:2 comme la maquette.
    */
