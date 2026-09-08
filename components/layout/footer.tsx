@@ -56,7 +56,7 @@ export default async function Footer({
 
           <div className="flex flex-col gap-10 sm:flex-row sm:gap-20">
             <nav aria-label="Shop" className="flex flex-col gap-4">
-              <span className="type-label text-muted-foreground/60">Shop</span>
+              <span className="type-label text-foreground">Shop</span>
               {collections.map((collection) => (
                 <Link
                   key={collection.handle}
@@ -75,7 +75,7 @@ export default async function Footer({
             </nav>
 
             <nav aria-label="Aide" className="flex flex-col gap-4">
-              <span className="type-label text-muted-foreground/60">Aide</span>
+              <span className="type-label text-foreground">Aide</span>
               {help.map((slug) => (
                 <Link
                   key={slug}
@@ -91,9 +91,7 @@ export default async function Footer({
             </nav>
 
             <div className="flex flex-col gap-4">
-              <span className="type-label text-muted-foreground/60">
-                Maison
-              </span>
+              <span className="type-label text-foreground">Maison</span>
               <Link href="/manifeste" className={LINK_CLASS}>
                 Manifeste
               </Link>
@@ -106,9 +104,7 @@ export default async function Footer({
             </div>
 
             <div className="flex flex-col gap-4">
-              <span className="type-label text-muted-foreground/60">
-                Réseaux
-              </span>
+              <span className="type-label text-foreground">Réseaux</span>
               <a
                 href="https://instagram.com/onde.noire"
                 target="_blank"
@@ -130,7 +126,7 @@ export default async function Footer({
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="type-label text-muted-foreground/60">
+          <p className="type-label text-muted-foreground">
             © {new Date().getFullYear()} Onde Noire
           </p>
           {legal.length > 0 ? (
@@ -142,7 +138,7 @@ export default async function Footer({
                 <Link
                   key={slug}
                   href={`/politiques/${slug}`}
-                  className="type-label text-muted-foreground/60 transition-colors duration-300 ease-onde hover:text-foreground"
+                  className="type-label text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground"
                 >
                   {POLICY_LABELS[slug]}
                 </Link>

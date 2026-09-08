@@ -1,6 +1,7 @@
 "use client";
 
 import CartModal from "components/cart/modal";
+import { useFocusTrap } from "components/ui/use-focus-trap";
 import clsx from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -32,7 +33,10 @@ export function Header({ collections }: { collections: NavCollection[] }) {
   const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const collectionsRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+
+  useFocusTrap(menuRef, isMenuOpen);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
@@ -209,6 +213,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           c'est la page qui se déplie, pas une fenêtre d'un autre site. */}
       {isMenuOpen ? (
         <div
+          ref={menuRef}
           role="dialog"
           aria-modal="true"
           aria-label="Menu"

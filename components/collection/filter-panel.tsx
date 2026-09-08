@@ -10,7 +10,8 @@ import {
 } from "lib/collection-filters";
 import { sorting } from "lib/constants";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useFocusTrap } from "components/ui/use-focus-trap";
 
 /**
  * Les filtres d'une page collection.
@@ -118,7 +119,7 @@ function FacetGroup({
                 >
                   {label}
                 </span>
-                <span className="type-label ml-auto text-muted-foreground/60">
+                <span className="type-label ml-auto text-muted-foreground">
                   {entry.count}
                 </span>
               </label>
@@ -228,7 +229,10 @@ export function FilterDrawer({
   count: number;
 }) {
   const [open, setOpen] = useState(false);
+  const drawerRef = useRef<HTMLDivElement>(null);
   const active = Object.values(selection).flat().length;
+
+  useFocusTrap(drawerRef, open);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -261,6 +265,7 @@ export function FilterDrawer({
 
       {open ? (
         <div
+          ref={drawerRef}
           role="dialog"
           aria-modal="true"
           aria-label="Filtres"

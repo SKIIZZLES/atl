@@ -156,6 +156,11 @@ export function VariantSelector({
                         isActive,
                       "hover:border-foreground":
                         !isActive && isAvailableForSale,
+                      // Contraste volontairement bas : WCAG 1.4.3 exempte
+                      // les contrôles désactivés, et c'est justement ce
+                      // qu'on veut dire — cette taille n'est pas
+                      // disponible. Le trait barré le dit aussi, pour qui
+                      // ne distingue pas la nuance.
                       "relative cursor-not-allowed overflow-hidden text-muted-foreground/40 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-border":
                         !isAvailableForSale,
                     },

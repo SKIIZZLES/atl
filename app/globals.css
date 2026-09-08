@@ -153,9 +153,15 @@
   }
 }
 
+/* Le liseré de focus, sur tout ce qui se manipule au clavier. `select` et
+   `textarea` en étaient absents : le tri d'une collection se sélectionnait
+   sans qu'on voie où l'on était. */
 a,
 input,
-button {
+select,
+textarea,
+button,
+[tabindex] {
   @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }
 

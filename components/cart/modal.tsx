@@ -91,7 +91,7 @@ export default function CartModal() {
                   <p className="type-label text-muted-foreground">
                     Panier vide
                   </p>
-                  <p className="max-w-xs text-sm leading-relaxed text-muted-foreground/70">
+                  <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
                     Chaque pièce est éditée en série courte. Parcourez les
                     collections pour commencer votre archive.
                   </p>
@@ -205,7 +205,7 @@ export default function CartModal() {
                         currencyCode={cart.cost.subtotalAmount.currencyCode}
                       />
                     </div>
-                    <p className="mt-2 text-xs text-muted-foreground/60">
+                    <p className="mt-2 text-xs text-muted-foreground">
                       Livraison et taxes calculées au paiement.
                     </p>
                     <form action={redirectToCheckout}>

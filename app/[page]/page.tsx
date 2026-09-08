@@ -35,7 +35,7 @@ export default async function Page(props: {
     <>
       <h1 className="type-h1">{page.title}</h1>
       <Prose className="mt-10" html={page.body} />
-      <p className="type-label mt-16 border-t border-border pt-6 text-muted-foreground/60">
+      <p className="type-label mt-16 border-t border-border pt-6 text-muted-foreground">
         {`Mis à jour le ${new Intl.DateTimeFormat("fr-FR", {
           year: "numeric",
           month: "long",
