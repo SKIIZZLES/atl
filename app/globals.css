@@ -252,6 +252,23 @@ button,
   letter-spacing: -0.02em;
 }
 
+/* TITRE DE MANIFESTE — l'ouverture d'une page de récit.
+   Deux régimes plutôt qu'une seule courbe : sur téléphone le titre doit
+   pouvoir occuper l'écran, sur grand écran il doit rester un titre et pas
+   une affiche. Les bornes sont celles de la charte. */
+@utility type-manifesto-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(2.375rem, 12vw, 4rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+
+  @media (width >= 768px) {
+    font-size: clamp(3.25rem, 7vw, 6.875rem);
+  }
+}
+
 /* PRIX de la fiche produit — le chiffre qu'on cherche des yeux. Sur la
    carte d'une grille il reste petit ; ici il porte la décision. */
 @utility type-price-lg {

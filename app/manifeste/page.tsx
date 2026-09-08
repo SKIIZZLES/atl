@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+
+import { Arrow, Button } from "components/ui/button";
+import { ART } from "lib/art-direction";
 
 import {
   axes,
@@ -76,7 +80,7 @@ function ProseSection({
           : "scroll-mt-24 border-t border-border"
       }
     >
-      <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+      <div className="shell py-20 md:py-28">
         <div className="grid gap-12 md:grid-cols-12 md:gap-16">
           <SectionRail numeral={section.numeral} title={section.title} />
           <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -110,35 +114,53 @@ function sectionById(id: string): Section {
 
 export default function StoriesPage() {
   return (
-    <div className="pt-28 md:pt-36">
-      {/* Ouverture */}
-      <header className="mx-auto max-w-[1600px] px-5 md:px-10">
-        <p className="type-label text-signal">Onde Noire — Stories</p>
-        <h1 className="headline mt-5 max-w-5xl text-[11vw] leading-[0.9] md:text-[6vw]">
-          {opening.title}
-        </h1>
-        <div className="mt-12 grid gap-12 md:grid-cols-12 md:gap-16">
-          <div className="md:col-span-4 lg:col-span-3">
-            <p className="type-label text-muted-foreground">
-              Mémoire · Culture · Avenir
-            </p>
-          </div>
-          <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
-            <p className="editorial text-2xl leading-snug md:text-3xl">
-              {opening.standfirst}
-            </p>
-            <div className="mt-10">
-              <Blocks blocks={opening.blocks} />
+    <div>
+      {/* Ouverture — la seule section de la page qui porte une image.
+          Trois couches, dans cet ordre : la photographie, le voile, le
+          texte. Le fond noir est posé sur la section elle-même, pas laissé
+          à l'image : si elle ne charge pas, l'ouverture reste sombre au
+          lieu de découvrir un vide clair. */}
+      <header className="relative isolate overflow-hidden bg-brun pt-28 pb-20 md:pt-36 md:pb-28">
+        <Image
+          src={ART.manifesto.url}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="z-0 object-cover object-center opacity-60"
+        />
+        {/* Voile descendant : l'image respire en haut, le texte se pose sur
+            du presque noir en bas. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-10 bg-linear-to-b from-brun/25 to-brun/95"
+        />
+        <div className="shell relative z-20">
+          <p className="type-label text-signal">Onde Noire — Stories</p>
+          <h1 className="type-manifesto-title mt-5 max-w-5xl">
+            {opening.title}
+          </h1>
+          <div className="mt-12 grid gap-12 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4 lg:col-span-3">
+              <p className="type-label text-muted-foreground">
+                Mémoire · Culture · Avenir
+              </p>
+            </div>
+            <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
+              <p className="editorial text-2xl leading-snug md:text-3xl">
+                {opening.standfirst}
+              </p>
+              <div className="mt-10">
+                <Blocks blocks={opening.blocks} />
+              </div>
             </div>
           </div>
         </div>
       </header>
 
       {/* Sommaire */}
-      <nav
-        aria-label="Sommaire"
-        className="mx-auto mt-20 max-w-[1600px] px-5 md:px-10"
-      >
+      <nav aria-label="Sommaire" className="shell mt-20">
         <p className="type-label text-muted-foreground">Sommaire</p>
         <ul className="mt-8 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
           {summary.map((entry) => (
@@ -169,7 +191,7 @@ export default function StoriesPage() {
         id="les-chapitres"
         className="scroll-mt-24 border-t border-border"
       >
-        <div className="mx-auto max-w-[1600px] px-5 pt-20 md:px-10 md:pt-28">
+        <div className="shell pt-20 md:pt-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="IV" title="Les chapitres" />
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -191,7 +213,7 @@ export default function StoriesPage() {
           key={chapter.handle}
           className={i % 2 === 1 ? "bg-card text-card-foreground" : undefined}
         >
-          <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+          <div className="shell py-20 md:py-28">
             <div className="grid gap-12 md:grid-cols-12 md:gap-16">
               {/* Colonne de repère : index, date, lieu */}
               <div className="md:col-span-4 lg:col-span-3">
@@ -245,7 +267,7 @@ export default function StoriesPage() {
         id="futurisme-sobre"
         className="scroll-mt-24 bg-card text-card-foreground"
       >
-        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+        <div className="shell py-20 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="V" title="Le futurisme sobre" />
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -304,7 +326,7 @@ export default function StoriesPage() {
 
       {/* VIII — Nos principes */}
       <section id="principes" className="scroll-mt-24 border-t border-border">
-        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+        <div className="shell py-20 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="VIII" title="Nos principes" />
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -342,7 +364,7 @@ export default function StoriesPage() {
         id="n-est-pas"
         className="scroll-mt-24 bg-card text-card-foreground"
       >
-        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+        <div className="shell py-20 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="IX" title="Onde Noire n'est pas" />
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -369,7 +391,7 @@ export default function StoriesPage() {
 
       {/* Clôture */}
       <section className="bg-brun text-brun-foreground">
-        <div className="mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-32">
+        <div className="shell py-24 md:py-32">
           <p className="headline max-w-4xl text-3xl leading-[1.05] md:text-6xl">
             Ce qui a été oublié n&apos;a pas disparu.
             <br />
@@ -398,12 +420,12 @@ export default function StoriesPage() {
                   viennent ses références.
                 </p>
               </div>
-              <Link
-                href="/search"
-                className="type-label mt-12 inline-flex items-center gap-3 border border-brun-foreground px-5 py-3 text-brun-foreground transition-colors duration-300 hover:bg-brun-foreground hover:text-brun"
-              >
-                Voir le shop →
-              </Link>
+              <div className="mt-12">
+                <Button href="/search" variant="secondary" className="group">
+                  Voir le shop
+                  <Arrow />
+                </Button>
+              </div>
             </div>
           </div>
         </div>

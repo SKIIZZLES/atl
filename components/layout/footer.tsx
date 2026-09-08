@@ -54,7 +54,12 @@ export default async function Footer({
             </p>
           </div>
 
-          <div className="flex flex-col gap-10 sm:flex-row sm:gap-20">
+          {/* Les quatre colonnes passaient en ligne dès 640 px avec un écart
+              de 80 px : à 768 px elles dépassaient de 53 px, et la page
+              entière défilait latéralement. Elles s'enroulent désormais, et
+              l'écart s'ouvre avec la place disponible au lieu d'être posé
+              d'avance. */}
+          <div className="flex flex-wrap gap-x-12 gap-y-10 sm:gap-x-16 lg:gap-x-20">
             <nav aria-label="Shop" className="flex flex-col gap-4">
               <span className="type-label text-foreground">Shop</span>
               {collections.map((collection) => (
