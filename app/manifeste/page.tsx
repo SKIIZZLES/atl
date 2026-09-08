@@ -113,13 +113,13 @@ export default function StoriesPage() {
     <div className="pt-28 md:pt-36">
       {/* Ouverture */}
       <header className="mx-auto max-w-[1600px] px-5 md:px-10">
-        <p className="label-xs text-signal">Onde Noire — Stories</p>
+        <p className="type-label text-signal">Onde Noire — Stories</p>
         <h1 className="headline mt-5 max-w-5xl text-[11vw] leading-[0.9] md:text-[6vw]">
           {opening.title}
         </h1>
         <div className="mt-12 grid gap-12 md:grid-cols-12 md:gap-16">
           <div className="md:col-span-4 lg:col-span-3">
-            <p className="label-xs text-muted-foreground">
+            <p className="type-label text-muted-foreground">
               Mémoire · Culture · Avenir
             </p>
           </div>
@@ -139,7 +139,7 @@ export default function StoriesPage() {
         aria-label="Sommaire"
         className="mx-auto mt-20 max-w-[1600px] px-5 md:px-10"
       >
-        <p className="label-xs text-muted-foreground">Sommaire</p>
+        <p className="type-label text-muted-foreground">Sommaire</p>
         <ul className="mt-8 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
           {summary.map((entry) => (
             <li key={entry.id} className="bg-background">
@@ -147,7 +147,7 @@ export default function StoriesPage() {
                 href={`#${entry.id}`}
                 className="flex h-full flex-col gap-3 p-5 transition-colors duration-300 hover:bg-card"
               >
-                <span className="label-xs text-signal">{entry.numeral}</span>
+                <span className="type-label text-signal">{entry.numeral}</span>
                 <span className="text-sm text-foreground">{entry.title}</span>
               </a>
             </li>
@@ -203,17 +203,17 @@ export default function StoriesPage() {
                 </h3>
                 <dl className="mt-8 space-y-3">
                   <div>
-                    <dt className="label-xs text-muted-foreground">Date</dt>
-                    <dd className="label-xs mt-1">{chapter.period}</dd>
+                    <dt className="type-label text-muted-foreground">Date</dt>
+                    <dd className="type-label mt-1">{chapter.period}</dd>
                   </div>
                   <div>
-                    <dt className="label-xs text-muted-foreground">Lieu</dt>
-                    <dd className="label-xs mt-1">{chapter.place}</dd>
+                    <dt className="type-label text-muted-foreground">Lieu</dt>
+                    <dd className="type-label mt-1">{chapter.place}</dd>
                   </div>
                 </dl>
                 <Link
                   href={`/collections/${chapter.handle}`}
-                  className="label-xs mt-10 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
+                  className="type-label mt-10 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
                 >
                   Voir la collection →
                 </Link>
@@ -286,7 +286,7 @@ export default function StoriesPage() {
           <ul className="mt-16 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
             {axes.map((axis) => (
               <li key={axis.index} className="bg-terre p-8 md:p-10">
-                <p className="label-xs text-signal">{axis.index}</p>
+                <p className="type-label text-signal">{axis.index}</p>
                 <p className="headline mt-4 text-xl md:text-2xl">
                   {axis.title}
                 </p>
@@ -318,7 +318,7 @@ export default function StoriesPage() {
                     key={principle.title}
                     className="flex gap-6 py-8 md:gap-10"
                   >
-                    <span className="label-xs mt-1 shrink-0 text-signal">
+                    <span className="type-label mt-1 shrink-0 text-signal">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div>
@@ -375,13 +375,13 @@ export default function StoriesPage() {
             <br />
             Nous sommes encore en transmission.
           </p>
-          <p className="label-xs mt-10 text-signal">
+          <p className="type-label mt-10 text-signal">
             Mémoire · Culture · Avenir
           </p>
 
           <div className="mt-20 grid gap-12 border-t border-border pt-12 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4 lg:col-span-3">
-              <p className="label-xs text-muted-foreground">La marque</p>
+              <p className="type-label text-muted-foreground">La marque</p>
             </div>
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
               <div className="space-y-6 text-base leading-relaxed text-brun-foreground/75 md:text-lg">
@@ -400,7 +400,7 @@ export default function StoriesPage() {
               </div>
               <Link
                 href="/search"
-                className="label-xs mt-12 inline-flex items-center gap-3 border border-brun-foreground px-5 py-3 text-brun-foreground transition-colors duration-300 hover:bg-brun-foreground hover:text-brun"
+                className="type-label mt-12 inline-flex items-center gap-3 border border-brun-foreground px-5 py-3 text-brun-foreground transition-colors duration-300 hover:bg-brun-foreground hover:text-brun"
               >
                 Voir le shop →
               </Link>

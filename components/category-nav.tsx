@@ -25,7 +25,7 @@ export function CategoryNav({ active }: { active?: string }) {
       <Link
         href="/search"
         className={clsx(
-          "label-xs shrink-0 border px-4 py-2.5 transition-colors duration-300",
+          "type-label shrink-0 border px-4 py-2.5 transition-colors duration-300",
           active
             ? "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
             : "border-foreground bg-foreground text-background",
@@ -38,7 +38,7 @@ export function CategoryNav({ active }: { active?: string }) {
           key={category}
           href={`/search?category=${encodeURIComponent(category)}`}
           className={clsx(
-            "label-xs shrink-0 border px-4 py-2.5 transition-colors duration-300",
+            "type-label shrink-0 border px-4 py-2.5 transition-colors duration-300",
             active === category
               ? "border-foreground bg-foreground text-background"
               : "border-border text-muted-foreground hover:border-foreground hover:text-foreground",

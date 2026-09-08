@@ -20,7 +20,7 @@ const LEGAL_SLUGS: PolicySlug[] = [
 ];
 
 const LINK_CLASS =
-  "text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground";
+  "type-body text-sm text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground";
 
 export default async function Footer({
   collections,
@@ -36,7 +36,7 @@ export default async function Footer({
   return (
     <footer>
       <WaveDivider color="var(--brass)" />
-      <div className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24">
+      <div className="shell py-16 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
             {/* Le lockup complet — monogramme, lettrage, signature — a la place
@@ -49,14 +49,14 @@ export default async function Footer({
               sizes="(min-width: 768px) 224px, 176px"
               className="h-auto w-44 md:w-56"
             />
-            <p className="label-xs mt-6 text-muted-foreground">
+            <p className="type-label mt-6 text-muted-foreground">
               Culture in motion
             </p>
           </div>
 
           <div className="flex flex-col gap-10 sm:flex-row sm:gap-20">
             <nav aria-label="Shop" className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">Shop</span>
+              <span className="type-label text-muted-foreground/60">Shop</span>
               {collections.map((collection) => (
                 <Link
                   key={collection.handle}
@@ -66,13 +66,16 @@ export default async function Footer({
                   {collection.title}
                 </Link>
               ))}
+              <Link href="/collections" className={LINK_CLASS}>
+                Toutes les collections
+              </Link>
               <Link href="/search" className={LINK_CLASS}>
                 Toutes les pièces
               </Link>
             </nav>
 
             <nav aria-label="Aide" className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">Aide</span>
+              <span className="type-label text-muted-foreground/60">Aide</span>
               {help.map((slug) => (
                 <Link
                   key={slug}
@@ -88,9 +91,14 @@ export default async function Footer({
             </nav>
 
             <div className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">Maison</span>
+              <span className="type-label text-muted-foreground/60">
+                Maison
+              </span>
               <Link href="/manifeste" className={LINK_CLASS}>
                 Manifeste
+              </Link>
+              <Link href="/journal" className={LINK_CLASS}>
+                Journal
               </Link>
               <Link href="/a-propos" className={LINK_CLASS}>
                 À propos
@@ -98,7 +106,9 @@ export default async function Footer({
             </div>
 
             <div className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">Réseaux</span>
+              <span className="type-label text-muted-foreground/60">
+                Réseaux
+              </span>
               <a
                 href="https://instagram.com/onde.noire"
                 target="_blank"
@@ -120,7 +130,7 @@ export default async function Footer({
         </div>
 
         <div className="mt-16 flex flex-col gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="label-xs text-muted-foreground/60">
+          <p className="type-label text-muted-foreground/60">
             © {new Date().getFullYear()} Onde Noire
           </p>
           {legal.length > 0 ? (
@@ -132,7 +142,7 @@ export default async function Footer({
                 <Link
                   key={slug}
                   href={`/politiques/${slug}`}
-                  className="label-xs text-muted-foreground/60 transition-colors duration-300 hover:text-foreground"
+                  className="type-label text-muted-foreground/60 transition-colors duration-300 ease-onde hover:text-foreground"
                 >
                   {POLICY_LABELS[slug]}
                 </Link>

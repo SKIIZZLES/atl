@@ -1,5 +1,7 @@
 "use client";
 
+import { Arrow, Button } from "components/ui/button";
+import { SectionLabel } from "components/ui/section-label";
 import { HERO_SLIDES } from "lib/art-direction";
 import Image from "next/image";
 import Link from "next/link";
@@ -45,7 +47,7 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
           <div
             key={slide.handle}
             aria-hidden={!active}
-            className="absolute inset-0 transition-opacity duration-1000 ease-out"
+            className="absolute inset-0 transition-opacity duration-1000 ease-onde"
             style={{ opacity: active ? 1 : 0 }}
           >
             {/* Deux sources, pas une image redimensionnée : le fichier large
@@ -96,33 +98,38 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
 
       <div className="relative mx-auto flex w-full max-w-[1600px] items-center gap-10 px-5 py-24 md:px-10">
         <div className="max-w-3xl">
-          <p className="label-xs text-brun-foreground/70">Culture in motion</p>
+          <SectionLabel
+            tone="muted"
+            className="border-transparent text-brun-foreground/70"
+          >
+            Culture in motion
+          </SectionLabel>
 
           {/* Le titre doit dominer : deux lignes à 10vw occupent environ 36 %
               de la hauteur du hero, la proportion relevée sur la maquette. */}
-          <h1 className="headline mt-6 text-[17vw] leading-[0.82] text-brun-foreground md:mt-8 md:text-[10vw]">
+          <h1 className="type-display mt-6 text-brun-foreground md:mt-8">
             Onde
             <br />
             Noire<span className="align-super text-[0.28em]">®</span>
           </h1>
 
-          <p className="label-xs mt-8 leading-loose text-brun-foreground/85 md:mt-10">
+          <p className="type-label mt-8 leading-loose text-brun-foreground/85 md:mt-10">
             Nous ne portons pas l&apos;histoire.
             <br />
             Nous la continuons.
           </p>
 
-          <Link
-            href="/#collections"
-            className="label-xs mt-8 inline-flex items-center gap-3 bg-signal px-6 py-4 text-background transition-colors duration-300 hover:bg-brass md:mt-10"
-          >
-            Entrer dans l&apos;onde →
-          </Link>
+          <div className="mt-8 md:mt-10">
+            <Button href="/#collections" className="group">
+              Entrer dans l&apos;onde
+              <Arrow />
+            </Button>
+          </div>
         </div>
 
         <ul
           aria-hidden
-          className="label-xs ml-auto hidden shrink-0 space-y-2 text-right text-brun-foreground/55 lg:block"
+          className="type-label ml-auto hidden shrink-0 space-y-2 text-right text-brun-foreground/55 lg:block"
         >
           {FIELD.map((word) => (
             <li key={word}>{word}</li>
@@ -135,13 +142,14 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
       <div className="absolute inset-x-5 bottom-8 md:inset-x-10 md:bottom-10">
         <Link
           href={`/collections/${current.handle}`}
-          className="label-xs inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
+          className="type-label group inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 ease-onde hover:border-signal"
         >
-          {labels[current.handle] ?? current.handle} →
+          {labels[current.handle] ?? current.handle}
+          <Arrow />
         </Link>
 
         <div className="mt-4 flex items-center gap-4">
-          <span className="label-xs tabular-nums text-brun-foreground/60">
+          <span className="type-label tabular-nums text-brun-foreground/60">
             {String(index + 1).padStart(2, "0")} /{" "}
             {String(HERO_SLIDES.length).padStart(2, "0")}
           </span>

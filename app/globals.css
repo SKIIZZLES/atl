@@ -272,18 +272,11 @@ button {
 }
 
 /* --------------------------------------------------------------------------
-   Alias historiques. Le site entier les utilise ; les repointer ici migre
-   toutes les pages d'un coup au lieu de disséminer la bascule.
+   Deux alias historiques, conservés parce que le manifeste et « À propos »
+   composent leurs titres à des tailles réglées à la main, page par page.
+   Ils ne fixent donc que la famille et la casse, pas la taille — le reste
+   du site passe par les niveaux nommés ci-dessus.
    -------------------------------------------------------------------------- */
-@utility label-xs {
-  font-family: var(--font-sans);
-  font-size: 0.6875rem;
-  font-weight: 500;
-  line-height: 1.2;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
 @utility headline {
   font-family: var(--font-display);
   font-weight: 400;

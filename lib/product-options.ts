@@ -63,3 +63,17 @@ export function sizeValues(product: Product): string[] {
   );
   return option?.values ?? [];
 }
+
+/**
+ * Coloris → visuel de la variante. La galerie s'en sert pour suivre le
+ * sélecteur : cliquer « Beige » ne doit pas laisser une pièce noire à
+ * l'écran.
+ */
+export function colorImageMap(product: Product): Record<string, string> {
+  const { swatches } = colorSwatches(product, Number.POSITIVE_INFINITY);
+  const map: Record<string, string> = {};
+  for (const swatch of swatches) {
+    if (swatch.url) map[swatch.value] = swatch.url;
+  }
+  return map;
+}

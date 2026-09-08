@@ -25,7 +25,7 @@ export function DeleteItemButton({
       <button
         type="submit"
         aria-label="Retirer du panier"
-        className="label-xs text-muted-foreground/60 transition-colors hover:text-foreground"
+        className="type-label text-muted-foreground/60 transition-colors hover:text-foreground"
       >
         Retirer
       </button>

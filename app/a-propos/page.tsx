@@ -19,14 +19,14 @@ export default function AProposPage() {
     <>
       <section className="border-b border-border">
         <div className="mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-32">
-          <p className="label-xs text-signal">À propos</p>
+          <p className="type-label text-signal">À propos</p>
           <h1 className="headline mt-6 max-w-4xl text-[13vw] leading-[0.88] md:text-[7vw]">
             Onde Noire<span className="align-super text-[0.28em]">®</span>
           </h1>
           <p className="editorial mt-10 max-w-2xl text-xl italic leading-relaxed text-muted-foreground md:text-2xl">
             {opening.standfirst}
           </p>
-          <p className="label-xs mt-10 text-signal">
+          <p className="type-label mt-10 text-signal">
             Mémoire · Culture · Avenir
           </p>
         </div>
@@ -35,7 +35,7 @@ export default function AProposPage() {
       <section className="bg-terre text-terre-foreground">
         <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 md:grid-cols-12 md:gap-16 md:px-10 md:py-28">
           <div className="md:col-span-4 lg:col-span-3">
-            <p className="label-xs text-terre-foreground/60">La maison</p>
+            <p className="type-label text-terre-foreground/60">La maison</p>
           </div>
           <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
             <div className="space-y-6 text-base leading-relaxed text-terre-foreground/80 md:text-lg">
@@ -64,7 +64,7 @@ export default function AProposPage() {
 
       <section className="border-b border-border">
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
-          <p className="label-xs text-signal">Le futurisme sobre</p>
+          <p className="type-label text-signal">Le futurisme sobre</p>
           <h2 className="editorial mt-6 max-w-3xl text-3xl leading-[1.1] md:text-5xl">
             Cinq axes, et rien qui ne serve la transmission.
           </h2>
@@ -72,7 +72,7 @@ export default function AProposPage() {
           <ul className="mt-14 grid gap-px bg-border md:grid-cols-2">
             {axes.map((axis) => (
               <li key={axis.index} className="bg-background p-8 md:p-10">
-                <p className="label-xs text-signal">{axis.index}</p>
+                <p className="type-label text-signal">{axis.index}</p>
                 <h3 className="headline mt-4 text-xl md:text-2xl">
                   {axis.title}
                 </h3>
@@ -87,7 +87,7 @@ export default function AProposPage() {
 
       <section className="bg-terre text-terre-foreground">
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
-          <p className="label-xs text-terre-foreground/60">Nos principes</p>
+          <p className="type-label text-terre-foreground/60">Nos principes</p>
           <dl className="mt-12 grid gap-10 md:grid-cols-2 md:gap-x-16 md:gap-y-12">
             {principles.map((principle) => (
               <div key={principle.title}>
@@ -105,7 +105,7 @@ export default function AProposPage() {
 
       <section>
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
-          <p className="label-xs text-signal">Onde Noire n&apos;est pas</p>
+          <p className="type-label text-signal">Onde Noire n&apos;est pas</p>
           <ul className="mt-10 max-w-3xl divide-y divide-border border-y border-border">
             {refusals.map((refusal) => (
               <li
@@ -129,13 +129,13 @@ export default function AProposPage() {
           <div className="mt-12 flex flex-col gap-4 sm:flex-row">
             <Link
               href="/manifeste"
-              className="label-xs inline-flex items-center gap-3 bg-signal px-6 py-4 text-background transition-colors duration-300 hover:bg-brass"
+              className="type-label inline-flex items-center gap-3 bg-signal px-6 py-4 text-background transition-colors duration-300 hover:bg-brass"
             >
               Lire le manifeste →
             </Link>
             <Link
               href="/search"
-              className="label-xs inline-flex items-center gap-3 border border-brun-foreground px-6 py-4 text-brun-foreground transition-colors duration-300 hover:bg-brun-foreground hover:text-brun"
+              className="type-label inline-flex items-center gap-3 border border-brun-foreground px-6 py-4 text-brun-foreground transition-colors duration-300 hover:bg-brun-foreground hover:text-brun"
             >
               Voir le shop →
             </Link>

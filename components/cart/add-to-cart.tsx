@@ -15,7 +15,7 @@ function SubmitButton({
   selectedVariantId: string | undefined;
 }) {
   const buttonClasses =
-    "label-xs flex w-full items-center justify-center bg-foreground py-4 text-background transition-opacity duration-300";
+    "type-label flex w-full items-center justify-center bg-foreground py-4 text-background transition-opacity duration-300";
   const disabledClasses = "cursor-not-allowed opacity-40 hover:opacity-40";
 
   if (!availableForSale) {

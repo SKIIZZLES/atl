@@ -1,13 +1,25 @@
 import { ProductCard } from "components/product-card";
 import { Gallery } from "components/product/gallery";
-import { orderProductImages } from "lib/product-images";
-import { ProductDescription } from "components/product/product-description";
+import { ProductInfo } from "components/product/product-info";
+import { CTASection } from "components/sections/cta-section";
+import { EditorialSection } from "components/sections/editorial-section";
+import { Breadcrumb } from "components/ui/breadcrumb";
+import { ART, HERO_SLIDES } from "lib/art-direction";
+import {
+  collectionPages,
+  collectionStories,
+  isOfficialHandle,
+} from "lib/collection-copy";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
-import { collectionStories } from "lib/collection-copy";
-import { getProduct, getProductRecommendations } from "lib/shopify";
-import type { Image } from "lib/shopify/types";
+import { orderProductImages, sizeGuideImage } from "lib/product-images";
+import { colorImageMap } from "lib/product-options";
+import {
+  getProduct,
+  getProductRecommendations,
+  getShopPolicies,
+} from "lib/shopify";
+import type { ShopPolicies } from "lib/shopify/types";
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -28,23 +40,9 @@ export async function generateMetadata(props: {
     robots: {
       index: indexable,
       follow: indexable,
-      googleBot: {
-        index: indexable,
-        follow: indexable,
-      },
+      googleBot: { index: indexable, follow: indexable },
     },
-    openGraph: url
-      ? {
-          images: [
-            {
-              url,
-              width,
-              height,
-              alt,
-            },
-          ],
-        }
-      : null,
+    openGraph: url ? { images: [{ url, width, height, alt }] } : null,
   };
 }
 
@@ -52,9 +50,23 @@ export default async function ProductPage(props: {
   params: Promise<{ handle: string }>;
 }) {
   const params = await props.params;
-  const product = await getProduct(params.handle);
+  const [product, policies] = await Promise.all([
+    getProduct(params.handle),
+    // Perdre les politiques coûte deux volets sur la fiche ; laisser
+    // remonter l'erreur coûterait la page entière.
+    getShopPolicies().catch((): ShopPolicies => ({})),
+  ]);
 
   if (!product) return notFound();
+
+  const images = orderProductImages(product.images);
+  const sizeGuide = sizeGuideImage(product.images);
+  const collectionHandle = product.collection?.handle;
+  const page =
+    collectionHandle && isOfficialHandle(collectionHandle)
+      ? collectionPages[collectionHandle]
+      : null;
+  const slide = HERO_SLIDES.find((entry) => entry.handle === collectionHandle);
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -77,60 +89,105 @@ export default async function ProductPage(props: {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(productJsonLd),
-        }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
       />
-      <div className="mx-auto max-w-[1600px] px-5 pb-24 pt-32 md:px-10">
-        <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
-          <div className="h-full w-full basis-full lg:basis-3/5">
+
+      <div className="shell below-header pb-20 md:pb-24">
+        <Breadcrumb
+          items={[
+            { label: "Accueil", href: "/" },
+            { label: "Collections", href: "/collections" },
+            ...(product.collection
+              ? [
+                  {
+                    label: product.collection.title,
+                    href: `/collections/${product.collection.handle}`,
+                  },
+                ]
+              : []),
+            { label: product.title },
+          ]}
+        />
+
+        <div className="mt-10 flex flex-col gap-12 lg:flex-row lg:gap-16">
+          <div className="w-full lg:basis-3/5">
             <Suspense
               fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden bg-card" />
+                <div className="aspect-4/5 w-full overflow-hidden bg-card" />
               }
             >
-              {/* `slice(0, 5)` ne laissait passer que cinq visuels, et le
-                  fournisseur les livre par séries : c'étaient cinq faces de
-                  cinq coloris. Le dos n'atteignait jamais la galerie. */}
               <Gallery
-                images={orderProductImages(product.images).map(
-                  (image: Image) => ({
-                    src: image.url,
-                    altText: image.altText,
-                  }),
-                )}
+                images={images.map((image) => ({
+                  src: image.url,
+                  altText: image.altText || product.title,
+                }))}
+                colorImages={colorImageMap(product)}
               />
             </Suspense>
           </div>
 
-          <div className="basis-full lg:basis-2/5">
+          <div className="lg:basis-2/5">
             <Suspense fallback={null}>
-              <ProductDescription product={product} />
+              <ProductInfo
+                product={product}
+                policies={{
+                  livraison: policies.livraison?.body,
+                  retours: policies.remboursement?.body,
+                }}
+                sizeGuideHref={sizeGuide?.url}
+              />
             </Suspense>
           </div>
         </div>
 
-        {product.collection ? (
-          <div className="mt-16 border-t border-border pt-12 md:mt-20 md:pt-16">
-            <p className="label-xs text-signal">L’histoire de la pièce</p>
-            <div className="mt-6 grid gap-8 md:grid-cols-12">
-              <p className="editorial text-xl italic leading-relaxed md:col-span-8 md:text-2xl">
-                {collectionStories[product.collection.handle] ??
-                  `Cette pièce fait partie de ${product.collection.title}.`}
-              </p>
-              <Link
-                href={`/collections/${product.collection.handle}`}
-                className="label-xs inline-flex items-start gap-2 text-muted-foreground transition-colors duration-300 hover:text-foreground md:col-span-4 md:justify-self-end"
-              >
-                {product.collection.title}
-                <span aria-hidden="true">→</span>
-              </Link>
-            </div>
-          </div>
-        ) : null}
-
-        <RelatedProducts id={product.id} />
+        <Suspense fallback={null}>
+          <RelatedProducts id={product.id} />
+        </Suspense>
       </div>
+
+      {/* Le récit du chapitre auquel la pièce appartient. Même composant que
+          sur la page collection : c'est la même histoire, pas une variante
+          écrite pour la fiche. */}
+      {product.collection ? (
+        <EditorialSection
+          tone="soft"
+          side="left"
+          label={product.collection.title}
+          title={page?.editorial.title ?? product.collection.title}
+          body={
+            <p>
+              {collectionStories[product.collection.handle] ??
+                `Cette pièce fait partie de ${product.collection.title}.`}
+            </p>
+          }
+          cta={{
+            label: "Voir la collection",
+            href: `/collections/${product.collection.handle}`,
+          }}
+          image={slide?.wide}
+        />
+      ) : null}
+
+      <CTASection
+        label="Onde Noire®"
+        title={(
+          page?.finale.title ?? [
+            "Certaines histoires se racontent.",
+            "D'autres se portent.",
+          ]
+        ).map((line) => (
+          <span key={line} className="block">
+            {line}
+          </span>
+        ))}
+        cta={
+          page?.finale.cta ?? {
+            label: "Rejoindre le mouvement",
+            href: "/#rejoindre",
+          }
+        }
+        image={ART.finale}
+      />
     </>
   );
 }
@@ -141,7 +198,7 @@ async function RelatedProducts({ id }: { id: string }) {
   if (!relatedProducts.length) return null;
 
   return (
-    <div className="mt-16 border-t border-border pt-12 md:pt-16">
+    <div className="mt-20 border-t border-border pt-12 md:mt-24 md:pt-16">
       <h2 className="type-label mb-8 text-muted-foreground">
         Vous aimerez aussi
       </h2>

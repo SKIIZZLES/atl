@@ -22,8 +22,8 @@ export default function OpenCart({
       {/* `hidden md:block` et non `md:inline` : à spécificité égale Tailwind
           tranche par l'ordre d'émission, et `.hidden` sort avant `.inline` —
           le mot resterait visible sur mobile. `.block` sort après. */}
-      <span className="label-xs hidden md:block">Panier</span>
-      <span className="label-xs tabular-nums">({count})</span>
+      <span className="type-label hidden md:block">Panier</span>
+      <span className="type-label tabular-nums">({count})</span>
     </div>
   );
 }

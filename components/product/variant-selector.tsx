@@ -74,7 +74,7 @@ export function VariantSelector({
     return (
       <form key={option.id}>
         <dl className="mb-8">
-          <dt className="label-xs mb-4 text-muted-foreground">
+          <dt className="type-label mb-4 text-muted-foreground">
             {OPTION_LABELS[optionNameLowerCase] ?? option.name}
           </dt>
           <dd

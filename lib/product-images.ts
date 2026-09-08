@@ -74,3 +74,25 @@ export function hoverImage(images: Image[]): Image | null {
   const back = images.find((image) => sideOf(image.altText ?? "") === "back");
   return back ?? images[1] ?? null;
 }
+
+/**
+ * Le guide des tailles, quand le fournisseur en livre un.
+ *
+ * Il arrive dans les visuels du produit comme une image parmi d'autres, sans
+ * champ dédié : on le reconnaît à son libellé. Rien de deviné — s'il n'y a
+ * pas de correspondance, le lien ne s'affiche pas, plutôt que de promettre
+ * un tableau qui n'existe pas.
+ */
+const SIZE_GUIDE =
+  /(size\s*chart|size\s*guide|guide\s*des\s*tailles|tableau\s*des\s*tailles|mesures)/i;
+
+export function sizeGuideImage(images: Image[]): Image | null {
+  return (
+    images.find(
+      (image) =>
+        image.altText != null &&
+        SIZE_GUIDE.test(image.altText) &&
+        !SIDE.test(image.altText),
+    ) ?? null
+  );
+}
