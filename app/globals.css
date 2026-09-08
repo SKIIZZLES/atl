@@ -423,21 +423,19 @@ button,
    quelle photographie : l'image reste franchement lisible, le texte aussi.
    Le côté d'où part le texte reste opaque. */
 @utility voile-photo {
-  background-image: linear-gradient(
-    to right,
-    var(--background) 0%,
-    color-mix(in srgb, var(--background) 85%, transparent) 50%,
-    color-mix(in srgb, var(--background) 60%, transparent) 100%
-  );
+  /* Écrit avec les utilitaires de Tailwind, et non en `color-mix` : le
+     minifieur de production réduit `color-mix(in srgb, var(--x) 85%,
+     transparent)` à `var(--x)` tout court. Le voile devenait alors noir
+     opaque sur toute sa largeur et masquait entièrement la photographie —
+     vérifié dans la feuille servie par la préversion, jamais visible en
+     local où la règle n'est pas minifiée. Le chemin ci-dessous, lui, sort
+     bien en `oklab(… / 0.85)` après minification. */
+  @apply bg-linear-to-r from-background via-background/85 to-background/60;
 }
 
 /* Le même plancher, pour une image qu'on assombrit du haut vers le bas. */
 @utility voile-photo-bas {
-  background-image: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--background) 55%, transparent) 0%,
-    var(--background) 100%
-  );
+  @apply bg-linear-to-b from-background/55 to-background;
 }
 
 @utility grain-overlay {
