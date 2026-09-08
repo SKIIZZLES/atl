@@ -7,7 +7,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 /**
- * La bande claire : la seule respiration ivoire du site.
+ * La bande de collection : une rupture de registre, pas de luminosité.
+ *
+ * Elle était le seul aplat ivoire du site. Elle passe au second noir : on
+ * garde la bande — l'œil comprend qu'il change de chapitre — mais le site
+ * reste sombre d'un bout à l'autre.
  *
  * Une planche contact — cinq pièces d'un même chapitre, alignées, sans nom
  * ni prix. Ce n'est pas une grille produit : c'est une image de la
@@ -34,23 +38,20 @@ export function Lookbook({
   if (products.length === 0) return null;
 
   return (
-    <section className="bg-craie text-craie-foreground">
+    <section className="bg-card text-card-foreground">
       <div className="shell grid items-center gap-10 py-14 md:grid-cols-[minmax(0,20rem)_1fr] md:gap-14 md:py-16">
         <Reveal>
-          <SectionLabel tone="inverse">{label}</SectionLabel>
+          <SectionLabel tone="muted">{label}</SectionLabel>
           <EditorialTitle level="h2" className="mt-5">
             {title}
           </EditorialTitle>
           {body ? (
-            <p className="type-body mt-5 max-w-xs text-craie-foreground/75">
+            <p className="type-body mt-5 max-w-xs text-muted-foreground">
               {body}
             </p>
           ) : null}
           <div className="mt-8">
-            <Button
-              href={href}
-              className="group bg-craie-foreground text-craie hover:bg-craie-foreground hover:opacity-80"
-            >
+            <Button href={href} className="group">
               {ctaLabel}
               <Arrow />
             </Button>
@@ -72,7 +73,7 @@ export function Lookbook({
                 className="group block"
                 aria-label={product.title}
               >
-                <div className="relative aspect-3/4 overflow-hidden bg-archive">
+                <div className="relative aspect-3/4 overflow-hidden bg-background">
                   {product.featuredImage ? (
                     <Image
                       src={product.featuredImage.url}

@@ -21,7 +21,7 @@ export function NewsletterForm({ domain }: { domain: string }) {
       />
       <button
         type="submit"
-        className="type-label shrink-0 border border-brun-foreground bg-brun-foreground px-6 py-3 text-brun transition-colors duration-300 hover:bg-transparent hover:text-brun-foreground sm:border-l-0"
+        className="type-button shrink-0 bg-signal px-6 py-3 text-background transition-colors duration-500 ease-onde hover:bg-brass"
       >
         Rejoindre →
       </button>

@@ -2,6 +2,8 @@ import { axes, opening, principles, refusals } from "lib/stories-copy";
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { Arrow, Button } from "components/ui/button";
+
 export const metadata: Metadata = {
   title: "À propos",
   description:
@@ -126,19 +128,15 @@ export default function AProposPage() {
             <br />
             D&apos;autres se portent.
           </p>
-          <div className="mt-12 flex flex-col gap-4 sm:flex-row">
-            <Link
-              href="/manifeste"
-              className="type-label inline-flex items-center gap-3 bg-signal px-6 py-4 text-background transition-colors duration-300 hover:bg-brass"
-            >
-              Lire le manifeste →
-            </Link>
-            <Link
-              href="/search"
-              className="type-label inline-flex items-center gap-3 border border-brun-foreground px-6 py-4 text-brun-foreground transition-colors duration-300 hover:bg-brun-foreground hover:text-brun"
-            >
-              Voir le shop →
-            </Link>
+          <div className="mt-12 flex flex-wrap gap-4">
+            <Button href="/manifeste" className="group">
+              Lire le manifeste
+              <Arrow />
+            </Button>
+            <Button href="/search" variant="secondary" className="group">
+              Voir le shop
+              <Arrow />
+            </Button>
           </div>
         </div>
       </section>
