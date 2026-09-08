@@ -26,6 +26,16 @@ export default {
         destination: "/collections/:handle",
         permanent: true,
       },
+      // « Le shop » a longtemps vécu sous une adresse de collection, alors
+      // qu'aucune collection Shopify ne porte ce `handle` : le catalogue
+      // complet n'est pas un chapitre. Les onglets et les liens restés sur
+      // l'ancienne adresse tombaient donc sur un 404. Ils rejoignent la page
+      // qui existe vraiment.
+      {
+        source: "/collections/le-shop",
+        destination: "/search",
+        permanent: true,
+      },
       { source: "/manifesto", destination: "/manifeste", permanent: true },
       { source: "/about", destination: "/a-propos", permanent: true },
       { source: "/stories", destination: "/manifeste", permanent: true },

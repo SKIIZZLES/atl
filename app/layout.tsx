@@ -70,8 +70,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // Ces deux lignes ne sont pas décoratives : elles sont le dernier recours.
+  // Sur le chemin d'erreur, Next sert un document qui n'embarque aucune
+  // feuille de style et ne passe pas par le layout ci-dessous — ni les
+  // classes, ni les styles en ligne n'y arrivent. `color-scheme: dark` est
+  // alors la seule chose qui empêche le navigateur de peindre du blanc.
   colorScheme: "dark",
-  themeColor: "#0a0a0a",
+  // Le fond du site. Recopié à la main, et il avait dérivé : il valait encore
+  // le noir d'avant la palette neutre.
+  themeColor: "#050505",
 };
 
 export default async function RootLayout({
@@ -97,8 +104,24 @@ export default async function RootLayout({
     <html
       lang="fr"
       className={`${editorial.variable} ${sans.variable} bg-background`}
+      /* Le fond en style en ligne, et non seulement en classe.
+         `bg-background` est un utilitaire : il n'existe que si la feuille de
+         style arrive. Sur le chemin d'erreur, Next sert un document qui n'en
+         embarque aucune — les trois `bg-background` du layout deviennent
+         alors inertes et le navigateur peint sa couleur par défaut, blanche.
+         C'est la seule façon dont ce site peut encore devenir blanc.
+         La déclaration ci-dessous s'efface devant le jeton quand il est là,
+         et ne sert que de canot de sauvetage quand il manque : aucune valeur
+         à tenir à jour, contrairement aux deux qui avaient déjà dérivé. */
+      style={{ backgroundColor: "var(--background, #050505)" }}
     >
-      <body className="bg-background font-sans text-foreground antialiased">
+      <body
+        className="bg-background font-sans text-foreground antialiased"
+        style={{
+          backgroundColor: "var(--background, #050505)",
+          color: "var(--foreground, #f5f5f5)",
+        }}
+      >
         {/* Les blocs à révéler partent transparents. Sans script, ils le
             resteraient : cette règle les rend visibles d'emblée. L'entrée
             est un confort, le contenu ne l'est pas. */}
