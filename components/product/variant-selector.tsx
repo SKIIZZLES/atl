@@ -120,11 +120,17 @@ export function VariantSelector({
                     aria-label={`${value}${!isAvailableForSale ? " — épuisé" : ""}`}
                     disabled={!isAvailableForSale}
                     title={`${value}${!isAvailableForSale ? " — épuisé" : ""}`}
+                    /* Des cercles de 36 px, seule exception aux angles
+                       droits de la marque : une pastille de coloris se lit
+                       comme un point de couleur, pas comme une vignette.
+                       Elles faisaient 64 px de côté et montraient le
+                       fichier de design de la variante — un aplat clair
+                       posé trois fois dans la colonne d'achat. */
                     className={clsx(
-                      "relative size-16 overflow-hidden border transition-all duration-300 ease-onde",
+                      "relative size-9 overflow-hidden rounded-full border transition-all duration-300 ease-onde",
                       {
-                        "border-foreground ring-1 ring-foreground": isActive,
-                        "border-border hover:border-foreground":
+                        "border-signal ring-1 ring-signal": isActive,
+                        "border-border-control hover:border-foreground":
                           !isActive && isAvailableForSale,
                         "cursor-not-allowed border-border opacity-35":
                           !isAvailableForSale,
@@ -135,7 +141,7 @@ export function VariantSelector({
                       src={swatch.url}
                       alt={swatch.altText || value}
                       fill
-                      sizes="64px"
+                      sizes="36px"
                       className="object-cover"
                     />
                   </button>
