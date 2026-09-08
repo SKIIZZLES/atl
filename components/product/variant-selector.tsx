@@ -121,7 +121,7 @@ export function VariantSelector({
                     disabled={!isAvailableForSale}
                     title={`${value}${!isAvailableForSale ? " — épuisé" : ""}`}
                     className={clsx(
-                      "relative size-16 overflow-hidden border transition-all duration-300",
+                      "relative size-16 overflow-hidden border transition-all duration-300 ease-onde",
                       {
                         "border-foreground ring-1 ring-foreground": isActive,
                         "border-border hover:border-foreground":
@@ -150,7 +150,7 @@ export function VariantSelector({
                   disabled={!isAvailableForSale}
                   title={`${value}${!isAvailableForSale ? " — épuisé" : ""}`}
                   className={clsx(
-                    "flex min-w-[48px] items-center justify-center border border-border px-3 py-2 text-xs uppercase tracking-widest transition-colors duration-300",
+                    "type-button flex h-11 min-w-[48px] items-center justify-center border border-border px-4 transition-colors duration-300 ease-onde",
                     {
                       "cursor-default border-foreground bg-foreground text-background":
                         isActive,
