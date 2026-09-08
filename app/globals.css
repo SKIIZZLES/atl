@@ -3,68 +3,132 @@
 @plugin "@tailwindcss/container-queries";
 @plugin "@tailwindcss/typography";
 
-@theme inline {
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-display: var(--font-display), ui-sans-serif, system-ui, sans-serif;
-  --font-editorial: var(--font-editorial), Georgia, serif;
-  --font-mono: var(--font-mono), ui-monospace, monospace;
+/* ==========================================================================
+   ONDE NOIRE® — DESIGN SYSTEM
+   ==========================================================================
 
+   Une seule source pour les trois gabarits : accueil, collection, produit.
+   Rien ici n'est décoratif — chaque valeur est reprise telle quelle par les
+   composants, et aucun composant n'a le droit d'en inventer une autre.
+
+   Quatre familles de jetons :
+     1. COULEURS    — sept valeurs, pas une de plus
+     2. TYPOGRAPHIE — deux familles, dix niveaux
+     3. MOUVEMENT   — une courbe, trois durées
+     4. RYTHME      — une largeur de page, un pas vertical
+
+   Les paliers responsive restent ceux de Tailwind, qui correspondent déjà
+   aux quatre demandés :
+     mobile < 768 · tablette 768 (md) · desktop 1024 (lg) · large 1280 (xl)
+   ========================================================================== */
+
+@theme inline {
+  /* --- 2. TYPOGRAPHIE : deux familles, jamais trois ---------------------
+     Serif éditoriale pour les très grands titres, sans moderne pour la
+     navigation, les libellés, les prix et le texte courant. Le passage de
+     l'une à l'autre est le seul contraste typographique du site. */
+  --font-display: var(--font-editorial-face), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-sans-face), ui-sans-serif, system-ui, sans-serif;
+  --font-editorial: var(--font-editorial-face), Georgia, serif;
+
+  /* --- 1. COULEURS ------------------------------------------------------
+     Un nom par valeur. Les noms de scène de la charte pointent sur les
+     mêmes jetons que les noms fonctionnels — ils ne créent pas de valeur
+     supplémentaire. */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-signal: var(--signal);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-card-foreground: var(--card-foreground);
-  --color-card: var(--card);
-  --color-foreground: var(--foreground);
-  --color-background: var(--background);
 
-  --color-brass: var(--brass);
-  --color-cuivre: var(--cuivre);
-  --color-brun: var(--brun);
-  --color-brun-foreground: var(--brun-foreground);
-  --color-terre: var(--terre);
-  --color-terre-foreground: var(--terre-foreground);
+  --color-on-black: var(--background);
+  --color-on-black-soft: var(--card);
+  --color-on-white: var(--foreground);
+  --color-on-muted: var(--muted-foreground);
 
+  /* La bordure de contrôle : plus dense que le filet décoratif, parce
+     qu'elle délimite quelque chose qui se clique. */
+  --color-border-control: var(--border-control);
+
+  /* Le voile de survol, à poser en fond sur ce qui se manipule. */
+  --color-hover: var(--hover);
+
+  /* --- 3. MOUVEMENT -----------------------------------------------------
+     Une seule courbe sur tout le site : elle démarre vite et s'arrête très
+     lentement, ce qui donne le glissé cinématographique demandé plutôt
+     qu'un mouvement mécanique. */
+  --ease-onde: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* --- Angles : la marque n'a pas de coins arrondis --------------------- */
   --radius-sm: 0px;
-  --radius-md: 1px;
-  --radius-lg: 1px;
-  --radius-xl: 2px;
+  --radius-md: 0px;
+  --radius-lg: 0px;
+  --radius-xl: 0px;
 }
 
 :root {
   color-scheme: dark;
 
-  /* Noir chaud — le fond du logo, très légèrement réchauffé pour tenir avec l'or */
-  --background: #0b0908;
-  /* Crème — le texte courant, jamais du blanc pur */
-  --foreground: #ece2d0;
-  /* Surface relevée : cartes produit, champs */
-  --card: #16120e;
-  --card-foreground: #ece2d0;
-  --muted: #2a221a;
-  /* Texte secondaire */
-  --muted-foreground: #a2907a;
-  /* Or du lettrage — accent principal */
-  --signal: #c9a86a;
-  /* Bronze : 3,01:1 sur le fond, le minimum WCAG 1.4.11 pour le
-     contour d'un contrôle (champ, bouton de taille, pastille) */
-  --border: #6b5a47;
-  --input: #16120e;
-  --ring: #c9a86a;
+  /* ---- 1. COULEURS — palette neutre ----------------------------------
+     Le système était chaud : ivoire, terre, or. Il passe au neutre — noirs
+     purs, gris, blanc — sur demande. Les blancs sont exprimés en canal
+     alpha plutôt qu'en teintes figées, ce qui garde les filets et les
+     survols cohérents quel que soit le noir sous lequel ils tombent. */
 
-  /* Marron cuivré — nom des produits. 5,13:1 sur le fond : franchement
-     marron sans passer sous le seuil de lisibilité. */
-  --cuivre: #a2795a;
-  /* Or clair — highlights, survols */
-  --brass: #e3c98f;
-  /* Bloc le plus profond : hero, pied de page */
-  --brun: #060505;
-  --brun-foreground: #ece2d0;
-  /* Bloc bronze relevé : manifeste */
-  --terre: #1d1710;
-  --terre-foreground: #ece2d0;
+  /* Le fond du site. Plus profond que le noir précédent. */
+  --background: #050505;
+  /* Section de rupture : l'alternance qui découpe une page longue. */
+  --card: #0d0d0d;
+  --card-foreground: #f5f5f5;
+  /* Surface intermédiaire : cadres d'image, champs. */
+  --muted: #0a0a0a;
+  --input: #0a0a0a;
+  /* Texte courant. */
+  --foreground: #f5f5f5;
+  /* Texte secondaire : 7,7:1 sur le fond, bien au-dessus du 4,5:1 exigé. */
+  --muted-foreground: #a0a0a0;
+
+  /* Deux bordures, et la raison de leur écart.
+     Le filet décoratif — séparateurs, cadres, traits de section — est le
+     blanc à 12 % demandé : il structure sans peser. Mais à 12 % il sort à
+     1,3:1 sur le fond, quand WCAG 1.4.11 exige 3:1 pour le contour d'un
+     élément qu'on manipule. Les contrôles prennent donc le même blanc monté
+     à 35 %, qui atteint 3,32:1. Même valeur, une densité de plus là où elle
+     porte du sens. */
+  --border: rgb(255 255 255 / 0.12);
+  --border-control: rgb(255 255 255 / 0.35);
+  /* Le voile de survol, posé sur ce qui se manipule. */
+  --hover: rgb(255 255 255 / 0.08);
+  /* Le grain du film, un point tous les trois pixels. Il lui faut sa propre
+     ligne : `radial-gradient` prend une couleur d'arrêt, pas une couleur à
+     laquelle on applique une opacité au passage. Déclarée ici, elle suit la
+     palette au lieu de dériver dans une feuille lointaine. */
+  --grain: rgb(245 245 245 / 0.07);
+
+  /* Le liseré de focus. Blanc plutôt qu'or : la palette n'a plus d'accent
+     coloré, et un focus doit rester le repère le plus net de la page. */
+  --ring: #f5f5f5;
+
+  /* L'or de la charte précédente. Plus aucun composant ne s'en sert — la
+     nouvelle direction est monochrome — mais la valeur reste déclarée :
+     c'est une ligne à rebrancher si l'accent doit revenir. */
+  --signal: #c8942e;
+
+  /* ---- 3. MOUVEMENT — trois durées, pas une de plus -------------------- */
+  /* Survol d'un lien, changement d'état d'un bouton. */
+  --duree-courte: 300ms;
+  /* Fondu d'image, révélation d'un bloc au défilement. */
+  --duree-moyenne: 600ms;
+  /* Changement de vue du diaporama, zoom d'une carte. */
+  --duree-longue: 800ms;
+
+  /* ---- 4. RYTHME ------------------------------------------------------- */
+  /* Largeur maximale du contenu, identique sur les trois gabarits. */
+  --page-max: 1600px;
 }
 
 @layer base {
@@ -86,15 +150,21 @@
   }
 
   ::selection {
-    background: var(--signal);
+    background: var(--foreground);
     color: var(--background);
   }
 }
 
+/* Le liseré de focus, sur tout ce qui se manipule au clavier. `select` et
+   `textarea` en étaient absents : le tri d'une collection se sélectionnait
+   sans qu'on voie où l'on était. */
 a,
 input,
-button {
-  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+select,
+textarea,
+button,
+[tabindex] {
+  @apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
 }
 
 @supports (font: -apple-system-body) and (-webkit-appearance: none) {
@@ -103,34 +173,264 @@ button {
   }
 }
 
-/* Utility tier: tiny mono tags — SIZE — M / PRICE — €65 */
-@utility label-xs {
-  font-family: var(--font-mono), monospace;
-  font-size: 0.6875rem;
-  line-height: 1;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+/* ==========================================================================
+   2. TYPOGRAPHIE — les dix niveaux
+   ==========================================================================
+   Un composant choisit un niveau, jamais une taille. C'est ce qui garantit
+   que le même mot a le même poids sur les trois gabarits.
+   ========================================================================== */
 
-/* Street/display tier headline treatment */
-@utility headline {
-  font-family: var(--font-display), sans-serif;
-  text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 0.92;
-}
-
-/* Editorial tier: manifestos, quotes, storytelling */
-@utility editorial {
-  font-family: var(--font-editorial), serif;
-  font-style: normal;
+/* DISPLAY — le titre d'ouverture d'une page, et rien d'autre. La taille
+   suit la largeur de l'écran ; l'interlignage reste serré pour que deux
+   lignes forment un bloc plein. */
+@utility type-display {
+  font-family: var(--font-display);
   font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(2.75rem, 10vw, 8rem);
+  line-height: 0.84;
+  letter-spacing: -0.02em;
+}
+
+/* H1 — titre de collection, titre de produit. */
+@utility type-h1 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(2.25rem, 6vw, 5rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+/* H2 — titre de section éditoriale. En casse normale : ces titres sont des
+   phrases, pas des enseignes. */
+@utility type-h2 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 1.25rem + 2.6vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+}
+
+/* H3 — titre de carte, titre d'accordéon. */
+@utility type-h3 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(1.25rem, 2vw, 1.875rem);
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+}
+
+/* TITRE PRODUIT — le seul titre de la fiche.
+   Les titres monumentaux appartiennent au hero d'accueil et à celui d'une
+   collection ; une fiche produit est un écran de décision, pas une affiche.
+   La courbe est calée sur trois repères plutôt que sur un `vw` seul :
+   34 px à 390, 50 px à 1024, 60 px à 1440, plafonné à 64. */
+@utility type-product-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(2.125rem, 1.5875rem + 2.4vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+/* TITRE DE MANIFESTE — l'ouverture d'une page de récit.
+   Deux régimes plutôt qu'une seule courbe : sur téléphone le titre doit
+   pouvoir occuper l'écran, sur grand écran il doit rester un titre et pas
+   une affiche. Les bornes sont celles de la charte. */
+@utility type-manifesto-title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  font-size: clamp(2.375rem, 12vw, 4rem);
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+
+  @media (width >= 768px) {
+    font-size: clamp(3.25rem, 7vw, 6.875rem);
+  }
+}
+
+/* PRIX de la fiche produit — le chiffre qu'on cherche des yeux. Sur la
+   carte d'une grille il reste petit ; ici il porte la décision. */
+@utility type-price-lg {
+  font-family: var(--font-sans);
+  font-size: clamp(1.375rem, 1.125rem + 0.8vw, 1.625rem);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* SOUS-TITRE — la signature du chapitre sous le titre produit. */
+@utility type-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  letter-spacing: 0.01em;
+}
+
+/* BODY — texte courant. */
+@utility type-body {
+  font-family: var(--font-sans);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+}
+
+/* LABEL — les petites capitales espacées : numéros de chapitre, intitulés
+   de section, mentions. C'est la respiration du système. */
+@utility type-label {
+  font-family: var(--font-sans);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* NAV — les entrées de la barre de navigation. */
+@utility type-nav {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* PRICE — chiffres à chasse fixe, pour que les prix s'alignent en colonne. */
+@utility type-price {
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/* BUTTON — un seul traitement pour tous les boutons du site. */
+@utility type-button {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* CAPTION — légende d'image, mention secondaire. */
+@utility type-caption {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   Deux alias historiques, conservés parce que le manifeste et « À propos »
+   composent leurs titres à des tailles réglées à la main, page par page.
+   Ils ne fixent donc que la famille et la casse, pas la taille — le reste
+   du site passe par les niveaux nommés ci-dessus.
+   -------------------------------------------------------------------------- */
+@utility headline {
+  font-family: var(--font-display);
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+@utility editorial {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* ==========================================================================
+   4. RYTHME — la page et ses marges
+   ==========================================================================
+   Ces deux utilitaires remplacent une chaîne de classes recopiée dans
+   chaque section. Une marge changée ici l'est partout, ce qui est
+   exactement ce qu'on demande à un design system.
+   ========================================================================== */
+
+/* Le conteneur de contenu : même largeur et mêmes marges latérales sur les
+   trois gabarits. */
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: var(--page-max);
+  padding-inline: 1.25rem;
+
+  @media (width >= 768px) {
+    padding-inline: 2.5rem;
+  }
+}
+
+/* Le pas vertical entre deux sections. */
+@utility section-y {
+  padding-block: 4.5rem;
+
+  @media (width >= 768px) {
+    padding-block: 7rem;
+  }
+}
+
+/* Décalage sous la barre fixe, pour la première section d'une page qui ne
+   commence pas par une image plein cadre. */
+@utility below-header {
+  padding-top: 6rem;
+
+  @media (width >= 768px) {
+    padding-top: 8.5rem;
+  }
+}
+
+/* ==========================================================================
+   3. MOUVEMENT — révélation au défilement
+   ==========================================================================
+   L'état de départ est posé en CSS et levé par une classe que le composant
+   d'observation ajoute. Écrit ainsi, un bloc reste visible même si le
+   JavaScript ne s'exécute jamais : c'est l'apparition qui est optionnelle,
+   pas le contenu.
+   ========================================================================== */
+
+@utility reveal {
+  opacity: 0;
+  transform: translateY(1.5rem);
+  transition:
+    opacity var(--duree-longue) var(--ease-onde),
+    transform var(--duree-longue) var(--ease-onde);
+}
+
+@utility reveal-in {
+  opacity: 1;
+  transform: none;
 }
 
 @utility grain-overlay {
-  background-image: radial-gradient(
-    rgb(236 226 208 / 7%) 0.5px,
-    transparent 0.5px
-  );
+  background-image: radial-gradient(var(--grain) 0.5px, transparent 0.5px);
   background-size: 3px 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    /* Les zooms au survol et les révélations au défilement sont du confort.
+       Pour qui les supporte mal, ils déclenchent de vrais symptômes : on les
+       coupe, on ne les ralentit pas. `1ms` plutôt que `0s` garde les
+       événements `transitionend` qui pilotent certains états. */
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  /* Un bloc à révéler ne doit jamais rester invisible faute d'animation. */
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

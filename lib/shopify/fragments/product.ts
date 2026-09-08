@@ -7,6 +7,7 @@ const productFragment = /* GraphQL */ `
     handle
     availableForSale
     title
+    productType
     description
     descriptionHtml
     options {
@@ -57,7 +58,7 @@ const productFragment = /* GraphQL */ `
     featuredImage {
       ...image
     }
-    images(first: 20) {
+    images(first: 50) {
       edges {
         node {
           ...image

@@ -1,21 +1,42 @@
 "use client";
 
-import {
-  Bars3Icon,
-  ChevronDownIcon,
-  MagnifyingGlassIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
 import CartModal from "components/cart/modal";
+import { useFocusTrap } from "components/ui/use-focus-trap";
+import clsx from "clsx";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 type NavCollection = { handle: string; title: string };
 
+/**
+ * La barre de navigation, identique sur les trois gabarits.
+ *
+ * Elle flotte sur le hero au chargement — fond transparent, simple voile
+ * dégradé pour tenir le contraste du lettrage — et bascule sur un noir
+ * opaque dès qu'on défile. C'est la transition « très légère » demandée :
+ * l'image respire en haut de page, le texte reste lisible ensuite.
+ *
+ * Elle était en noir à 90 % avec un flou : la bande ivoire remontait au
+ * travers et la barre paraissait blanchie.
+ */
+
+const NAV = [
+  { label: "Accueil", href: "/" },
+  { label: "Manifeste", href: "/manifeste" },
+  { label: "Journal", href: "/journal" },
+  { label: "À propos", href: "/a-propos" },
+] as const;
+
 export function Header({ collections }: { collections: NavCollection[] }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCollectionsOpen, setIsCollectionsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const collectionsRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
+
+  useFocusTrap(menuRef, isMenuOpen);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
@@ -23,6 +44,20 @@ export function Header({ collections }: { collections: NavCollection[] }) {
       document.body.style.overflow = "";
     };
   }, [isMenuOpen]);
+
+  // Le menu doit se fermer quand la page change, sinon il recouvre la page
+  // qu'on vient de demander.
+  useEffect(() => {
+    setIsMenuOpen(false);
+    setIsCollectionsOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
@@ -37,143 +72,244 @@ export function Header({ collections }: { collections: NavCollection[] }) {
     return () => window.removeEventListener("click", handleClick);
   }, []);
 
+  useEffect(() => {
+    if (!isMenuOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setIsMenuOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [isMenuOpen]);
+
+  // Le marron doux a son propre jeton : le texte secondaire du site est
+  // passé à la valeur de la charte, plus froide, et la barre ne devait pas
+  // suivre ce changement. 6,42:1 sur le noir, au-dessus du seuil.
+  const linkClass =
+    "type-nav text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground";
+
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-background/90 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-[1600px] items-center justify-between gap-6 px-5 md:h-20 md:px-10">
+    <header
+      className={clsx(
+        "fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-onde",
+        scrolled
+          ? "border-b border-border bg-background/95 backdrop-blur-xl"
+          : "border-b border-transparent bg-transparent",
+      )}
+    >
+      {/* Voile en haut de page : sans lui, un lettrage ivoire sur une zone
+          claire de la photographie deviendrait illisible. */}
+      {!scrolled ? (
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-background/80 to-transparent"
+        />
+      ) : null}
+
+      <div className="shell relative flex h-16 items-center justify-between gap-6 md:h-20">
         <Link
           href="/"
-          className="font-display text-lg tracking-tight text-signal transition-colors duration-300 hover:text-brass"
+          className="type-nav shrink-0 text-sm tracking-[0.22em] text-foreground transition-colors duration-300 ease-onde hover:text-foreground"
         >
           ONDE NOIRE®
         </Link>
 
         <nav
           aria-label="Navigation principale"
-          className="hidden items-center gap-8 md:flex"
+          className="hidden items-center gap-8 lg:flex"
         >
-          <Link
-            href="/search"
-            className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
-          >
-            Shop
+          <Link href="/" className={linkClass}>
+            Accueil
           </Link>
 
           <div className="relative" ref={collectionsRef}>
-            <button
-              type="button"
-              onClick={() => setIsCollectionsOpen((open) => !open)}
-              className="label-xs flex items-center gap-1 text-foreground transition-colors duration-300 hover:text-signal"
-              aria-expanded={isCollectionsOpen}
-            >
-              Collections
-              <ChevronDownIcon className="size-3" strokeWidth={2} />
-            </button>
+            <div className="flex items-center gap-1">
+              <Link href="/collections" className={linkClass}>
+                Collections
+              </Link>
+              <button
+                type="button"
+                onClick={() => setIsCollectionsOpen((open) => !open)}
+                aria-expanded={isCollectionsOpen}
+                aria-label="Voir les chapitres"
+                className="text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground"
+              >
+                <svg
+                  viewBox="0 0 10 6"
+                  fill="none"
+                  className={clsx(
+                    "size-2.5 transition-transform duration-300 ease-onde",
+                    isCollectionsOpen && "rotate-180",
+                  )}
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M1 1l4 4 4-4"
+                    stroke="currentColor"
+                    strokeWidth="1.4"
+                  />
+                </svg>
+              </button>
+            </div>
+
             {isCollectionsOpen ? (
-              <div className="absolute left-0 top-full mt-3 min-w-48 border border-border bg-background py-2 shadow-lg">
+              <div className="absolute left-0 top-full mt-4 min-w-52 border border-border bg-background py-2">
                 {collections.map((collection) => (
                   <Link
                     key={collection.handle}
-                    href={`/search/${collection.handle}`}
-                    onClick={() => setIsCollectionsOpen(false)}
-                    className="label-xs block px-4 py-2.5 text-foreground transition-colors duration-300 hover:bg-card hover:text-signal"
+                    href={`/collections/${collection.handle}`}
+                    className="type-nav block px-4 py-3 text-muted-foreground transition-colors duration-300 ease-onde hover:bg-card hover:text-foreground"
                   >
                     {collection.title}
                   </Link>
                 ))}
+                <Link
+                  href="/search"
+                  className="type-nav mt-2 block border-t border-border px-4 py-3 pt-4 text-muted-foreground transition-colors duration-300 ease-onde hover:bg-card hover:text-foreground"
+                >
+                  Toutes les pièces
+                </Link>
               </div>
             ) : null}
           </div>
 
-          <Link
-            href="/stories"
-            className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
-          >
-            Stories
-          </Link>
-          <Link
-            href="/#manifeste"
-            className="label-xs text-foreground transition-colors duration-300 hover:text-signal"
-          >
-            À propos
-          </Link>
+          {NAV.slice(1).map((item) => (
+            <Link key={item.href} href={item.href} className={linkClass}>
+              {item.label}
+            </Link>
+          ))}
         </nav>
 
         <div className="flex items-center gap-5">
           <Link
             href="/search"
-            className="hidden text-foreground transition-colors duration-300 hover:text-signal md:block"
+            className="hidden text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground md:block"
             aria-label="Rechercher"
           >
-            <MagnifyingGlassIcon className="size-5" strokeWidth={1.5} />
+            <SearchGlyph />
           </Link>
+
+          {/* Les comptes clients ne sont pas ouverts : l'icône tient sa place
+              dans la composition sans prétendre mener quelque part — ni lien,
+              ni focus clavier. */}
+          <span
+            aria-hidden="true"
+            title="Bientôt"
+            className="hidden text-muted-foreground/50 md:block"
+          >
+            <AccountGlyph />
+          </span>
 
           <CartModal />
 
           <button
             type="button"
             onClick={() => setIsMenuOpen(true)}
-            className="md:hidden"
+            className="text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground lg:hidden"
             aria-label="Ouvrir le menu"
           >
-            <Bars3Icon className="size-5" strokeWidth={1.5} />
+            <MenuGlyph />
           </button>
         </div>
       </div>
 
+      {/* Menu plein écran. Même noir, même typographie, mêmes chapitres :
+          c'est la page qui se déplie, pas une fenêtre d'un autre site. */}
       {isMenuOpen ? (
-        <div className="fixed inset-0 z-50 flex flex-col bg-background md:hidden">
-          <div className="flex h-16 items-center justify-between border-b border-border px-5">
-            <span className="font-display text-lg tracking-tight text-signal">
+        <div
+          ref={menuRef}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Menu"
+          className="fixed inset-0 z-50 flex flex-col bg-background lg:hidden"
+        >
+          <div className="shell flex h-16 shrink-0 items-center justify-between">
+            <span className="type-nav text-sm tracking-[0.22em] text-foreground">
               ONDE NOIRE®
             </span>
             <button
               type="button"
               onClick={() => setIsMenuOpen(false)}
               aria-label="Fermer le menu"
+              className="type-label text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground"
             >
-              <XMarkIcon className="size-5" strokeWidth={1.5} />
+              Fermer
             </button>
           </div>
-          <nav className="flex flex-1 flex-col gap-8 overflow-y-auto px-5 pb-24 pt-10">
-            <Link
-              href="/search"
-              onClick={() => setIsMenuOpen(false)}
-              className="headline text-3xl"
-            >
-              Shop
-            </Link>
-            <div className="flex flex-col gap-5 border-l-2 border-signal pl-4">
-              <span className="label-xs text-muted-foreground">
+
+          <nav
+            aria-label="Navigation"
+            className="shell flex flex-1 flex-col gap-9 overflow-y-auto py-10"
+          >
+            <div className="flex flex-col gap-4">
+              <span className="type-label text-muted-foreground">
                 Collections
               </span>
               {collections.map((collection) => (
                 <Link
                   key={collection.handle}
-                  href={`/search/${collection.handle}`}
-                  onClick={() => setIsMenuOpen(false)}
-                  className="headline text-2xl"
+                  href={`/collections/${collection.handle}`}
+                  className="type-h3 text-foreground"
                 >
                   {collection.title}
                 </Link>
               ))}
+              <Link href="/search" className="type-label mt-1 text-foreground">
+                Toutes les pièces →
+              </Link>
             </div>
-            <Link
-              href="/stories"
-              onClick={() => setIsMenuOpen(false)}
-              className="headline text-3xl"
-            >
-              Stories
-            </Link>
-            <Link
-              href="/#manifeste"
-              onClick={() => setIsMenuOpen(false)}
-              className="headline text-3xl"
-            >
-              À propos
-            </Link>
+
+            <div className="flex flex-col gap-5 border-t border-border pt-9">
+              {NAV.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="type-h3 text-foreground"
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+
+            <p className="type-label mt-auto pt-8 text-muted-foreground">
+              Culture in motion
+            </p>
           </nav>
         </div>
       ) : null}
     </header>
+  );
+}
+
+/* Trois pictogrammes dessinés plutôt qu'une bibliothèque d'icônes chargée
+   pour trois traits — le poids importé n'a rien à faire dans une barre qui
+   s'affiche sur toutes les pages. */
+
+function SearchGlyph() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="size-5" aria-hidden="true">
+      <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.3" />
+      <path d="m13.5 13.5 4 4" stroke="currentColor" strokeWidth="1.3" />
+    </svg>
+  );
+}
+
+function AccountGlyph() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="size-5" aria-hidden="true">
+      <circle cx="10" cy="7" r="3.2" stroke="currentColor" strokeWidth="1.3" />
+      <path
+        d="M3.8 17c.7-3.1 3.2-4.8 6.2-4.8s5.5 1.7 6.2 4.8"
+        stroke="currentColor"
+        strokeWidth="1.3"
+      />
+    </svg>
+  );
+}
+
+function MenuGlyph() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" className="size-5" aria-hidden="true">
+      <path d="M2.5 6h15M2.5 14h15" stroke="currentColor" strokeWidth="1.3" />
+    </svg>
   );
 }

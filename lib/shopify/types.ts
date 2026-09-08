@@ -128,6 +128,10 @@ export type ShopifyProduct = {
   handle: string;
   availableForSale: boolean;
   title: string;
+  /** Le « type de produit » de l'admin Shopify. C'est lui qui alimente la
+   *  ligne de catégorie sur la carte et le filtre du gabarit collection —
+   *  d'où l'exigence que les libellés du filtre existent mot pour mot. */
+  productType: string;
   description: string;
   descriptionHtml: string;
   options: ProductOption[];

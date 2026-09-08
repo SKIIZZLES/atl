@@ -4,41 +4,38 @@ import Footer from "components/layout/footer";
 import { getCart, getCollections } from "lib/shopify";
 import { baseUrl } from "lib/utils";
 import type { Metadata, Viewport } from "next";
-import {
-  Anton,
-  Fraunces,
-  IBM_Plex_Mono,
-  IBM_Plex_Sans,
-} from "next/font/google";
+import { Fraunces, IBM_Plex_Sans } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 
-const display = Anton({
-  subsets: ["latin"],
-  weight: "400",
-  variable: "--font-display",
-  display: "swap",
-});
-
+/**
+ * Deux familles, et deux seulement.
+ *
+ * Le brief impose une serif éditoriale pour les très grands titres et une
+ * sans moderne pour la navigation et les petits textes. Le site en chargeait
+ * quatre : une display condensée pour les titres, une serif pour les
+ * citations, une sans pour le texte, une mono pour les libellés. Quatre
+ * familles, c'est quatre dialectes — et deux téléchargements de police pour
+ * rien.
+ *
+ * `opsz` est un axe variable de Fraunces : la lettre se resserre et ses
+ * empattements s'affinent à mesure que la taille monte, ce qui est
+ * exactement ce qu'on attend d'un titre de deux lignes en pleine page.
+ */
 const editorial = Fraunces({
   subsets: ["latin"],
-  weight: ["400", "500"],
-  style: ["normal", "italic"],
-  variable: "--font-editorial",
+  // Police variable : on ne liste pas de graisses, on prend l'axe entier —
+  // c'est la condition posée par `next/font` pour demander un axe
+  // supplémentaire, et cela évite de télécharger trois coupes figées.
+  axes: ["opsz"],
+  variable: "--font-editorial-face",
   display: "swap",
 });
 
-const body = IBM_Plex_Sans({
+const sans = IBM_Plex_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
-  variable: "--font-body",
-  display: "swap",
-});
-
-const mono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  weight: ["400", "500"],
-  variable: "--font-mono",
+  variable: "--font-sans-face",
   display: "swap",
 });
 
@@ -73,8 +70,15 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
+  // Ces deux lignes ne sont pas décoratives : elles sont le dernier recours.
+  // Sur le chemin d'erreur, Next sert un document qui n'embarque aucune
+  // feuille de style et ne passe pas par le layout ci-dessous — ni les
+  // classes, ni les styles en ligne n'y arrivent. `color-scheme: dark` est
+  // alors la seule chose qui empêche le navigateur de peindre du blanc.
   colorScheme: "dark",
-  themeColor: "#0b0908",
+  // Le fond du site. Recopié à la main, et il avait dérivé : il valait encore
+  // le noir d'avant la palette neutre.
+  themeColor: "#050505",
 };
 
 export default async function RootLayout({
@@ -99,12 +103,39 @@ export default async function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${display.variable} ${editorial.variable} ${body.variable} ${mono.variable} bg-background`}
+      className={`${editorial.variable} ${sans.variable} bg-background`}
+      /* Le fond en style en ligne, et non seulement en classe.
+         `bg-background` est un utilitaire : il n'existe que si la feuille de
+         style arrive. Sur le chemin d'erreur, Next sert un document qui n'en
+         embarque aucune — les trois `bg-background` du layout deviennent
+         alors inertes et le navigateur peint sa couleur par défaut, blanche.
+         C'est la seule façon dont ce site peut encore devenir blanc.
+         La déclaration ci-dessous s'efface devant le jeton quand il est là,
+         et ne sert que de canot de sauvetage quand il manque : aucune valeur
+         à tenir à jour, contrairement aux deux qui avaient déjà dérivé. */
+      style={{ backgroundColor: "var(--background, #050505)" }}
     >
-      <body className="bg-background font-sans text-foreground antialiased">
+      <body
+        className="bg-background font-sans text-foreground antialiased"
+        style={{
+          backgroundColor: "var(--background, #050505)",
+          color: "var(--foreground, #f5f5f5)",
+        }}
+      >
+        {/* Les blocs à révéler partent transparents. Sans script, ils le
+            resteraient : cette règle les rend visibles d'emblée. L'entrée
+            est un confort, le contenu ne l'est pas. */}
+        <noscript>
+          <style>{`.reveal{opacity:1;transform:none}`}</style>
+        </noscript>
         <CartProvider cartPromise={cart}>
           <Header collections={navCollections} />
-          <main className="min-h-screen">{children}</main>
+          {/* Le fond est posé explicitement ici aussi : `html` et `body` le
+              portent déjà, mais une section sans fond déclaré hériterait
+              sinon du blanc du navigateur si l'un des deux venait à sauter. */}
+          <main className="min-h-screen bg-background text-foreground">
+            {children}
+          </main>
           <Footer collections={navCollections} />
         </CartProvider>
       </body>

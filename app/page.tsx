@@ -1,18 +1,20 @@
-import { CategoryNav } from "components/category-nav";
+import { ChapterCard } from "components/collection/chapter-card";
 import { Hero } from "components/hero";
 import { NewsletterForm } from "components/newsletter-form";
-import { ProductCard } from "components/product-card";
+import { CTASection } from "components/sections/cta-section";
+import { Lookbook } from "components/sections/lookbook";
+import { Arrow, Button } from "components/ui/button";
+import { EditorialTitle } from "components/ui/editorial-title";
+import { Reveal } from "components/ui/reveal";
+import { SectionLabel } from "components/ui/section-label";
+import { ART, slotFromImage } from "lib/art-direction";
 import {
   OFFICIAL_COLLECTION_HANDLES,
+  collectionKickers,
   collectionTaglines,
 } from "lib/collection-copy";
-import {
-  getCollectionProducts,
-  getCollections,
-  getProducts,
-} from "lib/shopify";
+import { getCollectionProducts, getCollections } from "lib/shopify";
 import Image from "next/image";
-import Link from "next/link";
 
 export const metadata = {
   description:
@@ -22,11 +24,15 @@ export const metadata = {
   },
 };
 
+/**
+ * Les mots posés dans la marge du manifeste et de la bannière finale. Ce ne
+ * sont pas des liens : c'est le champ lexical de la marque. En faire une
+ * navigation promettrait des pages qui n'existent pas.
+ */
+const MISSION_FIELD = ["Culture", "Héritage", "Identité", "Création", "Demain"];
+
 export default async function HomePage() {
-  const [allCollections, newArrivals] = await Promise.all([
-    getCollections().catch(() => []),
-    getProducts({ sortKey: "CREATED_AT", reverse: true }).catch(() => []),
-  ]);
+  const allCollections = await getCollections().catch(() => []);
 
   const collectionsByHandle = new Map(
     allCollections.map((collection) => [collection.handle, collection]),
@@ -44,157 +50,141 @@ export default async function HomePage() {
         return {
           handle,
           collection,
+          products,
+          kicker: collectionKickers[handle] ?? "",
           tagline: collectionTaglines[handle] ?? "",
-          image: collection.image ?? products[0]?.featuredImage,
+          image:
+            slotFromImage(collection.image, collection.title) ??
+            slotFromImage(products[0]?.featuredImage, collection.title),
         };
       }),
     )
   ).filter((entry): entry is NonNullable<typeof entry> => entry !== null);
 
+  // La collection mise en avant sur la bande ivoire est la première publiée,
+  // pas une constante : si elle se vide un jour, la bande suit au lieu de
+  // pointer vers une page sans produit.
+  const featured = officialCollections[0];
+
   const domain = process.env.SHOPIFY_STORE_DOMAIN;
 
   return (
     <>
-      <Hero />
-
-      {newArrivals.length > 0 ? (
-        <section
-          id="shop"
-          className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24"
-        >
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="label-xs text-signal">Dernières pièces</p>
-              <h2 className="headline mt-3 text-4xl md:text-6xl">Nouveautés</h2>
-            </div>
-            <Link
-              href="/search"
-              className="label-xs shrink-0 self-start border border-foreground px-5 py-3 text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background md:self-auto"
-            >
-              Voir tout le shop →
-            </Link>
-          </div>
-
-          <div className="mt-8">
-            <CategoryNav />
-          </div>
-
-          <div className="mt-10 grid grid-cols-2 gap-x-4 gap-y-10 md:mt-14 md:grid-cols-4 md:gap-x-6 md:gap-y-16">
-            {newArrivals.slice(0, 8).map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
-        </section>
-      ) : null}
-
-      <section id="manifeste" className="bg-terre text-terre-foreground">
-        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-32">
-          <p className="label-xs text-terre-foreground/60">Manifeste</p>
-          <p className="headline mt-8 max-w-4xl text-3xl md:text-6xl">
-            Onde Noire n&apos;est pas une esthétique.
-            <br />
-            C&apos;est une transmission.
-          </p>
-          <p className="editorial mt-10 max-w-2xl text-xl italic leading-relaxed text-terre-foreground/85 md:text-2xl">
-            Afrique. Caraïbes. Europe. Amériques.
-            <br />
-            Des mémoires différentes. Une histoire qui continue de circuler.
-          </p>
-          <Link
-            href="/stories"
-            className="label-xs mt-10 inline-flex items-center gap-3 border-b border-terre-foreground/50 pb-2 text-terre-foreground transition-colors duration-300 hover:border-terre-foreground"
-          >
-            Découvrir l&apos;histoire →
-          </Link>
-        </div>
-      </section>
+      {/* Les libellés viennent de Shopify : renommer une collection dans
+          l'admin met le défilé à jour, sans toucher au code. */}
+      <Hero
+        chapters={Object.fromEntries(
+          officialCollections.map((entry) => [
+            entry.handle,
+            { title: entry.collection.title, kicker: entry.kicker },
+          ]),
+        )}
+      />
 
       {officialCollections.length > 0 ? (
         <section id="collections" className="scroll-mt-20">
           <h2 className="sr-only">Collections</h2>
-          {/* Une seule rangée : les trois chapitres tiennent dans un écran
-              au lieu des trois qu'imposait l'empilement pleine hauteur. */}
+          {/* Trois cartes compactes en 4:3, le format relevé sur la maquette.
+              Le composant est celui de l'index des collections : un chapitre
+              a la même tête où qu'on le croise. */}
           <ul className="grid gap-px border-y border-border bg-border md:grid-cols-3">
             {officialCollections.map((entry, index) => (
               <li key={entry.handle} className="bg-background">
-                <Link
-                  href={`/search/${entry.handle}`}
-                  className="group flex h-full flex-col"
-                >
-                  <div className="relative aspect-video overflow-hidden bg-card">
-                    {entry.image ? (
-                      <Image
-                        src={entry.image.url}
-                        alt={entry.image.altText || entry.collection.title}
-                        fill
-                        sizes="(min-width: 768px) 33vw, 100vw"
-                        className="object-cover transition-transform duration-1000 ease-out group-hover:scale-[1.04]"
-                      />
-                    ) : null}
-                  </div>
-
-                  <div className="flex flex-1 flex-col p-6 md:p-8">
-                    <p className="label-xs inline-flex self-start border-b border-signal pb-1 text-signal">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h3 className="headline mt-5 text-2xl md:text-3xl">
-                      {entry.collection.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                      {entry.tagline}
-                    </p>
-                    <span className="label-xs mt-6 inline-flex items-center gap-3 self-start border-b border-signal/50 pb-2 text-signal transition-colors duration-300 group-hover:border-signal">
-                      Découvrir →
-                    </span>
-                  </div>
-                </Link>
+                <ChapterCard
+                  index={index + 1}
+                  href={`/collections/${entry.handle}`}
+                  title={entry.collection.title}
+                  kicker={entry.kicker}
+                  image={entry.image}
+                />
               </li>
             ))}
           </ul>
         </section>
       ) : null}
 
-      <section id="story">
-        <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 md:grid-cols-2 md:items-center md:px-10 md:py-28">
-          <div>
-            <h2 className="headline text-4xl md:text-6xl">
-              Au-delà du vêtement.
-            </h2>
-            <p className="editorial mt-8 max-w-md text-xl italic leading-relaxed md:text-2xl">
-              Nous ne portons pas l&apos;histoire. Nous la continuons.
+      <section id="manifeste" className="bg-card text-card-foreground">
+        <div className="shell grid gap-12 py-20 md:grid-cols-[1fr_minmax(0,34rem)_11rem] md:items-center md:gap-14 md:py-24">
+          <Reveal>
+            <SectionLabel
+              tone="muted"
+              className="border-transparent text-card-foreground/60"
+            >
+              Notre mission
+            </SectionLabel>
+            <EditorialTitle level="h2" className="mt-8">
+              Transformer
+              <br />
+              la mémoire
+              <br />
+              en mouvement.
+            </EditorialTitle>
+            <p className="type-body mt-8 max-w-md text-card-foreground/75">
+              Onde Noire est une maison de création contemporaine qui puise dans
+              les racines africaines pour façonner un avenir audacieux. À
+              travers le vêtement, nous transmettons des histoires, des valeurs
+              et une identité en constante évolution.
             </p>
-            <p className="mt-8 max-w-md text-sm leading-relaxed text-muted-foreground">
-              Chaque collection est un chapitre : un motif, un geste, un mot que
-              la coupe et la matière gardent en mémoire. Ce que vous portez est
-              daté, situé, documenté — une pièce pensée pour durer plus
-              longtemps que la saison qui l&apos;a vue naître.
-            </p>
-          </div>
-          <div className="relative aspect-4/5 overflow-hidden">
+            <div className="mt-10">
+              <Button href="/manifeste" variant="secondary" className="group">
+                Lire le manifeste
+                <Arrow />
+              </Button>
+            </div>
+          </Reveal>
+
+          {/* Paysage 3:2, et non portrait : c'est le cadrage de la maquette. */}
+          <Reveal delay={90} className="relative aspect-3/2 overflow-hidden">
             <Image
-              src="/editorial/archive.png"
-              alt="Vêtements pliés sur une surface de béton dans la pénombre"
+              src={ART.manifesto.url}
+              alt={ART.manifesto.alt}
               fill
-              sizes="(min-width: 768px) 50vw, 100vw"
+              sizes="(min-width: 768px) 34rem, 100vw"
               className="object-cover"
             />
+          </Reveal>
+
+          <div>
+            <ul className="type-label space-y-2 text-card-foreground/55">
+              {MISSION_FIELD.map((word) => (
+                <li key={word}>{word}</li>
+              ))}
+            </ul>
+            <p className="type-label mt-8 border-t border-card-foreground/25 pt-8 leading-loose text-card-foreground/70">
+              Certaines histoires se racontent.
+              <br />
+              D&apos;autres se portent.
+            </p>
           </div>
         </div>
       </section>
 
-      <section className="bg-brun text-brun-foreground">
-        <div className="mx-auto flex max-w-[1600px] flex-col gap-8 px-5 py-16 md:flex-row md:items-center md:justify-between md:px-10 md:py-24">
-          <div>
-            <h2 className="headline text-3xl md:text-4xl">
-              Restez dans la transmission.
-            </h2>
-            <p className="mt-3 text-sm leading-relaxed text-brun-foreground/70">
-              Nouveaux drops. Histoires. Archives. Signaux.
-            </p>
-          </div>
-          {domain ? <NewsletterForm domain={domain} /> : null}
-        </div>
-      </section>
+      {featured ? (
+        <Lookbook
+          label="Collection en cours"
+          title={featured.collection.title}
+          body={featured.tagline}
+          href={`/collections/${featured.handle}`}
+          ctaLabel="Voir la collection"
+          products={featured.products}
+        />
+      ) : null}
+
+      {/* Bannière finale : très large et peu haute, comme la maquette. */}
+      <CTASection
+        id="rejoindre"
+        label="Onde Noire®"
+        title={
+          <>
+            <span className="block">Culture</span>
+            <span className="block">doesn&apos;t disappear.</span>
+            <span className="block">It moves.</span>
+          </>
+        }
+        image={ART.finale}
+      >
+        {domain ? <NewsletterForm domain={domain} /> : null}
+      </CTASection>
     </>
   );
 }

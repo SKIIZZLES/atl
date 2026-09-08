@@ -38,10 +38,8 @@ export default async function PolicyPage(props: {
 
   return (
     <>
-      <p className="label-xs text-muted-foreground">Informations légales</p>
-      <h1 className="headline mt-4 text-4xl md:text-5xl">
-        {POLICY_LABELS[handle]}
-      </h1>
+      <p className="type-label text-muted-foreground">Informations légales</p>
+      <h1 className="type-h1 mt-5">{POLICY_LABELS[handle]}</h1>
       <Prose className="mt-10" html={policy.body} />
     </>
   );

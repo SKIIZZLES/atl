@@ -14,13 +14,23 @@ function SubmitButton({
   availableForSale: boolean;
   selectedVariantId: string | undefined;
 }) {
-  const buttonClasses =
-    "label-xs flex w-full items-center justify-center bg-foreground py-4 text-background transition-opacity duration-300";
-  const disabledClasses = "cursor-not-allowed opacity-40 hover:opacity-40";
+  // La forme, sans couleur de fond : deux classes de fond sur le même
+  // élément se départageraient par leur ordre d'émission dans la feuille de
+  // style, pas par l'ordre où on les écrit. Chaque état pose donc le sien,
+  // et un seul à la fois.
+  const shape =
+    "type-button flex h-[52px] w-full items-center justify-center transition-colors duration-500 ease-onde md:h-14";
+  // L'action principale de la fiche : fond or, texte noir. Elle était en
+  // ivoire pleine largeur — un bloc clair au milieu d'une page sombre, et
+  // le seul aplat de cette taille sur tout l'écran.
+  const enabled = "bg-foreground text-background hover:opacity-90";
+  // Épuisé, ou taille non choisie : contour et texte éteint, pas un aplat.
+  const disabled =
+    "cursor-not-allowed border border-border-control text-muted-foreground";
 
   if (!availableForSale) {
     return (
-      <button disabled className={clsx(buttonClasses, disabledClasses)}>
+      <button disabled className={clsx(shape, disabled)}>
         Épuisé
       </button>
     );
@@ -31,7 +41,7 @@ function SubmitButton({
       <button
         aria-label="Merci de sélectionner une option"
         disabled
-        className={clsx(buttonClasses, disabledClasses)}
+        className={clsx(shape, disabled)}
       >
         Ajouter au panier
       </button>
@@ -39,10 +49,7 @@ function SubmitButton({
   }
 
   return (
-    <button
-      aria-label="Ajouter au panier"
-      className={clsx(buttonClasses, "hover:opacity-80")}
-    >
+    <button aria-label="Ajouter au panier" className={clsx(shape, enabled)}>
       Ajouter au panier
     </button>
   );

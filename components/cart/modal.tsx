@@ -78,7 +78,7 @@ export default function CartModal() {
           >
             <Dialog.Panel className="fixed inset-y-0 right-0 flex w-full max-w-md flex-col border-l border-border bg-background">
               <div className="flex items-center justify-between border-b border-border/60 px-6 py-6">
-                <p className="label-xs">
+                <p className="type-label">
                   Panier{cart?.totalQuantity ? ` (${cart.totalQuantity})` : ""}
                 </p>
                 <button aria-label="Fermer le panier" onClick={closeCart}>
@@ -88,8 +88,10 @@ export default function CartModal() {
 
               {!cart || cart.lines.length === 0 ? (
                 <div className="flex flex-1 flex-col items-center justify-center gap-4 px-6 text-center">
-                  <p className="label-xs text-muted-foreground">Panier vide</p>
-                  <p className="max-w-xs text-sm leading-relaxed text-muted-foreground/70">
+                  <p className="type-label text-muted-foreground">
+                    Panier vide
+                  </p>
+                  <p className="max-w-xs text-sm leading-relaxed text-muted-foreground">
                     Chaque pièce est éditée en série courte. Parcourez les
                     collections pour commencer votre archive.
                   </p>
@@ -117,7 +119,7 @@ export default function CartModal() {
                         );
 
                         const merchandiseUrl = createUrl(
-                          `/product/${item.merchandise.product.handle}`,
+                          `/products/${item.merchandise.product.handle}`,
                           new URLSearchParams(merchandiseSearchParams),
                         );
 
@@ -147,7 +149,7 @@ export default function CartModal() {
                                     href={merchandiseUrl}
                                     onClick={closeCart}
                                   >
-                                    <p className="font-display text-sm uppercase tracking-tight">
+                                    <p className="type-label">
                                       {item.merchandise.product.title}
                                     </p>
                                   </Link>
@@ -194,7 +196,7 @@ export default function CartModal() {
                   </ul>
                   <div className="border-t border-border/60 px-6 py-6">
                     <div className="flex items-baseline justify-between">
-                      <span className="label-xs text-muted-foreground">
+                      <span className="type-label text-muted-foreground">
                         Sous-total
                       </span>
                       <Price
@@ -203,7 +205,7 @@ export default function CartModal() {
                         currencyCode={cart.cost.subtotalAmount.currencyCode}
                       />
                     </div>
-                    <p className="mt-2 text-xs text-muted-foreground/60">
+                    <p className="mt-2 text-xs text-muted-foreground">
                       Livraison et taxes calculées au paiement.
                     </p>
                     <form action={redirectToCheckout}>
@@ -225,7 +227,7 @@ function CheckoutButton() {
 
   return (
     <button
-      className="label-xs mt-6 flex w-full items-center justify-center bg-foreground py-4 text-background transition-opacity duration-300 hover:opacity-80 disabled:opacity-50"
+      className="type-button mt-6 flex h-[52px] w-full items-center justify-center bg-foreground text-background transition-colors duration-500 ease-onde hover:opacity-90 disabled:opacity-50 md:h-14"
       type="submit"
       disabled={pending}
     >

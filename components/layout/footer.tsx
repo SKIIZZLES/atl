@@ -1,10 +1,26 @@
 import { WaveDivider } from "components/wave-divider";
 import { POLICY_LABELS } from "lib/policies";
 import { getShopPolicies } from "lib/shopify";
+import type { PolicySlug } from "lib/shopify/types";
 import Image from "next/image";
 import Link from "next/link";
 
 type NavCollection = { handle: string; title: string };
+
+/**
+ * Les politiques sont réparties en deux colonnes plutôt qu'en une seule :
+ * livraison et retours répondent à une question avant l'achat, les mentions
+ * légales à une obligation. Elles n'ont rien à faire au même endroit.
+ */
+const HELP_SLUGS: PolicySlug[] = ["livraison", "remboursement"];
+const LEGAL_SLUGS: PolicySlug[] = [
+  "mentions-legales",
+  "conditions-generales",
+  "confidentialite",
+];
+
+const LINK_CLASS =
+  "type-body text-sm text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground";
 
 export default async function Footer({
   collections,
@@ -14,15 +30,17 @@ export default async function Footer({
   // Only the policies the merchant has actually written are linked — a dead
   // "Livraison" link is worse than no link on a shop taking real orders.
   const policies = await getShopPolicies();
+  const help = HELP_SLUGS.filter((slug) => policies[slug]);
+  const legal = LEGAL_SLUGS.filter((slug) => policies[slug]);
 
   return (
-    <footer>
-      <WaveDivider color="var(--brass)" />
-      <div className="mx-auto max-w-[1600px] px-5 py-16 md:px-10 md:py-24">
+    <footer className="bg-black">
+      <WaveDivider color="var(--border-control)" />
+      <div className="shell py-16 md:py-24">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:justify-between">
           <div className="max-w-sm">
             {/* Le lockup complet — monogramme, lettrage, signature — a la place
-                de respirer ici. Son fond noir se confond avec le bloc brun. */}
+                de respirer ici. Son fond noir se confond avec celui de la page. */}
             <Image
               src="https://cdn.shopify.com/s/files/1/1088/9438/8549/files/Image_Codex_5_sept._2026_14_56_18.png?v=1788613997"
               alt="Onde Noire — mémoire, culture, avenir"
@@ -31,68 +49,72 @@ export default async function Footer({
               sizes="(min-width: 768px) 224px, 176px"
               className="h-auto w-44 md:w-56"
             />
-            <p className="mt-6 text-sm leading-relaxed text-muted-foreground">
-              We don&apos;t wear history. We continue it.
+            <p className="type-label mt-6 text-muted-foreground">
+              Culture in motion
             </p>
           </div>
 
-          <div className="flex flex-col gap-10 sm:flex-row sm:gap-20">
+          {/* Les quatre colonnes passaient en ligne dès 640 px avec un écart
+              de 80 px : à 768 px elles dépassaient de 53 px, et la page
+              entière défilait latéralement. Elles s'enroulent désormais, et
+              l'écart s'ouvre avec la place disponible au lieu d'être posé
+              d'avance. */}
+          <div className="flex flex-wrap gap-x-12 gap-y-10 sm:gap-x-16 lg:gap-x-20">
             <nav aria-label="Shop" className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">Shop</span>
+              <span className="type-label text-foreground">Shop</span>
               {collections.map((collection) => (
                 <Link
                   key={collection.handle}
-                  href={`/search/${collection.handle}`}
-                  className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                  href={`/collections/${collection.handle}`}
+                  className={LINK_CLASS}
                 >
                   {collection.title}
                 </Link>
               ))}
+              <Link href="/collections" className={LINK_CLASS}>
+                Toutes les collections
+              </Link>
+              <Link href="/search" className={LINK_CLASS}>
+                Toutes les pièces
+              </Link>
+            </nav>
+
+            <nav aria-label="Aide" className="flex flex-col gap-4">
+              <span className="type-label text-foreground">Aide</span>
+              {help.map((slug) => (
+                <Link
+                  key={slug}
+                  href={`/politiques/${slug}`}
+                  className={LINK_CLASS}
+                >
+                  {POLICY_LABELS[slug]}
+                </Link>
+              ))}
+              <Link href="/contact" className={LINK_CLASS}>
+                Contact
+              </Link>
             </nav>
 
             <div className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">
-                Informations
-              </span>
-              <Link
-                href="/#manifeste"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
-              >
-                À propos
+              <span className="type-label text-foreground">Maison</span>
+              <Link href="/manifeste" className={LINK_CLASS}>
+                Manifeste
               </Link>
-              <Link
-                href="/contact"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
-              >
-                Contact
+              <Link href="/journal" className={LINK_CLASS}>
+                Journal
+              </Link>
+              <Link href="/a-propos" className={LINK_CLASS}>
+                À propos
               </Link>
             </div>
 
-            <nav
-              aria-label="Informations légales"
-              className="flex flex-col gap-4"
-            >
-              <span className="label-xs text-muted-foreground/60">Légal</span>
-              {Object.entries(policies).map(([handle, policy]) =>
-                policy ? (
-                  <Link
-                    key={handle}
-                    href={`/politiques/${handle}`}
-                    className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
-                  >
-                    {POLICY_LABELS[handle as keyof typeof POLICY_LABELS]}
-                  </Link>
-                ) : null,
-              )}
-            </nav>
-
             <div className="flex flex-col gap-4">
-              <span className="label-xs text-muted-foreground/60">Réseaux</span>
+              <span className="type-label text-foreground">Réseaux</span>
               <a
                 href="https://instagram.com/onde.noire"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                className={LINK_CLASS}
               >
                 Instagram
               </a>
@@ -100,7 +122,7 @@ export default async function Footer({
                 href="https://tiktok.com/@le88emeecho"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-sm text-muted-foreground transition-colors duration-300 hover:text-foreground"
+                className={LINK_CLASS}
               >
                 TikTok
               </a>
@@ -108,13 +130,26 @@ export default async function Footer({
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
-          <p className="label-xs text-muted-foreground/60">
+        <div className="mt-16 flex flex-col gap-4 border-t border-border pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <p className="type-label text-muted-foreground">
             © {new Date().getFullYear()} Onde Noire
           </p>
-          <p className="label-xs text-muted-foreground/60">
-            Culture doesn&apos;t disappear. It moves.
-          </p>
+          {legal.length > 0 ? (
+            <nav
+              aria-label="Informations légales"
+              className="flex flex-wrap gap-x-6 gap-y-2"
+            >
+              {legal.map((slug) => (
+                <Link
+                  key={slug}
+                  href={`/politiques/${slug}`}
+                  className="type-label text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground"
+                >
+                  {POLICY_LABELS[slug]}
+                </Link>
+              ))}
+            </nav>
+          ) : null}
         </div>
       </div>
     </footer>

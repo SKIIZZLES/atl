@@ -1,7 +1,7 @@
 import { useId } from "react";
 
 export function WaveDivider({
-  color = "var(--brass)",
+  color = "var(--border-control)",
   className = "",
 }: {
   color?: string;

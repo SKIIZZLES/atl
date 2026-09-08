@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
+
+import { Arrow, Button } from "components/ui/button";
+import { ART } from "lib/art-direction";
 
 import {
   axes,
@@ -14,7 +18,7 @@ import {
 } from "lib/stories-copy";
 
 export const metadata: Metadata = {
-  title: "Stories",
+  title: "Manifeste",
   description:
     "Le manifeste d'Onde Noire : mémoire, culture, avenir. L'histoire de la marque, la direction artistique du futurisme sobre, et les chapitres LE TIGNON, N.GRI.TUD et TRANSMISSION 001.",
 };
@@ -54,7 +58,7 @@ function Blocks({ blocks }: { blocks: readonly Block[] }) {
 function SectionRail({ numeral, title }: { numeral: string; title: string }) {
   return (
     <div className="md:col-span-4 lg:col-span-3">
-      <p className="headline text-5xl text-signal md:text-6xl">{numeral}</p>
+      <p className="headline text-5xl text-foreground md:text-6xl">{numeral}</p>
       <h2 className="headline mt-4 text-2xl md:text-3xl">{title}</h2>
     </div>
   );
@@ -65,18 +69,18 @@ function ProseSection({
   tone,
 }: {
   section: Section;
-  tone: "base" | "terre";
+  tone: "base" | "sombre";
 }) {
   return (
     <section
       id={section.id}
       className={
-        tone === "terre"
-          ? "scroll-mt-24 bg-terre text-terre-foreground"
+        tone === "sombre"
+          ? "scroll-mt-24 bg-card text-card-foreground"
           : "scroll-mt-24 border-t border-border"
       }
     >
-      <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+      <div className="shell py-20 md:py-28">
         <div className="grid gap-12 md:grid-cols-12 md:gap-16">
           <SectionRail numeral={section.numeral} title={section.title} />
           <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -87,7 +91,7 @@ function ProseSection({
               <Blocks blocks={section.blocks} />
             </div>
             {section.pullQuote ? (
-              <blockquote className="mt-12 border-l-2 border-signal pl-6">
+              <blockquote className="mt-12 border-l-2 border-border-control pl-6">
                 <p className="editorial text-xl leading-relaxed md:text-2xl">
                   {section.pullQuote}
                 </p>
@@ -110,36 +114,54 @@ function sectionById(id: string): Section {
 
 export default function StoriesPage() {
   return (
-    <div className="pt-28 md:pt-36">
-      {/* Ouverture */}
-      <header className="mx-auto max-w-[1600px] px-5 md:px-10">
-        <p className="label-xs text-signal">Onde Noire — Stories</p>
-        <h1 className="headline mt-5 max-w-5xl text-[11vw] leading-[0.9] md:text-[6vw]">
-          {opening.title}
-        </h1>
-        <div className="mt-12 grid gap-12 md:grid-cols-12 md:gap-16">
-          <div className="md:col-span-4 lg:col-span-3">
-            <p className="label-xs text-muted-foreground">
-              Mémoire · Culture · Avenir
-            </p>
-          </div>
-          <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
-            <p className="editorial text-2xl leading-snug md:text-3xl">
-              {opening.standfirst}
-            </p>
-            <div className="mt-10">
-              <Blocks blocks={opening.blocks} />
+    <div>
+      {/* Ouverture — la seule section de la page qui porte une image.
+          Trois couches, dans cet ordre : la photographie, le voile, le
+          texte. Le fond noir est posé sur la section elle-même, pas laissé
+          à l'image : si elle ne charge pas, l'ouverture reste sombre au
+          lieu de découvrir un vide clair. */}
+      <header className="relative isolate overflow-hidden bg-background pt-28 pb-20 md:pt-36 md:pb-28">
+        <Image
+          src={ART.manifesto.url}
+          alt=""
+          aria-hidden="true"
+          fill
+          priority
+          sizes="100vw"
+          className="z-0 object-cover object-center opacity-60"
+        />
+        {/* Voile descendant : l'image respire en haut, le texte se pose sur
+            du presque noir en bas. */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 z-10 bg-linear-to-b from-background/25 to-background/95"
+        />
+        <div className="shell relative z-20">
+          <p className="type-label text-foreground">Onde Noire — Stories</p>
+          <h1 className="type-manifesto-title mt-5 max-w-5xl">
+            {opening.title}
+          </h1>
+          <div className="mt-12 grid gap-12 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4 lg:col-span-3">
+              <p className="type-label text-muted-foreground">
+                Mémoire · Culture · Avenir
+              </p>
+            </div>
+            <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
+              <p className="editorial text-2xl leading-snug md:text-3xl">
+                {opening.standfirst}
+              </p>
+              <div className="mt-10">
+                <Blocks blocks={opening.blocks} />
+              </div>
             </div>
           </div>
         </div>
       </header>
 
       {/* Sommaire */}
-      <nav
-        aria-label="Sommaire"
-        className="mx-auto mt-20 max-w-[1600px] px-5 md:px-10"
-      >
-        <p className="label-xs text-muted-foreground">Sommaire</p>
+      <nav aria-label="Sommaire" className="shell mt-20">
+        <p className="type-label text-muted-foreground">Sommaire</p>
         <ul className="mt-8 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
           {summary.map((entry) => (
             <li key={entry.id} className="bg-background">
@@ -147,7 +169,9 @@ export default function StoriesPage() {
                 href={`#${entry.id}`}
                 className="flex h-full flex-col gap-3 p-5 transition-colors duration-300 hover:bg-card"
               >
-                <span className="label-xs text-signal">{entry.numeral}</span>
+                <span className="type-label text-foreground">
+                  {entry.numeral}
+                </span>
                 <span className="text-sm text-foreground">{entry.title}</span>
               </a>
             </li>
@@ -159,7 +183,7 @@ export default function StoriesPage() {
         <ProseSection section={sectionById("notre-histoire")} tone="base" />
         <ProseSection
           section={sectionById("pourquoi-onde-noire")}
-          tone="terre"
+          tone="sombre"
         />
         <ProseSection section={sectionById("le-88eme-echo")} tone="base" />
       </div>
@@ -169,7 +193,7 @@ export default function StoriesPage() {
         id="les-chapitres"
         className="scroll-mt-24 border-t border-border"
       >
-        <div className="mx-auto max-w-[1600px] px-5 pt-20 md:px-10 md:pt-28">
+        <div className="shell pt-20 md:pt-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="IV" title="Les chapitres" />
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -189,13 +213,13 @@ export default function StoriesPage() {
       {chapters.map((chapter, i) => (
         <article
           key={chapter.handle}
-          className={i % 2 === 1 ? "bg-terre text-terre-foreground" : undefined}
+          className={i % 2 === 1 ? "bg-card text-card-foreground" : undefined}
         >
-          <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+          <div className="shell py-20 md:py-28">
             <div className="grid gap-12 md:grid-cols-12 md:gap-16">
               {/* Colonne de repère : index, date, lieu */}
               <div className="md:col-span-4 lg:col-span-3">
-                <p className="headline text-6xl text-signal md:text-7xl">
+                <p className="headline text-6xl text-foreground md:text-7xl">
                   {chapter.index}
                 </p>
                 <h3 className="headline mt-4 text-2xl md:text-3xl">
@@ -203,17 +227,17 @@ export default function StoriesPage() {
                 </h3>
                 <dl className="mt-8 space-y-3">
                   <div>
-                    <dt className="label-xs text-muted-foreground">Date</dt>
-                    <dd className="label-xs mt-1">{chapter.period}</dd>
+                    <dt className="type-label text-muted-foreground">Date</dt>
+                    <dd className="type-label mt-1">{chapter.period}</dd>
                   </div>
                   <div>
-                    <dt className="label-xs text-muted-foreground">Lieu</dt>
-                    <dd className="label-xs mt-1">{chapter.place}</dd>
+                    <dt className="type-label text-muted-foreground">Lieu</dt>
+                    <dd className="type-label mt-1">{chapter.place}</dd>
                   </div>
                 </dl>
                 <Link
-                  href={`/search/${chapter.handle}`}
-                  className="label-xs mt-10 inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
+                  href={`/collections/${chapter.handle}`}
+                  className="type-label mt-10 inline-flex items-center gap-3 border-b border-border-control pb-2 text-foreground transition-colors duration-300 hover:border-foreground"
                 >
                   Voir la collection →
                 </Link>
@@ -229,7 +253,7 @@ export default function StoriesPage() {
                     <p key={paragraph.slice(0, 40)}>{paragraph}</p>
                   ))}
                 </div>
-                <blockquote className="mt-12 border-l-2 border-signal pl-6">
+                <blockquote className="mt-12 border-l-2 border-border-control pl-6">
                   <p className="editorial text-xl leading-relaxed md:text-2xl">
                     {chapter.pullQuote}
                   </p>
@@ -243,9 +267,9 @@ export default function StoriesPage() {
       {/* V — Le futurisme sobre */}
       <section
         id="futurisme-sobre"
-        className="scroll-mt-24 bg-terre text-terre-foreground"
+        className="scroll-mt-24 bg-card text-card-foreground"
       >
-        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+        <div className="shell py-20 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="V" title="Le futurisme sobre" />
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -255,7 +279,7 @@ export default function StoriesPage() {
                 serait son langage visuel ?
               </p>
               <div className="mt-10 space-y-8">
-                <p className="text-base leading-relaxed text-terre-foreground/75 md:text-lg">
+                <p className="text-base leading-relaxed text-card-foreground/75 md:text-lg">
                   Onde Noire ne cherche pas à représenter
                   «&nbsp;l&apos;Afrique&nbsp;» avec les codes visuels attendus.
                   Pas d&apos;afrofuturisme devenu décoration. Pas
@@ -285,12 +309,12 @@ export default function StoriesPage() {
 
           <ul className="mt-16 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
             {axes.map((axis) => (
-              <li key={axis.index} className="bg-terre p-8 md:p-10">
-                <p className="label-xs text-signal">{axis.index}</p>
+              <li key={axis.index} className="bg-card p-8 md:p-10">
+                <p className="type-label text-foreground">{axis.index}</p>
                 <p className="headline mt-4 text-xl md:text-2xl">
                   {axis.title}
                 </p>
-                <p className="mt-4 text-sm leading-relaxed text-terre-foreground/75">
+                <p className="mt-4 text-sm leading-relaxed text-card-foreground/75">
                   {axis.text}
                 </p>
               </li>
@@ -300,11 +324,11 @@ export default function StoriesPage() {
       </section>
 
       <ProseSection section={sectionById("langage-visuel")} tone="base" />
-      <ProseSection section={sectionById("streetwear")} tone="terre" />
+      <ProseSection section={sectionById("streetwear")} tone="sombre" />
 
       {/* VIII — Nos principes */}
       <section id="principes" className="scroll-mt-24 border-t border-border">
-        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+        <div className="shell py-20 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="VIII" title="Nos principes" />
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -318,11 +342,11 @@ export default function StoriesPage() {
                     key={principle.title}
                     className="flex gap-6 py-8 md:gap-10"
                   >
-                    <span className="label-xs mt-1 shrink-0 text-signal">
+                    <span className="type-label mt-1 shrink-0 text-foreground">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <div>
-                      <p className="headline text-xl text-cuivre md:text-2xl">
+                      <p className="headline text-xl text-foreground md:text-2xl">
                         {principle.title}
                       </p>
                       <p className="mt-3 text-base leading-relaxed text-muted-foreground">
@@ -340,9 +364,9 @@ export default function StoriesPage() {
       {/* IX — Ce que nous ne sommes pas */}
       <section
         id="n-est-pas"
-        className="scroll-mt-24 bg-terre text-terre-foreground"
+        className="scroll-mt-24 bg-card text-card-foreground"
       >
-        <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
+        <div className="shell py-20 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="IX" title="Onde Noire n'est pas" />
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
@@ -356,7 +380,7 @@ export default function StoriesPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-10 text-base leading-relaxed text-terre-foreground/75 md:text-lg">
+              <p className="mt-10 text-base leading-relaxed text-card-foreground/75 md:text-lg">
                 Onde Noire est un système culturel. Une marque qui construit ses
                 propres signes. Ses propres archives. Ses propres transmissions.
               </p>
@@ -368,23 +392,23 @@ export default function StoriesPage() {
       <ProseSection section={sectionById("vision")} tone="base" />
 
       {/* Clôture */}
-      <section className="bg-brun text-brun-foreground">
-        <div className="mx-auto max-w-[1600px] px-5 py-24 md:px-10 md:py-32">
+      <section className="bg-background text-foreground">
+        <div className="shell py-24 md:py-32">
           <p className="headline max-w-4xl text-3xl leading-[1.05] md:text-6xl">
             Ce qui a été oublié n&apos;a pas disparu.
             <br />
             Nous sommes encore en transmission.
           </p>
-          <p className="label-xs mt-10 text-signal">
+          <p className="type-label mt-10 text-foreground">
             Mémoire · Culture · Avenir
           </p>
 
           <div className="mt-20 grid gap-12 border-t border-border pt-12 md:grid-cols-12 md:gap-16">
             <div className="md:col-span-4 lg:col-span-3">
-              <p className="label-xs text-muted-foreground">La marque</p>
+              <p className="type-label text-muted-foreground">La marque</p>
             </div>
             <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
-              <div className="space-y-6 text-base leading-relaxed text-brun-foreground/75 md:text-lg">
+              <div className="space-y-6 text-base leading-relaxed text-foreground/75 md:text-lg">
                 <p>
                   Onde Noire est éditée depuis Bourg-en-Bresse, dans l&apos;Ain,
                   et immatriculée en juillet 2026. Une partie des pièces est
@@ -398,12 +422,12 @@ export default function StoriesPage() {
                   viennent ses références.
                 </p>
               </div>
-              <Link
-                href="/search"
-                className="label-xs mt-12 inline-flex items-center gap-3 border border-brun-foreground px-5 py-3 text-brun-foreground transition-colors duration-300 hover:bg-brun-foreground hover:text-brun"
-              >
-                Voir le shop →
-              </Link>
+              <div className="mt-12">
+                <Button href="/search" variant="secondary" className="group">
+                  Voir le shop
+                  <Arrow />
+                </Button>
+              </div>
             </div>
           </div>
         </div>

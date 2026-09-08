@@ -62,7 +62,8 @@ export function VariantSelector({
     variants.find((variant) =>
       variant.selectedOptions.some(
         (selected) =>
-          selected.name.toLowerCase() === optionName && selected.value === value,
+          selected.name.toLowerCase() === optionName &&
+          selected.value === value,
       ),
     )?.image ?? null;
 
@@ -73,10 +74,15 @@ export function VariantSelector({
     return (
       <form key={option.id}>
         <dl className="mb-8">
-          <dt className="label-xs mb-4 text-muted-foreground">
+          <dt className="type-label mb-4 text-muted-foreground">
             {OPTION_LABELS[optionNameLowerCase] ?? option.name}
           </dt>
-          <dd className={clsx("flex flex-wrap", isColorOption ? "gap-2" : "gap-3")}>
+          <dd
+            className={clsx(
+              "flex flex-wrap",
+              isColorOption ? "gap-2" : "gap-3",
+            )}
+          >
             {option.values.map((value) => {
               // Base option params on current searchParams so we can preserve any other param state.
               const optionParams: Record<string, string> = {};
@@ -114,11 +120,17 @@ export function VariantSelector({
                     aria-label={`${value}${!isAvailableForSale ? " — épuisé" : ""}`}
                     disabled={!isAvailableForSale}
                     title={`${value}${!isAvailableForSale ? " — épuisé" : ""}`}
+                    /* Des cercles de 36 px, seule exception aux angles
+                       droits de la marque : une pastille de coloris se lit
+                       comme un point de couleur, pas comme une vignette.
+                       Elles faisaient 64 px de côté et montraient le
+                       fichier de design de la variante — un aplat clair
+                       posé trois fois dans la colonne d'achat. */
                     className={clsx(
-                      "relative size-16 overflow-hidden border transition-all duration-300",
+                      "relative size-9 overflow-hidden rounded-full border transition-all duration-300 ease-onde",
                       {
                         "border-foreground ring-1 ring-foreground": isActive,
-                        "border-border hover:border-foreground":
+                        "border-border-control hover:border-foreground":
                           !isActive && isAvailableForSale,
                         "cursor-not-allowed border-border opacity-35":
                           !isAvailableForSale,
@@ -129,7 +141,7 @@ export function VariantSelector({
                       src={swatch.url}
                       alt={swatch.altText || value}
                       fill
-                      sizes="64px"
+                      sizes="36px"
                       className="object-cover"
                     />
                   </button>
@@ -144,11 +156,20 @@ export function VariantSelector({
                   disabled={!isAvailableForSale}
                   title={`${value}${!isAvailableForSale ? " — épuisé" : ""}`}
                   className={clsx(
-                    "flex min-w-[48px] items-center justify-center border border-border px-3 py-2 text-xs uppercase tracking-widest transition-colors duration-300",
+                    // Fond transparent, bordure sobre, or quand la taille est
+                    // choisie. L'état actif était un aplat ivoire : un
+                    // deuxième bloc clair sur la même colonne.
+                    "type-button flex h-11 min-w-[48px] items-center justify-center border border-border-control px-4 transition-colors duration-300 ease-onde",
                     {
-                      "cursor-default border-foreground bg-foreground text-background":
+                      "cursor-default border-foreground text-foreground":
                         isActive,
-                      "hover:border-foreground": !isActive && isAvailableForSale,
+                      "hover:border-foreground":
+                        !isActive && isAvailableForSale,
+                      // Contraste volontairement bas : WCAG 1.4.3 exempte
+                      // les contrôles désactivés, et c'est justement ce
+                      // qu'on veut dire — cette taille n'est pas
+                      // disponible. Le trait barré le dit aussi, pour qui
+                      // ne distingue pas la nuance.
                       "relative cursor-not-allowed overflow-hidden text-muted-foreground/40 before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-border":
                         !isAvailableForSale,
                     },

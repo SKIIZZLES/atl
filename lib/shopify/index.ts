@@ -153,7 +153,7 @@ const reshapeCollection = (
 
   return {
     ...collection,
-    path: `/search/${collection.handle}`,
+    path: `/collections/${collection.handle}`,
   };
 };
 
@@ -359,45 +359,27 @@ export async function getCollections(): Promise<Collection[]> {
 
   if (!endpoint) {
     console.log("Skipping getCollections - Shopify not configured");
-    return [
-      {
-        handle: "",
-        title: "All",
-        description: "All products",
-        seo: {
-          title: "All",
-          description: "All products",
-        },
-        path: "/search",
-        updatedAt: new Date().toISOString(),
-      },
-    ];
+    return [];
   }
 
   const res = await shopifyFetch<ShopifyCollectionsOperation>({
     query: getCollectionsQuery,
   });
   const shopifyCollections = removeEdgesAndNodes(res.body?.data?.collections);
-  const collections = [
-    {
-      handle: "",
-      title: "All",
-      description: "All products",
-      seo: {
-        title: "All",
-        description: "All products",
-      },
-      path: "/search",
-      updatedAt: new Date().toISOString(),
-    },
-    // Filter out the `hidden` collections.
-    // Collections that start with `hidden-*` need to be hidden on the search page.
-    ...reshapeCollections(shopifyCollections).filter(
-      (collection) => !collection.handle.startsWith("hidden"),
-    ),
-  ];
 
-  return collections;
+  // Le gabarit d'origine ajoutait ici une collection factice « All », de
+  // libellé anglais et de `handle` vide, qui alimentait la colonne latérale
+  // de son écran de recherche. Cette colonne n'existe plus, mais l'entrée,
+  // elle, continuait de remonter : elle apparaissait dans le menu de la
+  // barre, dans le menu mobile et au pied de page, en anglais au milieu du
+  // français, et pointait vers une adresse de collection sans collection.
+  // Le catalogue complet a son propre lien, écrit là où il doit l'être.
+  //
+  // Les collections préfixées `hidden` restent exclues : c'est la convention
+  // Shopify pour ce qui ne doit pas apparaître en navigation.
+  return reshapeCollections(shopifyCollections).filter(
+    (collection) => !collection.handle.startsWith("hidden"),
+  );
 }
 
 export async function getMenu(handle: string): Promise<Menu[]> {

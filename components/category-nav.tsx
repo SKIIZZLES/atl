@@ -1,11 +1,17 @@
 import clsx from "clsx";
 import Link from "next/link";
 
+/**
+ * Ces libellés ne sont pas décoratifs : `/search?category=` interroge Shopify
+ * avec `product_type:"<libellé>"`. Toute entrée ajoutée ici doit exister mot
+ * pour mot dans le champ « type de produit » d'au moins un article, sinon le
+ * filtre renvoie une page vide.
+ */
 export const CATEGORIES = [
   "T-Shirts",
   "Hoodies & Sweats",
+  "Pantalons",
   "Vestes & Manteaux",
-  "Ensembles",
   "Robes",
   "Accessoires",
 ] as const;
@@ -19,10 +25,10 @@ export function CategoryNav({ active }: { active?: string }) {
       <Link
         href="/search"
         className={clsx(
-          "label-xs shrink-0 border px-4 py-2.5 transition-colors duration-300",
+          "type-label shrink-0 border px-4 py-2.5 transition-colors duration-300",
           active
-            ? "border-border text-muted-foreground hover:border-foreground hover:text-foreground"
-            : "border-foreground bg-foreground text-background",
+            ? "border-border-control text-muted-foreground hover:border-foreground hover:text-foreground"
+            : "border-foreground text-foreground",
         )}
       >
         Tout
@@ -32,10 +38,10 @@ export function CategoryNav({ active }: { active?: string }) {
           key={category}
           href={`/search?category=${encodeURIComponent(category)}`}
           className={clsx(
-            "label-xs shrink-0 border px-4 py-2.5 transition-colors duration-300",
+            "type-label shrink-0 border px-4 py-2.5 transition-colors duration-300",
             active === category
-              ? "border-foreground bg-foreground text-background"
-              : "border-border text-muted-foreground hover:border-foreground hover:text-foreground",
+              ? "border-foreground text-foreground"
+              : "border-border-control text-muted-foreground hover:border-foreground hover:text-foreground",
           )}
         >
           {category}
