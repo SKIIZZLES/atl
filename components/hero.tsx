@@ -16,8 +16,9 @@ const FIELD = ["Vêtements", "Culture", "Transmission", "Diaspora", "Demain"];
  *  qu'il y a une suite. */
 const INTERVAL_MS = 6000;
 
-export function Hero() {
+export function Hero({ labels }: { labels: Record<string, string> }) {
   const [index, setIndex] = useState(0);
+  const current = HERO_SLIDES[index]!;
 
   useEffect(() => {
     // Un défilement automatique est du confort ; pour qui le supporte mal,
@@ -129,32 +130,41 @@ export function Hero() {
         </ul>
       </div>
 
-      {/* Le repère de la maquette, devenu réel : il indexe le défilé et
-          permet d'y naviguer. La barre se remplit à la position courante. */}
-      <div className="absolute bottom-8 left-5 flex items-center gap-4 md:bottom-10 md:left-10">
-        <span className="label-xs tabular-nums text-brun-foreground/60">
-          {String(index + 1).padStart(2, "0")} /{" "}
-          {String(HERO_SLIDES.length).padStart(2, "0")}
-        </span>
-        <div className="flex items-center gap-1.5">
-          {HERO_SLIDES.map((slide, position) => (
-            <button
-              key={slide.handle}
-              type="button"
-              onClick={() => setIndex(position)}
-              aria-label={`Vue ${position + 1} sur ${HERO_SLIDES.length}`}
-              aria-current={position === index}
-              className="group py-3"
-            >
-              <span
-                className={
-                  position === index
-                    ? "block h-px w-10 bg-brun-foreground transition-colors duration-300"
-                    : "block h-px w-10 bg-brun-foreground/25 transition-colors duration-300 group-hover:bg-brun-foreground/60"
-                }
-              />
-            </button>
-          ))}
+      {/* Le repère de la maquette, devenu réel : il indexe le défilé, nomme
+          le chapitre affiché et permet d'y naviguer. */}
+      <div className="absolute inset-x-5 bottom-8 md:inset-x-10 md:bottom-10">
+        <Link
+          href={`/search/${current.handle}`}
+          className="label-xs inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 hover:border-signal"
+        >
+          {labels[current.handle] ?? current.handle} →
+        </Link>
+
+        <div className="mt-4 flex items-center gap-4">
+          <span className="label-xs tabular-nums text-brun-foreground/60">
+            {String(index + 1).padStart(2, "0")} /{" "}
+            {String(HERO_SLIDES.length).padStart(2, "0")}
+          </span>
+          <div className="flex items-center gap-1.5">
+            {HERO_SLIDES.map((slide, position) => (
+              <button
+                key={slide.handle}
+                type="button"
+                onClick={() => setIndex(position)}
+                aria-label={`Vue ${position + 1} sur ${HERO_SLIDES.length}`}
+                aria-current={position === index}
+                className="group py-3"
+              >
+                <span
+                  className={
+                    position === index
+                      ? "block h-px w-10 bg-brun-foreground transition-colors duration-300"
+                      : "block h-px w-10 bg-brun-foreground/25 transition-colors duration-300 group-hover:bg-brun-foreground/60"
+                  }
+                />
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </section>

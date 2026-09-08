@@ -69,7 +69,16 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero />
+      {/* Les libellés viennent de Shopify : renommer une collection dans
+          l'admin met le défilé à jour, sans toucher au code. */}
+      <Hero
+        labels={Object.fromEntries(
+          officialCollections.map((entry) => [
+            entry.handle,
+            entry.collection.title,
+          ]),
+        )}
+      />
 
       {officialCollections.length > 0 ? (
         <section id="collections" className="scroll-mt-20">
