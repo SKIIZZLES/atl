@@ -103,15 +103,21 @@ export function Gallery({
       ) : null}
 
       <div className="min-w-0 flex-1">
-        {/* Desktop : une seule grande image, changée sur place. */}
-        <div className="relative hidden aspect-4/5 overflow-hidden bg-card lg:block">
+        {/* Desktop : une seule grande image, changée sur place.
+            Cadre carré et image contenue, pas recadrée : les mockups du
+            fournisseur sont en 1200 × 1200, et les faire entrer dans un
+            portrait 4:5 en `cover` coupait un cinquième de la largeur —
+            c'est-à-dire les manches d'un vêtement oversize. Le guide des
+            tailles, lui, est en 1200 × 580 : il se pose dans le cadre au
+            lieu d'être rogné jusqu'à l'illisible. */}
+        <div className="relative hidden aspect-square overflow-hidden bg-card lg:block">
           <Image
             src={images[index]!.src}
             alt={images[index]!.altText}
             fill
             priority
             sizes="(min-width: 1024px) 55vw, 100vw"
-            className="object-cover"
+            className="object-contain"
           />
 
           {total > 1 ? (
@@ -156,7 +162,7 @@ export function Gallery({
             {images.map((image, position) => (
               <li
                 key={image.src}
-                className="relative aspect-4/5 w-screen shrink-0 snap-center bg-card"
+                className="relative aspect-square w-screen shrink-0 snap-center bg-card"
               >
                 <Image
                   src={image.src}
@@ -164,7 +170,7 @@ export function Gallery({
                   fill
                   priority={position === 0}
                   sizes="100vw"
-                  className="object-cover"
+                  className="object-contain"
                 />
               </li>
             ))}

@@ -69,10 +69,24 @@ export function orderProductImages(images: Image[]): Image[] {
  * Le visuel qui apparaît au survol d'une carte produit. Le dos est ce qui
  * distingue deux pièces coupées dans le même vêtement de base — c'est donc
  * lui qu'on montre, quand il existe.
+ *
+ * Quand il n'existe pas, la carte ne change plus. Le repli précédent prenait
+ * le deuxième visuel, qui sur un produit du fournisseur est la face d'un
+ * autre coloris : survoler un hoodie noir affichait le même hoodie en beige,
+ * comme s'il s'agissait d'un autre angle. Ne rien montrer est plus honnête
+ * que montrer autre chose.
+ *
+ * Le repli reste pour les pièces photographiées, dont les visuels n'ont pas
+ * de libellé de côté : là, le second visuel est bien la même pièce sous un
+ * autre angle.
  */
 export function hoverImage(images: Image[]): Image | null {
+  const usesSides = images.some(
+    (image) => sideOf(image.altText ?? "") !== null,
+  );
   const back = images.find((image) => sideOf(image.altText ?? "") === "back");
-  return back ?? images[1] ?? null;
+  if (usesSides) return back ?? null;
+  return images[1] ?? null;
 }
 
 /**
@@ -82,9 +96,15 @@ export function hoverImage(images: Image[]): Image | null {
  * champ dédié : on le reconnaît à son libellé. Rien de deviné — s'il n'y a
  * pas de correspondance, le lien ne s'affiche pas, plutôt que de promettre
  * un tableau qui n'existe pas.
+ *
+ * Le fournisseur ne l'appelle pas « size chart » mais `size-130U008` : un
+ * préfixe suivi d'une référence d'article. Relevé sur tout le catalogue —
+ * les huit produits qui en ont un le nomment ainsi, et le fichier est en
+ * 1200×580 là où les mockups sont carrés. Le motif attendu ne correspondait
+ * donc à rien, et le lien ne s'affichait sur aucune pièce.
  */
 const SIZE_GUIDE =
-  /(size\s*chart|size\s*guide|guide\s*des\s*tailles|tableau\s*des\s*tailles|mesures)/i;
+  /^size[-_\s]|(size\s*chart|size\s*guide|guide\s*des\s*tailles|tableau\s*des\s*tailles)/i;
 
 export function sizeGuideImage(images: Image[]): Image | null {
   return (

@@ -113,7 +113,7 @@ export default async function ProductPage(props: {
           <div className="w-full lg:basis-3/5">
             <Suspense
               fallback={
-                <div className="aspect-4/5 w-full overflow-hidden bg-card" />
+                <div className="aspect-square w-full overflow-hidden bg-card" />
               }
             >
               <Gallery
