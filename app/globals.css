@@ -103,6 +103,11 @@
   --border-control: rgb(255 255 255 / 0.35);
   /* Le voile de survol, posé sur ce qui se manipule. */
   --hover: rgb(255 255 255 / 0.08);
+  /* Le grain du film, un point tous les trois pixels. Il lui faut sa propre
+     ligne : `radial-gradient` prend une couleur d'arrêt, pas une couleur à
+     laquelle on applique une opacité au passage. Déclarée ici, elle suit la
+     palette au lieu de dériver dans une feuille lointaine. */
+  --grain: rgb(245 245 245 / 0.07);
 
   /* Le liseré de focus. Blanc plutôt qu'or : la palette n'a plus d'accent
      coloré, et un focus doit rester le repère le plus net de la page. */
@@ -405,13 +410,7 @@ button,
 }
 
 @utility grain-overlay {
-  /* L'ivoire de --foreground, en dur : une variable ne peut pas servir de
-     couleur d'arrêt dans un `radial-gradient` sur tous les navigateurs
-     visés. À tenir à jour avec le jeton. */
-  background-image: radial-gradient(
-    rgb(232 226 214 / 7%) 0.5px,
-    transparent 0.5px
-  );
+  background-image: radial-gradient(var(--grain) 0.5px, transparent 0.5px);
   background-size: 3px 3px;
 }
 

@@ -11,20 +11,19 @@ export type Props = {
  * La vignette qui accompagne un lien partagé — donc, très souvent, la
  * première image que quelqu'un voit du site.
  *
- * Elle était restée au gabarit d'origine : noir pur, contour gris neutre,
- * angles arrondis, texte blanc, Inter. Cinq écarts avec la charte, sur la
- * seule surface qu'on ne voit jamais en naviguant — donc jamais pendant une
- * relecture.
- *
- * Les couleurs sont écrites en clair plutôt qu'en classes utilitaires :
- * le moteur de rendu des vignettes ne connaît que la palette par défaut de
- * Tailwind, pas nos jetons. Ce sont les mêmes valeurs, à tenir à jour avec
- * la feuille de style.
+ * Les couleurs sont écrites en clair plutôt qu'en classes utilitaires : le
+ * moteur de rendu des vignettes ne connaît que la palette par défaut de
+ * Tailwind, pas nos jetons. C'est le seul endroit du site où une valeur se
+ * recopie à la main — et elle avait dérivé : la vignette est restée à
+ * l'ivoire, la terre et l'or de la charte précédente pendant que le reste
+ * passait au neutre. Elle est la surface qu'on ne voit jamais en naviguant,
+ * donc jamais pendant une relecture. À resynchroniser avec le bloc `:root`
+ * de `globals.css` à chaque changement de palette.
  */
-const NOIR = "#0a0a0a";
-const IVOIRE = "#e8e2d6";
-const TERRE = "#755c45";
-const OR = "#c8942e";
+const FOND = "#050505";
+const TEXTE = "#f5f5f5";
+const SECONDAIRE = "#a0a0a0";
+const FILET = "rgba(255, 255, 255, 0.35)";
 
 export default async function OpengraphImage(
   props?: Props,
@@ -48,7 +47,7 @@ export default async function OpengraphImage(
           width: "100%",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: NOIR,
+          backgroundColor: FOND,
           padding: "72px",
         }}
       >
@@ -62,17 +61,17 @@ export default async function OpengraphImage(
               justifyContent: "center",
               height: "104px",
               width: "104px",
-              border: `1px solid ${TERRE}`,
+              border: `1px solid ${FILET}`,
             }}
           >
-            <LogoIcon width="48" height="44" fill={IVOIRE} />
+            <LogoIcon width="48" height="44" fill={TEXTE} />
           </div>
           <p
             style={{
               fontSize: "26px",
               letterSpacing: "0.22em",
               textTransform: "uppercase",
-              color: IVOIRE,
+              color: TEXTE,
             }}
           >
             Onde Noire®
@@ -84,7 +83,7 @@ export default async function OpengraphImage(
             style={{
               fontSize: "68px",
               lineHeight: 1.05,
-              color: IVOIRE,
+              color: TEXTE,
               margin: 0,
             }}
           >
@@ -96,7 +95,7 @@ export default async function OpengraphImage(
               marginTop: "36px",
               height: "1px",
               width: "180px",
-              backgroundColor: OR,
+              backgroundColor: FILET,
             }}
           />
           <p
@@ -105,7 +104,7 @@ export default async function OpengraphImage(
               fontSize: "24px",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
-              color: OR,
+              color: SECONDAIRE,
             }}
           >
             Culture in motion
