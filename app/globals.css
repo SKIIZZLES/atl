@@ -45,19 +45,19 @@
   --color-brass: var(--brass);
 
   /* Les mêmes valeurs sous leur nom de scène, parce que la maquette parle
-     d'ivoire et de terre, pas de « foreground ». */
+     d'ivoire et de terre, pas de « foreground ». Chacune pointe sur un des
+     sept jetons ci-dessous — aucune n'en ajoute un huitième. */
   --color-noir: var(--background);
   --color-noir-doux: var(--card);
   --color-ivoire: var(--foreground);
-  --color-beige: var(--beige);
-  --color-terre: var(--terre);
+  --color-beige: var(--archive);
+  --color-terre: var(--border);
   --color-or: var(--signal);
   --color-blanc: var(--blanc);
 
   /* Blocs de rupture éditoriale : la bande claire et ses contrastes. */
   --color-brun: var(--brun);
   --color-brun-foreground: var(--brun-foreground);
-  --color-terre-foreground: var(--terre-foreground);
   --color-craie: var(--craie);
   --color-craie-foreground: var(--craie-foreground);
   --color-archive: var(--archive);
@@ -87,11 +87,8 @@
   --muted: #111111;
   /* Ivoire : le texte courant. Jamais de blanc pur sur le noir. */
   --foreground: #e8e2d6;
-  /* Beige : surfaces et séparateurs sur la bande claire. */
-  --beige: #d8cbb8;
   /* Terre : les contours. 3,18:1 sur le noir, au-dessus du minimum WCAG
      1.4.11 de 3:1 exigé pour le contour d'un contrôle. */
-  --terre: #755c45;
   --border: #755c45;
   --input: #111111;
   /* Or : couleur SIGNAL, jamais dominante. 7,25:1 sur le noir. */
@@ -110,10 +107,11 @@
      du texte courant, parce que c'est bien du texte, pas un ornement. */
   --muted-foreground: #a2907a;
 
-  /* Alias de composition, tous repris des sept valeurs ci-dessus. */
+  /* Alias de composition, tous repris des sept valeurs ci-dessus.
+     `brun` nomme le fond des blocs photographiques, `craie` la bande claire
+     et son texte inversé, `archive` le beige des surfaces sur cette bande. */
   --brun: #0a0a0a;
   --brun-foreground: #e8e2d6;
-  --terre-foreground: #e8e2d6;
   --craie: #e8e2d6;
   --craie-foreground: #0a0a0a;
   --archive: #d8cbb8;
@@ -181,7 +179,7 @@ button {
   font-family: var(--font-display);
   font-weight: 400;
   text-transform: uppercase;
-  font-size: clamp(3rem, 11vw, 11rem);
+  font-size: clamp(2.75rem, 10vw, 8rem);
   line-height: 0.84;
   letter-spacing: -0.02em;
 }

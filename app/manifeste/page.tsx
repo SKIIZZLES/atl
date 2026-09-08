@@ -65,14 +65,14 @@ function ProseSection({
   tone,
 }: {
   section: Section;
-  tone: "base" | "terre";
+  tone: "base" | "sombre";
 }) {
   return (
     <section
       id={section.id}
       className={
-        tone === "terre"
-          ? "scroll-mt-24 bg-terre text-terre-foreground"
+        tone === "sombre"
+          ? "scroll-mt-24 bg-card text-card-foreground"
           : "scroll-mt-24 border-t border-border"
       }
     >
@@ -159,7 +159,7 @@ export default function StoriesPage() {
         <ProseSection section={sectionById("notre-histoire")} tone="base" />
         <ProseSection
           section={sectionById("pourquoi-onde-noire")}
-          tone="terre"
+          tone="sombre"
         />
         <ProseSection section={sectionById("le-88eme-echo")} tone="base" />
       </div>
@@ -189,7 +189,7 @@ export default function StoriesPage() {
       {chapters.map((chapter, i) => (
         <article
           key={chapter.handle}
-          className={i % 2 === 1 ? "bg-terre text-terre-foreground" : undefined}
+          className={i % 2 === 1 ? "bg-card text-card-foreground" : undefined}
         >
           <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
             <div className="grid gap-12 md:grid-cols-12 md:gap-16">
@@ -243,7 +243,7 @@ export default function StoriesPage() {
       {/* V — Le futurisme sobre */}
       <section
         id="futurisme-sobre"
-        className="scroll-mt-24 bg-terre text-terre-foreground"
+        className="scroll-mt-24 bg-card text-card-foreground"
       >
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
@@ -255,7 +255,7 @@ export default function StoriesPage() {
                 serait son langage visuel ?
               </p>
               <div className="mt-10 space-y-8">
-                <p className="text-base leading-relaxed text-terre-foreground/75 md:text-lg">
+                <p className="text-base leading-relaxed text-card-foreground/75 md:text-lg">
                   Onde Noire ne cherche pas à représenter
                   «&nbsp;l&apos;Afrique&nbsp;» avec les codes visuels attendus.
                   Pas d&apos;afrofuturisme devenu décoration. Pas
@@ -285,12 +285,12 @@ export default function StoriesPage() {
 
           <ul className="mt-16 grid gap-px overflow-hidden border border-border bg-border md:grid-cols-2 lg:grid-cols-3">
             {axes.map((axis) => (
-              <li key={axis.index} className="bg-terre p-8 md:p-10">
+              <li key={axis.index} className="bg-card p-8 md:p-10">
                 <p className="type-label text-signal">{axis.index}</p>
                 <p className="headline mt-4 text-xl md:text-2xl">
                   {axis.title}
                 </p>
-                <p className="mt-4 text-sm leading-relaxed text-terre-foreground/75">
+                <p className="mt-4 text-sm leading-relaxed text-card-foreground/75">
                   {axis.text}
                 </p>
               </li>
@@ -300,7 +300,7 @@ export default function StoriesPage() {
       </section>
 
       <ProseSection section={sectionById("langage-visuel")} tone="base" />
-      <ProseSection section={sectionById("streetwear")} tone="terre" />
+      <ProseSection section={sectionById("streetwear")} tone="sombre" />
 
       {/* VIII — Nos principes */}
       <section id="principes" className="scroll-mt-24 border-t border-border">
@@ -340,7 +340,7 @@ export default function StoriesPage() {
       {/* IX — Ce que nous ne sommes pas */}
       <section
         id="n-est-pas"
-        className="scroll-mt-24 bg-terre text-terre-foreground"
+        className="scroll-mt-24 bg-card text-card-foreground"
       >
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
@@ -356,7 +356,7 @@ export default function StoriesPage() {
                   </li>
                 ))}
               </ul>
-              <p className="mt-10 text-base leading-relaxed text-terre-foreground/75 md:text-lg">
+              <p className="mt-10 text-base leading-relaxed text-card-foreground/75 md:text-lg">
                 Onde Noire est un système culturel. Une marque qui construit ses
                 propres signes. Ses propres archives. Ses propres transmissions.
               </p>

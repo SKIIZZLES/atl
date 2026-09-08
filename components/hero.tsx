@@ -40,7 +40,7 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
     // le rendait bien plus profond, ce qui écrasait le titre en proportion —
     // d'où le ratio explicite dès le desktop, borné pour les très grands
     // écrans. Sur mobile la composition se recompose en hauteur d'écran.
-    <section className="relative flex min-h-[88svh] items-center overflow-hidden bg-brun md:aspect-9/4 md:min-h-[620px] md:max-h-[880px]">
+    <section className="relative flex w-full min-h-[88svh] overflow-hidden bg-brun pt-16 md:aspect-9/4 md:min-h-[620px] md:max-h-[880px] md:pt-20">
       {HERO_SLIDES.map((slide, position) => {
         const active = position === index;
         return (
@@ -96,82 +96,89 @@ export function Hero({ labels }: { labels: Record<string, string> }) {
       <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/75 to-brun/5" />
       <div className="grain-overlay absolute inset-0 opacity-40" />
 
-      <div className="relative mx-auto flex w-full max-w-[1600px] items-center gap-10 px-5 py-24 md:px-10">
-        <div className="max-w-3xl">
-          <SectionLabel
-            tone="muted"
-            className="border-transparent text-brun-foreground/70"
-          >
-            Culture in motion
-          </SectionLabel>
+      {/* Le repère n'est plus posé en absolu au bas de la section : il vit
+          dans le flux, sous un bloc de texte qui prend la place restante.
+          Épinglé, il finissait par recouvrir le bouton dès que le titre
+          gagnait une ligne ou que l'écran raccourcissait — et aucune valeur
+          de décalage ne tient à toutes les largeurs. */}
+      <div className="shell relative flex flex-col py-12 md:py-10">
+        <div className="flex flex-1 items-center gap-10">
+          <div className="max-w-3xl">
+            <SectionLabel
+              tone="muted"
+              className="border-transparent text-brun-foreground/70"
+            >
+              Culture in motion
+            </SectionLabel>
 
-          {/* Le titre doit dominer : deux lignes à 10vw occupent environ 36 %
-              de la hauteur du hero, la proportion relevée sur la maquette. */}
-          <h1 className="type-display mt-6 text-brun-foreground md:mt-8">
-            Onde
-            <br />
-            Noire<span className="align-super text-[0.28em]">®</span>
-          </h1>
+            {/* Le titre doit dominer : deux lignes occupent environ 36 % de
+                la hauteur du hero, la proportion relevée sur la maquette. */}
+            <h1 className="type-display mt-6 text-brun-foreground md:mt-8">
+              Onde
+              <br />
+              Noire<span className="align-super text-[0.28em]">®</span>
+            </h1>
 
-          <p className="type-label mt-8 leading-loose text-brun-foreground/85 md:mt-10">
-            Nous ne portons pas l&apos;histoire.
-            <br />
-            Nous la continuons.
-          </p>
+            <p className="type-label mt-6 leading-loose text-brun-foreground/85">
+              Nous ne portons pas l&apos;histoire.
+              <br />
+              Nous la continuons.
+            </p>
 
-          <div className="mt-8 md:mt-10">
-            <Button href="/#collections" className="group">
-              Entrer dans l&apos;onde
-              <Arrow />
-            </Button>
+            <div className="mt-7">
+              <Button href="/#collections" className="group">
+                Entrer dans l&apos;onde
+                <Arrow />
+              </Button>
+            </div>
           </div>
+
+          <ul
+            aria-hidden
+            className="type-label ml-auto hidden shrink-0 space-y-2 text-right text-brun-foreground/55 lg:block"
+          >
+            {FIELD.map((word) => (
+              <li key={word}>{word}</li>
+            ))}
+          </ul>
         </div>
 
-        <ul
-          aria-hidden
-          className="type-label ml-auto hidden shrink-0 space-y-2 text-right text-brun-foreground/55 lg:block"
-        >
-          {FIELD.map((word) => (
-            <li key={word}>{word}</li>
-          ))}
-        </ul>
-      </div>
+        {/* Le repère de la maquette, devenu réel : il indexe le défilé, nomme
+            le chapitre affiché et permet d'y naviguer. */}
+        <div className="shrink-0 pt-8">
+          <Link
+            href={`/collections/${current.handle}`}
+            className="type-label group inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 ease-onde hover:border-signal"
+          >
+            {labels[current.handle] ?? current.handle}
+            <Arrow />
+          </Link>
 
-      {/* Le repère de la maquette, devenu réel : il indexe le défilé, nomme
-          le chapitre affiché et permet d'y naviguer. */}
-      <div className="absolute inset-x-5 bottom-8 md:inset-x-10 md:bottom-10">
-        <Link
-          href={`/collections/${current.handle}`}
-          className="type-label group inline-flex items-center gap-3 border-b border-signal/50 pb-2 text-signal transition-colors duration-300 ease-onde hover:border-signal"
-        >
-          {labels[current.handle] ?? current.handle}
-          <Arrow />
-        </Link>
-
-        <div className="mt-4 flex items-center gap-4">
-          <span className="type-label tabular-nums text-brun-foreground/60">
-            {String(index + 1).padStart(2, "0")} /{" "}
-            {String(HERO_SLIDES.length).padStart(2, "0")}
-          </span>
-          <div className="flex items-center gap-1.5">
-            {HERO_SLIDES.map((slide, position) => (
-              <button
-                key={slide.handle}
-                type="button"
-                onClick={() => setIndex(position)}
-                aria-label={`Vue ${position + 1} sur ${HERO_SLIDES.length}`}
-                aria-current={position === index}
-                className="group py-3"
-              >
-                <span
-                  className={
-                    position === index
-                      ? "block h-px w-10 bg-brun-foreground transition-colors duration-300"
-                      : "block h-px w-10 bg-brun-foreground/25 transition-colors duration-300 group-hover:bg-brun-foreground/60"
-                  }
-                />
-              </button>
-            ))}
+          <div className="mt-4 flex items-center gap-4">
+            <span className="type-label tabular-nums text-brun-foreground/60">
+              {String(index + 1).padStart(2, "0")} /{" "}
+              {String(HERO_SLIDES.length).padStart(2, "0")}
+            </span>
+            <div className="flex items-center gap-1.5">
+              {HERO_SLIDES.map((slide, position) => (
+                <button
+                  key={slide.handle}
+                  type="button"
+                  onClick={() => setIndex(position)}
+                  aria-label={`Vue ${position + 1} sur ${HERO_SLIDES.length}`}
+                  aria-current={position === index}
+                  className="group py-3"
+                >
+                  <span
+                    className={
+                      position === index
+                        ? "block h-px w-10 bg-brun-foreground transition-colors duration-300 ease-onde"
+                        : "block h-px w-10 bg-brun-foreground/25 transition-colors duration-300 ease-onde group-hover:bg-brun-foreground/60"
+                    }
+                  />
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </div>

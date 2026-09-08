@@ -103,12 +103,12 @@ export default async function HomePage() {
         </section>
       ) : null}
 
-      <section id="manifeste" className="bg-terre text-terre-foreground">
+      <section id="manifeste" className="bg-card text-card-foreground">
         <div className="shell grid gap-12 py-20 md:grid-cols-[1fr_minmax(0,34rem)_11rem] md:items-center md:gap-14 md:py-24">
           <Reveal>
             <SectionLabel
               tone="muted"
-              className="border-transparent text-terre-foreground/60"
+              className="border-transparent text-card-foreground/60"
             >
               Notre mission
             </SectionLabel>
@@ -119,7 +119,7 @@ export default async function HomePage() {
               <br />
               en mouvement.
             </EditorialTitle>
-            <p className="type-body mt-8 max-w-md text-terre-foreground/75">
+            <p className="type-body mt-8 max-w-md text-card-foreground/75">
               Onde Noire est une maison de création contemporaine qui puise dans
               les racines africaines pour façonner un avenir audacieux. À
               travers le vêtement, nous transmettons des histoires, des valeurs
@@ -145,12 +145,12 @@ export default async function HomePage() {
           </Reveal>
 
           <div>
-            <ul className="type-label space-y-2 text-terre-foreground/55">
+            <ul className="type-label space-y-2 text-card-foreground/55">
               {MISSION_FIELD.map((word) => (
                 <li key={word}>{word}</li>
               ))}
             </ul>
-            <p className="type-label mt-8 border-t border-terre-foreground/25 pt-8 leading-loose text-terre-foreground/70">
+            <p className="type-label mt-8 border-t border-card-foreground/25 pt-8 leading-loose text-card-foreground/70">
               Certaines histoires se racontent.
               <br />
               D&apos;autres se portent.

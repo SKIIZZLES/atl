@@ -32,13 +32,13 @@ export default function AProposPage() {
         </div>
       </section>
 
-      <section className="bg-terre text-terre-foreground">
+      <section className="bg-card text-card-foreground">
         <div className="mx-auto grid max-w-[1600px] gap-12 px-5 py-20 md:grid-cols-12 md:gap-16 md:px-10 md:py-28">
           <div className="md:col-span-4 lg:col-span-3">
-            <p className="type-label text-terre-foreground/60">La maison</p>
+            <p className="type-label text-card-foreground/60">La maison</p>
           </div>
           <div className="md:col-span-8 lg:col-span-8 lg:col-start-5">
-            <div className="space-y-6 text-base leading-relaxed text-terre-foreground/80 md:text-lg">
+            <div className="space-y-6 text-base leading-relaxed text-card-foreground/80 md:text-lg">
               <p>
                 Onde Noire est une maison de création contemporaine qui puise
                 dans les racines africaines pour façonner un avenir audacieux. À
@@ -85,16 +85,16 @@ export default function AProposPage() {
         </div>
       </section>
 
-      <section className="bg-terre text-terre-foreground">
+      <section className="bg-card text-card-foreground">
         <div className="mx-auto max-w-[1600px] px-5 py-20 md:px-10 md:py-28">
-          <p className="type-label text-terre-foreground/60">Nos principes</p>
+          <p className="type-label text-card-foreground/60">Nos principes</p>
           <dl className="mt-12 grid gap-10 md:grid-cols-2 md:gap-x-16 md:gap-y-12">
             {principles.map((principle) => (
               <div key={principle.title}>
                 <dt className="headline text-lg md:text-xl">
                   {principle.title}
                 </dt>
-                <dd className="mt-3 text-sm leading-relaxed text-terre-foreground/70">
+                <dd className="mt-3 text-sm leading-relaxed text-card-foreground/70">
                   {principle.text}
                 </dd>
               </div>

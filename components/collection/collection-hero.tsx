@@ -31,7 +31,7 @@ export function CollectionHero({
   cta?: { label: string; href: string };
 }) {
   return (
-    <section className="relative flex min-h-[70svh] items-end overflow-hidden bg-brun md:aspect-9/4 md:min-h-[540px] md:max-h-[760px] md:items-center">
+    <section className="relative flex w-full min-h-[70svh] items-end overflow-hidden bg-brun pt-16 md:aspect-9/4 md:min-h-[540px] md:max-h-[760px] md:items-center md:pt-20">
       {image ? (
         <Image
           src={image.url}
@@ -47,7 +47,7 @@ export function CollectionHero({
       <div className="absolute inset-0 bg-linear-to-r from-brun via-brun/75 to-brun/10" />
       <div className="grain-overlay absolute inset-0 opacity-40" />
 
-      <div className="shell relative py-16 md:py-20">
+      <div className="shell relative py-14 md:py-12">
         <Breadcrumb items={crumbs} />
 
         <div className="mt-10 max-w-2xl md:mt-14">

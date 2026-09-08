@@ -34,7 +34,7 @@ export function CTASection({
   return (
     <section
       id={id}
-      className="relative flex items-center overflow-hidden bg-brun md:aspect-5/2 md:max-h-[560px]"
+      className="relative flex w-full items-center overflow-hidden bg-brun md:aspect-5/2 md:max-h-[560px]"
     >
       <Image
         src={image.url}
