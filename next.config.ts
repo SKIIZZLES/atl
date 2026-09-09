@@ -69,6 +69,16 @@ export default {
         destination: "/products/n-gri-tud-hoodie-parole",
         permanent: true,
       },
+      // Une quatrième, trouvée après coup : le bonnet n'apparaissait nulle
+      // part sur le site, donc pas non plus dans la liste des adresses
+      // anglaises. Il était actif, titré en français et proposé sur Google,
+      // mais absent des canaux « Headless » que lit ce site — invendable ici.
+      // Publié depuis, il rejoint le catalogue avec l'adresse du fournisseur.
+      {
+        source: "/products/embroidered-autumn-leaves-cuffed-beanie",
+        destination: "/products/n-gri-tud-bonnet-lisere",
+        permanent: true,
+      },
     ];
   },
   experimental: {
