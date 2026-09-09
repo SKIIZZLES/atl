@@ -107,7 +107,7 @@ export function ProductCard({
             <li
               key={swatch.value}
               title={swatch.value}
-              className="relative size-4 overflow-hidden border border-border"
+              className="relative size-4 overflow-hidden border border-border bg-background"
             >
               {swatch.url ? (
                 <Image

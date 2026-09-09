@@ -44,7 +44,7 @@ export function CollectionHero({
       ) : null}
 
       {/* Voile latéral : le texte occupe la gauche, le sujet la droite. */}
-      <div className="absolute inset-0 bg-linear-to-r from-background via-background/75 to-background/10" />
+      <div className="voile-photo absolute inset-0" />
       <div className="grain-overlay absolute inset-0 opacity-40" />
 
       <div className="shell relative py-14 md:py-12">

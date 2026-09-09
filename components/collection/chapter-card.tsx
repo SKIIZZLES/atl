@@ -50,7 +50,7 @@ export function ChapterCard({
 
       {/* Deux voiles : latéral pour la colonne de texte, du bas pour
           décoller le titre du sujet. */}
-      <div className="absolute inset-0 bg-linear-to-r from-background/95 via-background/55 to-transparent" />
+      <div className="voile-photo absolute inset-0" />
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-background/90 to-transparent" />
 
       <SectionLabel rule className="relative self-start">

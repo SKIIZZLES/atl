@@ -79,14 +79,16 @@
      alpha plutôt qu'en teintes figées, ce qui garde les filets et les
      survols cohérents quel que soit le noir sous lequel ils tombent. */
 
-  /* Le fond du site. Plus profond que le noir précédent. */
-  --background: #050505;
+  /* Le fond du site : le noir absolu, demandé explicitement. C'est aussi
+     ce que voient les zones transparentes des visuels produit, puisque tous
+     les cadres d'image portent ce même jeton. */
+  --background: #000000;
   /* Section de rupture : l'alternance qui découpe une page longue. */
   --card: #0d0d0d;
   --card-foreground: #f5f5f5;
   /* Surface intermédiaire : cadres d'image, champs. */
-  --muted: #0a0a0a;
-  --input: #0a0a0a;
+  --muted: #080808;
+  --input: #080808;
   /* Texte courant. */
   --foreground: #f5f5f5;
   /* Texte secondaire : 7,7:1 sur le fond, bien au-dessus du 4,5:1 exigé. */
@@ -94,12 +96,12 @@
 
   /* Deux bordures, et la raison de leur écart.
      Le filet décoratif — séparateurs, cadres, traits de section — est le
-     blanc à 12 % demandé : il structure sans peser. Mais à 12 % il sort à
-     1,3:1 sur le fond, quand WCAG 1.4.11 exige 3:1 pour le contour d'un
+     blanc à 15 % demandé : il structure sans peser. Mais à 15 % il sort à
+     1,4:1 sur le fond, quand WCAG 1.4.11 exige 3:1 pour le contour d'un
      élément qu'on manipule. Les contrôles prennent donc le même blanc monté
-     à 35 %, qui atteint 3,32:1. Même valeur, une densité de plus là où elle
+     à 35 %, qui atteint 3,45:1 sur le noir absolu. Même valeur, une densité de plus là où elle
      porte du sens. */
-  --border: rgb(255 255 255 / 0.12);
+  --border: rgb(255 255 255 / 0.15);
   --border-control: rgb(255 255 255 / 0.35);
   /* Le voile de survol, posé sur ce qui se manipule. */
   --hover: rgb(255 255 255 / 0.08);
@@ -407,6 +409,33 @@ button,
 @utility reveal-in {
   opacity: 1;
   transform: none;
+}
+
+/* Le voile de lisibilité posé sur une photographie.
+
+   Un texte blanc exige 4,5:1. Sur une zone claire d'une photo — un mur de
+   pierre au soleil, autour de #d0d0d0 — il faut assombrir d'au moins 43 %
+   pour l'atteindre, et d'environ 50 % sur une zone très claire. Les voiles
+   précédents descendaient à 5 % : le texte y sortait à 1,15:1, c'est-à-dire
+   invisible, et c'est exactement ce qu'on voyait sur le hero d'accueil.
+
+   Le plancher est donc à 60 %, avec la marge qu'il faut pour n'importe
+   quelle photographie : l'image reste franchement lisible, le texte aussi.
+   Le côté d'où part le texte reste opaque. */
+@utility voile-photo {
+  /* Écrit avec les utilitaires de Tailwind, et non en `color-mix` : le
+     minifieur de production réduit `color-mix(in srgb, var(--x) 85%,
+     transparent)` à `var(--x)` tout court. Le voile devenait alors noir
+     opaque sur toute sa largeur et masquait entièrement la photographie —
+     vérifié dans la feuille servie par la préversion, jamais visible en
+     local où la règle n'est pas minifiée. Le chemin ci-dessous, lui, sort
+     bien en `oklab(… / 0.85)` après minification. */
+  @apply bg-linear-to-r from-background via-background/85 to-background/60;
+}
+
+/* Le même plancher, pour une image qu'on assombrit du haut vers le bas. */
+@utility voile-photo-bas {
+  @apply bg-linear-to-b from-background/55 to-background;
 }
 
 @utility grain-overlay {

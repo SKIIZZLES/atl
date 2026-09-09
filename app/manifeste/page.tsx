@@ -134,7 +134,7 @@ export default function StoriesPage() {
             du presque noir en bas. */}
         <div
           aria-hidden="true"
-          className="absolute inset-0 z-10 bg-linear-to-b from-background/25 to-background/95"
+          className="voile-photo-bas absolute inset-0 z-10"
         />
         <div className="shell relative z-20">
           <p className="type-label text-foreground">Onde Noire — Stories</p>

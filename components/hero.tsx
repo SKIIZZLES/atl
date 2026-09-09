@@ -96,7 +96,7 @@ export function Hero({ chapters }: { chapters: Record<string, ChapterLabel> }) {
 
       {/* Dégradé latéral, pas vertical : le texte occupe la moitié gauche et
           le sujet la droite. Un voile du bas éteindrait le visage. */}
-      <div className="absolute inset-0 bg-linear-to-r from-background via-background/75 to-background/5" />
+      <div className="voile-photo absolute inset-0" />
       <div className="grain-overlay absolute inset-0 opacity-40" />
 
       {/* Le repère n'est plus posé en absolu au bas de la section : il vit
