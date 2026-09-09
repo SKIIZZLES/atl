@@ -203,6 +203,23 @@ export async function GET() {
     return [rgba[i], rgba[i + 1], rgba[i + 2], rgba[i + 3]];
   };
 
+  /*
+   * Le dessin, en caractères.
+   *
+   * Les moyennes disent que le tracé est doré sur fond transparent ; elles ne
+   * disent pas ce qu'il représente, ni s'il tiendra sur vingt pixels de haut
+   * dans une barre de navigation. Une ligne sur deux, parce qu'un caractère
+   * de terminal est deux fois plus haut que large : sans ça le lockup paraît
+   * étiré et on ne juge rien.
+   */
+  const ramp = (a: number) => (a < 32 ? " " : a < 96 ? "." : a < 176 ? "+" : "#");
+  const dessin: string[] = [];
+  for (let y = 0; y < height; y += 2) {
+    let line = "";
+    for (let x = 0; x < width; x++) line += ramp(rgba[(y * width + x) * 4 + 3]!);
+    dessin.push(line.replace(/\s+$/, ""));
+  }
+
   const dominants = [...buckets.entries()]
     .sort((first, second) => second[1] - first[1])
     .slice(0, 6)
@@ -240,5 +257,6 @@ export async function GET() {
     },
     centre: pixel(width >> 1, height >> 1),
     dominants,
+    dessin,
   });
 }
