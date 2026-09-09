@@ -230,6 +230,25 @@ export async function createCart(): Promise<Cart> {
   return reshapeCart(res.body.data.cartCreate.cart);
 }
 
+/**
+ * Un panier créé à part, avec ses lignes, sans toucher à celui du visiteur.
+ *
+ * C'est ce que sert le paiement direct depuis la fiche produit : l'acheteur
+ * qui clique « Payer maintenant » part au paiement avec cette seule pièce,
+ * et le panier qu'il avait éventuellement commencé reste intact derrière
+ * lui. Passer par `addToCart` aurait mélangé les deux.
+ */
+export async function createCartWithLines(
+  lines: { merchandiseId: string; quantity: number }[],
+): Promise<Cart> {
+  const res = await shopifyFetch<ShopifyCreateCartOperation>({
+    query: createCartMutation,
+    variables: { lineItems: lines },
+  });
+
+  return reshapeCart(res.body.data.cartCreate.cart);
+}
+
 export async function addToCart(
   lines: { merchandiseId: string; quantity: number }[],
 ): Promise<Cart> {

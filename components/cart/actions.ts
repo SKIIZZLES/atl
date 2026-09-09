@@ -4,6 +4,7 @@ import { TAGS } from "lib/constants";
 import {
   addToCart,
   createCart,
+  createCartWithLines,
   getCart,
   removeFromCart,
   updateCart,
@@ -98,6 +99,48 @@ export async function updateItemQuantity(
 export async function redirectToCheckout() {
   let cart = await getCart();
   redirect(cart!.checkoutUrl);
+}
+
+/**
+ * Le paiement direct depuis la fiche produit.
+ *
+ * L'acheteur part au paiement avec cette seule pièce, sans passer par le
+ * panier. Le panier qu'il avait éventuellement commencé n'est pas touché :
+ * la commande directe vit dans son propre panier, créé pour l'occasion.
+ *
+ * Le paiement lui-même se fait sur le checkout hébergé par Shopify. C'est
+ * là que se présentent les moyens de paiement activés dans l'administration
+ * — Revolut Pay compris. Aucun d'eux ne peut être appelé depuis cette page :
+ * une passerelle de paiement n'est pas un bouton qu'on pose sur une fiche,
+ * et court-circuiter Shopify ferait disparaître la commande, donc la
+ * fabrication à la demande qui en dépend.
+ *
+ * `redirect` est appelé hors du `try` : il lève une exception de contrôle
+ * que Next intercepte lui-même, et l'attraper ici annulerait la
+ * redirection.
+ */
+export async function buyNow(
+  prevState: unknown,
+  selectedVariantId: string | undefined,
+) {
+  if (!selectedVariantId) {
+    return "Merci de sélectionner une option";
+  }
+
+  let checkoutUrl: string;
+  try {
+    const cart = await createCartWithLines([
+      { merchandiseId: selectedVariantId, quantity: 1 },
+    ]);
+    if (!cart?.checkoutUrl) {
+      return "Le paiement est momentanément indisponible";
+    }
+    checkoutUrl = cart.checkoutUrl;
+  } catch {
+    return "Le paiement est momentanément indisponible";
+  }
+
+  redirect(checkoutUrl);
 }
 
 export async function createCartAndSetCookie() {
