@@ -1,6 +1,7 @@
 import { CartProvider } from "components/cart/cart-context";
 import { Header } from "components/layout/header";
 import Footer from "components/layout/footer";
+import { OrganizationJsonLd } from "components/seo/organization";
 import { getCart, getCollections } from "lib/shopify";
 import { baseUrl } from "lib/utils";
 import type { Metadata, Viewport } from "next";
@@ -58,6 +59,18 @@ export const metadata: Metadata = {
   robots: {
     follow: true,
     index: true,
+  },
+  /* Une adresse canonique par page.
+     Le site répond sur `ondenoire.com` et sur `www.ondenoire.com`, et les
+     fiches produit acceptent en plus des paramètres de variante
+     (`?color=…&size=…`). Autant d'adresses pour un même contenu : sans
+     déclaration, un moteur doit choisir laquelle compte, et il répartit le
+     crédit entre elles au lieu de le concentrer.
+     `"./"` est relatif : Next le résout contre `metadataBase` et le chemin
+     de la page rendue, si bien qu'une seule ligne ici en couvre toutes —
+     et qu'une nouvelle page n'a rien à déclarer pour être couverte. */
+  alternates: {
+    canonical: "./",
   },
   icons: {
     icon: [
@@ -128,6 +141,11 @@ export default async function RootLayout({
         <noscript>
           <style>{`.reveal{opacity:1;transform:none}`}</style>
         </noscript>
+
+        {/* Qui parle. Sans cette déclaration, un moteur qui rencontre
+            « onde noire » n'a aucune raison de penser à une marque plutôt
+            qu'à un four à micro-ondes de couleur noire. */}
+        <OrganizationJsonLd />
         <CartProvider cartPromise={cart}>
           <Header collections={navCollections} />
           {/* Le fond est posé explicitement ici aussi : `html` et `body` le
