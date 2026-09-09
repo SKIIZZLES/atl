@@ -85,7 +85,6 @@ export default async function CollectionPage(props: PageProps) {
         signature={page?.signature ?? []}
         intro={page?.intro ?? collection.description ?? undefined}
         image={slide?.wide ?? slotFromImage(collection.image, collection.title)}
-        cta={{ label: "Découvrir la collection", href: "#pieces" }}
       />
 
       <section id="pieces" className="shell section-y scroll-mt-20">

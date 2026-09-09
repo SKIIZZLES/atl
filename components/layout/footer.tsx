@@ -1,4 +1,5 @@
 import { WaveDivider } from "components/wave-divider";
+import { LOGO } from "lib/art-direction";
 import { POLICY_LABELS } from "lib/policies";
 import { getShopPolicies } from "lib/shopify";
 import type { PolicySlug } from "lib/shopify/types";
@@ -42,8 +43,8 @@ export default async function Footer({
             {/* Le lockup complet — monogramme, lettrage, signature — a la place
                 de respirer ici. Son fond noir se confond avec celui de la page. */}
             <Image
-              src="https://cdn.shopify.com/s/files/1/1088/9438/8549/files/Image_Codex_5_sept._2026_14_56_18.png?v=1788613997"
-              alt="Onde Noire — mémoire, culture, avenir"
+              src={LOGO.lockup.url}
+              alt={LOGO.lockup.alt}
               width={224}
               height={224}
               sizes="(min-width: 768px) 224px, 176px"

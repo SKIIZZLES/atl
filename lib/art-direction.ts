@@ -40,6 +40,40 @@ export function slotFromImage(
 const FILES = "https://cdn.shopify.com/s/files/1/1088/9438/8549/files";
 
 /**
+ * Les deux fichiers du logo.
+ *
+ * Ce ne sont pas des visuels éditoriaux — ils n'illustrent rien, ils
+ * identifient. Ils sont ici quand même : il y en a deux, ils vivent tous les
+ * deux sur le CDN Shopify, et le second était jusqu'ici écrit en dur au
+ * milieu du pied de page. Un logo qu'on ne retrouve qu'en fouillant le JSX
+ * est un logo qu'on oublie de changer.
+ *
+ * `wordmark` — 2066 × 761, soit 2,715:1. Le lettrage « ONDE NOIRE » seul, en
+ * doré, sur fond entièrement transparent : les quatre coins du fichier sont
+ * à alpha zéro, et 73 % de sa surface avec eux. Le tracé tient entre 4,3:1
+ * et 7:1 de contraste sur le noir de la barre, au-dessus du seuil de 4,5
+ * pour ses tons dominants. C'est vérifié sur le fichier, pas supposé.
+ *
+ * Attention à la hauteur : le lettrage n'occupe qu'un tiers de la hauteur du
+ * fichier, le reste est de la marge. Une boîte de 32 pixels ne donne donc
+ * que 11 pixels de capitale. C'est la hauteur des lettres qu'il faut régler,
+ * pas celle de l'image.
+ *
+ * `lockup` — la version carrée, monogramme et signature comprises. Elle a la
+ * place de respirer dans le pied de page, pas dans une barre de 64 pixels.
+ */
+export const LOGO = {
+  wordmark: {
+    url: `${FILES}/Image_Codex_9_sept._2026_11_13_22.png?v=1788945306`,
+    alt: "Onde Noire",
+  },
+  lockup: {
+    url: `${FILES}/Image_Codex_5_sept._2026_14_56_18.png?v=1788613997`,
+    alt: "Onde Noire — mémoire, culture, avenir",
+  },
+} satisfies Record<string, ArtDirectionSlot>;
+
+/**
  * Les trois vues du hero. Le repère « 01 / 03 » de la maquette ne pilotait
  * rien tant qu'il n'y avait qu'un visuel ; il indexe maintenant un vrai
  * défilé, un chapitre par vue.

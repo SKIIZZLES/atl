@@ -3,6 +3,8 @@
 import CartModal from "components/cart/modal";
 import { useFocusTrap } from "components/ui/use-focus-trap";
 import clsx from "clsx";
+import { LOGO } from "lib/art-direction";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -108,9 +110,28 @@ export function Header({ collections }: { collections: NavCollection[] }) {
       <div className="shell relative flex h-16 items-center justify-between gap-6 md:h-20">
         <Link
           href="/"
-          className="type-nav shrink-0 text-sm tracking-[0.22em] text-foreground transition-colors duration-300 ease-onde hover:text-foreground"
+          aria-label="Onde Noire, accueil"
+          className="shrink-0 transition-opacity duration-300 ease-onde hover:opacity-80"
         >
-          ONDE NOIRE®
+          {/* Le lettrage dessiné remplace le lettrage composé : le fichier dit
+              « ONDE NOIRE », la ligne de texte disait la même chose. Les
+              afficher tous les deux aurait écrit le nom deux fois.
+
+              `h-8` / `h-10` règle la boîte, pas les lettres : le fichier
+              porte un tiers de marge en haut et en bas, si bien qu'une boîte
+              de 32 pixels donne une capitale de 11 — la hauteur du lettrage
+              qu'il remplace. Le rapport 2,715:1 est celui du fichier.
+
+              `priority` parce qu'il est en haut de chaque page : chargé
+              paresseusement, il apparaîtrait après le reste de la barre. */}
+          <Image
+            src={LOGO.wordmark.url}
+            alt={LOGO.wordmark.alt}
+            width={109}
+            height={40}
+            priority
+            className="h-8 w-auto md:h-10"
+          />
         </Link>
 
         <nav
@@ -223,9 +244,17 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           className="fixed inset-0 z-50 flex flex-col bg-background lg:hidden"
         >
           <div className="shell flex h-16 shrink-0 items-center justify-between">
-            <span className="type-nav text-sm tracking-[0.22em] text-foreground">
-              ONDE NOIRE®
-            </span>
+            {/* Le menu déplié reprend le même lettrage, à la même hauteur que
+                la barre qu'il recouvre : c'est la page qui se déplie, la
+                marque ne doit pas changer de forme au passage. Sans lien —
+                on est déjà dans la navigation. */}
+            <Image
+              src={LOGO.wordmark.url}
+              alt={LOGO.wordmark.alt}
+              width={109}
+              height={40}
+              className="h-8 w-auto"
+            />
             <button
               type="button"
               onClick={() => setIsMenuOpen(false)}

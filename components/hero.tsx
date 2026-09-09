@@ -114,26 +114,32 @@ export function Hero({ chapters }: { chapters: Record<string, ChapterLabel> }) {
               Culture in motion
             </SectionLabel>
 
-            {/* Le titre doit dominer : deux lignes occupent environ 36 % de
-                la hauteur du hero, la proportion relevée sur la maquette. */}
-            <h1 className="type-display mt-6 text-foreground md:mt-8">
-              Onde
-              <br />
-              Noire<span className="align-super text-[0.28em]">®</span>
-            </h1>
+            {/* La phrase a pris la place du nom.
 
-            <p className="type-label mt-6 leading-loose text-foreground/85">
+                Le nom était écrit trois fois sur le même écran : dans le logo
+                de la barre, dans l'onglet, et en huit rem au milieu de la
+                photographie. Une enseigne répétée n'apprend rien à qui vient
+                d'arriver ; la phrase, elle, dit ce que fait la maison.
+
+                D'où le passage de `type-display` à `type-h2` : 3,5 rem au
+                lieu de 8, et surtout la casse normale. Ce palier existe pour
+                ça — « ces titres sont des phrases, pas des enseignes ».
+                Composée en capitales à la taille d'un logo, la phrase se
+                lirait comme un slogan placardé.
+
+                Les deux lignes et leurs deux points sont ceux du fondateur,
+                repris tels quels du paragraphe qu'elles remplacent. */}
+            <h1 className="type-h2 mt-6 max-w-2xl text-balance text-foreground md:mt-8">
               Nous ne portons pas l&apos;histoire.
               <br />
               Nous la continuons.
-            </p>
+            </h1>
 
-            <div className="mt-7">
-              <Button
-                href="/#collections"
-                variant="secondary"
-                className="group"
-              >
+            <div className="mt-10">
+              {/* Vers le catalogue complet, pas vers la bande des trois
+                  chapitres plus bas sur la même page : c'est l'appel
+                  principal de l'accueil, il doit mener aux pièces. */}
+              <Button href="/search" variant="secondary" className="group">
                 Entrer dans l&apos;onde
                 <Arrow />
               </Button>

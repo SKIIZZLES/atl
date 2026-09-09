@@ -165,6 +165,17 @@ export type ShopifyCartOperation = {
 
 export type ShopifyCreateCartOperation = {
   data: { cartCreate: { cart: ShopifyCart } };
+  /* La clé est obligatoire ici, son contenu ne l'est pas : `ExtractVariables`
+     teste `T extends { variables: object }`, et une clé optionnelle ne
+     satisfait pas cette contrainte — le type retomberait sur `never` et
+     refuserait toute variable. Un panier peut donc naître vide, ou déjà
+     rempli d'une ligne. */
+  variables: {
+    lineItems?: {
+      merchandiseId: string;
+      quantity: number;
+    }[];
+  };
 };
 
 export type ShopifyAddToCartOperation = {

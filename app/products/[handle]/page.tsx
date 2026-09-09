@@ -5,7 +5,9 @@ import { ProductHeroSkeleton } from "components/product/product-hero-skeleton";
 import { ProductInfo } from "components/product/product-info";
 import { CTASection } from "components/sections/cta-section";
 import { EditorialSection } from "components/sections/editorial-section";
+import { articleForCollection } from "lib/journal";
 import { Breadcrumb } from "components/ui/breadcrumb";
+import { Arrow } from "components/ui/button";
 import { ART, HERO_SLIDES } from "lib/art-direction";
 import {
   collectionPages,
@@ -22,6 +24,7 @@ import {
 } from "lib/shopify";
 import type { ShopPolicies } from "lib/shopify/types";
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Suspense } from "react";
 
@@ -69,6 +72,10 @@ export default async function ProductPage(props: {
       ? collectionPages[collectionHandle]
       : null;
   const slide = HERO_SLIDES.find((entry) => entry.handle === collectionHandle);
+  // L'article du Journal qui documente ce chapitre, s'il existe. La
+  // boucle demandée va dans les deux sens : l'article renvoie à la
+  // pièce, la pièce renvoie à l'article.
+  const article = articleForCollection(collectionHandle);
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -148,6 +155,36 @@ export default async function ProductPage(props: {
           retours: policies.remboursement?.body,
         }}
       />
+
+      {/* L'histoire documentée derrière la pièce. Elle ne s'affiche que si
+          un article existe pour ce chapitre : pas de lien mort vers une
+          recherche qui n'a pas encore été faite. */}
+      {article ? (
+        <section className="border-y border-border bg-card text-card-foreground">
+          <div className="shell section-y grid gap-8 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4 lg:col-span-3">
+              <p className="type-label text-card-foreground/60">
+                L&apos;histoire derrière cette pièce
+              </p>
+            </div>
+            <div className="md:col-span-8">
+              <h2 className="type-h2 max-w-2xl text-balance">
+                {article.title}
+              </h2>
+              <p className="type-body mt-6 max-w-xl text-card-foreground/75">
+                {article.standfirst}
+              </p>
+              <Link
+                href={`/journal/${article.slug}`}
+                className="type-label group mt-8 inline-flex items-center gap-3 border-b border-border-control pb-2 text-card-foreground transition-colors duration-300 ease-onde hover:border-card-foreground"
+              >
+                Lire dans le Journal
+                <Arrow />
+              </Link>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {/* Le récit du chapitre auquel la pièce appartient. Même composant que
           sur la page collection : c'est la même histoire, pas une variante
