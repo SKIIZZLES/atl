@@ -1,4 +1,3 @@
-import { Arrow, Button } from "components/ui/button";
 import { Breadcrumb, type Crumb } from "components/ui/breadcrumb";
 import { SectionLabel } from "components/ui/section-label";
 import Image from "next/image";
@@ -14,6 +13,11 @@ import Image from "next/image";
  * Le fil d'Ariane est posé dans le hero et non au-dessus : la maquette
  * n'ouvre pas sur une bande vide, et le contraste du voile suffit à le
  * rendre lisible sur l'image.
+ *
+ * Pas de bouton d'appel ici, volontairement. Il en existait un, « Découvrir
+ * la collection », qui faisait défiler jusqu'à la grille située
+ * immédiatement en dessous : il demandait un clic pour aller là où le
+ * visiteur arrivait de toute façon en continuant à lire.
  */
 export function CollectionHero({
   crumbs,
@@ -21,14 +25,12 @@ export function CollectionHero({
   signature,
   intro,
   image,
-  cta,
 }: {
   crumbs: Crumb[];
   title: string;
   signature: string[];
   intro?: string;
   image?: { url: string; alt: string } | null;
-  cta?: { label: string; href: string };
 }) {
   return (
     <section className="relative flex w-full min-h-[70svh] items-end overflow-hidden bg-background pt-16 md:aspect-9/4 md:min-h-[540px] md:max-h-[760px] md:items-center md:pt-20">
@@ -69,15 +71,6 @@ export function CollectionHero({
             <p className="type-body mt-7 max-w-lg text-foreground/75">
               {intro}
             </p>
-          ) : null}
-
-          {cta ? (
-            <div className="mt-10">
-              <Button href={cta.href} className="group">
-                {cta.label}
-                <Arrow />
-              </Button>
-            </div>
           ) : null}
         </div>
       </div>

@@ -129,11 +129,10 @@ export function Hero({ chapters }: { chapters: Record<string, ChapterLabel> }) {
             </p>
 
             <div className="mt-7">
-              <Button
-                href="/#collections"
-                variant="secondary"
-                className="group"
-              >
+              {/* Vers le catalogue complet, pas vers la bande des trois
+                  chapitres plus bas sur la même page : c'est l'appel
+                  principal de l'accueil, il doit mener aux pièces. */}
+              <Button href="/search" variant="secondary" className="group">
                 Entrer dans l&apos;onde
                 <Arrow />
               </Button>
