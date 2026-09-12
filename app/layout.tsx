@@ -1,3 +1,6 @@
+import { FournisseurConsentement } from "components/analytics/consentement";
+import { GoogleConsentement } from "components/analytics/google-consentement";
+import { MetaPixel } from "components/analytics/meta-pixel";
 import { CartProvider } from "components/cart/cart-context";
 import { Header } from "components/layout/header";
 import Footer from "components/layout/footer";
@@ -38,10 +41,13 @@ const POLICES = [
  * propriété Search Console — « Google Analytics » est l'une des méthodes
  * acceptées, ce qui évite d'avoir à toucher au DNS.
  *
- * À noter : GA4 dépose des cookies. La CNIL les exige couverts par un
- * consentement, sauf configuration d'exemption. Le site n'a pas encore de
- * bandeau. `@vercel/analytics`, lui, ne pose pas de cookie — c'est pourquoi
- * il n'a jamais posé la question.
+ * GA4 dépose des cookies, que la CNIL exige couverts par un consentement.
+ * Ils le sont désormais : le fragment ci-dessous ouvre sur un refus de
+ * tout — c'est le « mode consentement » de Google — et
+ * `GoogleConsentement` ne lève ce refus que sur un « Accepter ».
+ *
+ * `@vercel/analytics`, lui, ne pose aucun cookie. C'est pourquoi il n'a
+ * jamais eu à poser la question, et pourquoi il reste hors du bandeau.
  */
 const GA_MESURE = "G-TTH21K0528";
 
@@ -154,7 +160,10 @@ export default async function RootLayout({
             validateur de Search Console récupère le HTML servi et y cherche
             le fragment. `next/script` en stratégie `afterInteractive` injecte
             le tag depuis le client, après hydratation — il serait absent du
-            document que le validateur lit, et la validation échouerait. */}
+            document que le validateur lit, et la validation échouerait.
+
+            Le `consent default` précède le `config`, et cet ordre est le
+            seul qui compte : après, GA4 aurait déjà posé son cookie. */}
         <script
           async
           src={`https://www.googletagmanager.com/gtag/js?id=${GA_MESURE}`}
@@ -163,6 +172,13 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
+gtag('consent', 'default', {
+  ad_storage: 'denied',
+  ad_user_data: 'denied',
+  ad_personalization: 'denied',
+  analytics_storage: 'denied',
+  wait_for_update: 500
+});
 gtag('js', new Date());
 gtag('config', '${GA_MESURE}');`,
           }}
@@ -186,19 +202,30 @@ gtag('config', '${GA_MESURE}');`,
             « onde noire » n'a aucune raison de penser à une marque plutôt
             qu'à un four à micro-ondes de couleur noire. */}
         <OrganizationJsonLd />
-        <CartProvider cartPromise={cart}>
-          <Header collections={navCollections} />
-          {/* Le fond est posé explicitement ici aussi : `html` et `body` le
+        {/* Le consentement enveloppe tout ce qui mesure. Il enveloppe aussi
+            les pages, parce que la fiche produit envoie son propre
+            événement et doit pouvoir lire la réponse. */}
+        <FournisseurConsentement>
+          <CartProvider cartPromise={cart}>
+            <Header collections={navCollections} />
+            {/* Le fond est posé explicitement ici aussi : `html` et `body` le
               portent déjà, mais une section sans fond déclaré hériterait
               sinon du blanc du navigateur si l'un des deux venait à sauter. */}
-          <main
-            className="min-h-screen bg-background text-foreground"
-            style={{ backgroundColor: "var(--background, #000000)" }}
-          >
-            {children}
-          </main>
-          <Footer collections={navCollections} />
-        </CartProvider>
+            <main
+              className="min-h-screen bg-background text-foreground"
+              style={{ backgroundColor: "var(--background, #000000)" }}
+            >
+              {children}
+            </main>
+            <Footer collections={navCollections} />
+          </CartProvider>
+
+          {/* Les deux mesures soumises au consentement. Le pixel Meta ne
+              charge rien tant qu'il n'est pas accordé ; GA4 est déjà chargé
+              mais sans cookie, et attend le même feu vert pour en poser. */}
+          <MetaPixel />
+          <GoogleConsentement />
+        </FournisseurConsentement>
 
         {/* La balise `<script>` écrite à la main a été retirée : elle
             chargeait `/_vercel/insights/script.js`, c'est-à-dire exactement

@@ -13,6 +13,9 @@ Voir `.env.example`. À définir dans Vercel → Settings → Environment Variab
 - `SITE_NAME` / `COMPANY_NAME` — "Onde Noire"
 - `SHOPIFY_REVALIDATION_SECRET` — requis pour que les modifications faites dans
   l'admin Shopify atteignent le site (voir ci-dessous)
+- `NEXT_PUBLIC_FACEBOOK_PIXEL_ID` — identifiant du pixel Meta (voir ci-dessous).
+  Facultatif : non défini, le pixel ne charge pas et le reste du site est
+  inchangé
 
 ## Revalidation par webhook
 
@@ -37,8 +40,8 @@ Les abonnements pointent sur :
 https://www.ondenoire.com/api/revalidate?secret=<SHOPIFY_REVALIDATION_SECRET>
 ```
 
-**L'ordre compte.** La variable doit être posée dans Vercel *et un nouveau
-déploiement construit* avant que les webhooks ne soient créés : une variable
+**L'ordre compte.** La variable doit être posée dans Vercel _et un nouveau
+déploiement construit_ avant que les webhooks ne soient créés : une variable
 ajoutée après coup n'atteint pas un déploiement déjà construit. Des webhooks
 créés trop tôt reçoivent des 401, et Shopify finit par supprimer
 l'abonnement.
@@ -47,6 +50,63 @@ Limite connue : le secret voyage dans l'URL, et la signature HMAC que Shopify
 envoie dans `x-shopify-hmac-sha256` n'est pas vérifiée. C'est l'implémentation
 du gabarit d'origine. L'enjeu reste faible — au pire un rafraîchissement de
 cache forcé — mais passer à la vérification HMAC serait plus propre.
+
+## Mesure d'audience et consentement
+
+Trois outils, et ils n'ont pas le même statut :
+
+| Outil               | Cookies | Soumis au consentement                |
+| ------------------- | ------- | ------------------------------------- |
+| `@vercel/analytics` | aucun   | non                                   |
+| Google Analytics 4  | oui     | oui, par le mode consentement         |
+| Pixel Meta          | oui     | oui, le script n'est pas chargé avant |
+
+Le bandeau (`components/analytics/consentement.tsx`) porte la décision, la
+range dans `localStorage` sous `onde-noire.consentement.v1`, et la fait
+expirer au bout de 182 jours. Elle se modifie depuis la politique de
+confidentialité, en bas de page.
+
+**Rien ne se déclenche avant la réponse.** Pour le pixel Meta, cela veut dire
+que `connect.facebook.net` n'est même pas contacté : pas de script en
+réserve, pas d'événement mis de côté. Pour GA4, dont le tag doit rester dans
+le `<head>` — c'est par lui qu'est validée la propriété Search Console —
+c'est le `gtag('consent', 'default', …)` posé avant le `config` qui interdit
+le dépôt de cookie, et `GoogleConsentement` qui le lève sur un « Accepter ».
+
+### Le pixel Meta
+
+`NEXT_PUBLIC_FACEBOOK_PIXEL_ID` se trouve dans le gestionnaire d'événements
+Meta, ou dans les réglages du canal Facebook & Instagram de Shopify. Il est
+public par nature — il voyage dans chaque requête que le navigateur envoie à
+Meta — d'où le préfixe `NEXT_PUBLIC_`.
+
+Quatre événements partent du site :
+
+| Événement          | Déclencheur                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| `PageView`         | changement de chemin (pas de changement de paramètres d'URL) |
+| `ViewContent`      | affichage d'une fiche produit                                |
+| `AddToCart`        | « Ajouter au panier »                                        |
+| `InitiateCheckout` | « Payer maintenant » et « Passer au paiement »               |
+
+**`Purchase` n'est pas dans cette liste, et ne peut pas y être.** Le paiement
+se déroule sur le domaine de Shopify, où ce pixel n'existe plus. L'achat doit
+donc être remonté par le canal Facebook & Instagram de Shopify, qui pose son
+propre pixel sur le tunnel. Sans cela, Meta voit des paniers et jamais de
+commandes — et l'optimisation sur l'achat reste hors d'atteinte.
+
+Les `content_ids` envoyés sont le numéro nu de la variante Shopify
+(`gid://shopify/ProductVariant/16149226357061` → `16149226357061`), qui est
+ce qu'indexe le catalogue Meta alimenté par ce canal. **À vérifier une fois
+les premiers événements arrivés** : le gestionnaire d'événements signale sous
+« Diagnostics » les `content_ids` qui ne correspondent à aucun article du
+catalogue. Tant qu'ils ne correspondent pas, les publicités catalogue
+dynamiques ne peuvent pas partir — sans la moindre erreur pour le signaler.
+
+Chaque événement porte un `eventID`. Il ne sert à rien aujourd'hui : il est
+là pour le jour où l'API Conversions enverra les mêmes événements depuis le
+serveur, et où Meta devra reconnaître qu'un achat vu deux fois n'est qu'un
+seul achat.
 
 ## Menus de navigation (optionnel)
 

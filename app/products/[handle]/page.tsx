@@ -1,3 +1,4 @@
+import { MetaViewContent } from "components/analytics/meta-view-content";
 import { ProductCard } from "components/product-card";
 import { Gallery } from "components/product/gallery";
 import { ProductDetails } from "components/product/product-details";
@@ -99,6 +100,17 @@ export default async function ProductPage(props: {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }}
+      />
+
+      {/* La même pièce, déclarée à Meta cette fois. Le `!` est sûr : une
+          variante par défaut existe toujours côté Shopify, y compris sur un
+          produit sans option — c'est la « Default Title ». */}
+      <MetaViewContent
+        variantId={product.variants[0]!.id}
+        titre={product.title}
+        prix={product.priceRange.minVariantPrice.amount}
+        devise={product.priceRange.minVariantPrice.currencyCode}
+        categorie={product.collection?.title}
       />
 
       {/* L'ordre est structurel, pas rattrapé au positionnement : hero,

@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { addItem, buyNow } from "components/cart/actions";
+import { contenuMeta, suivreMeta } from "lib/meta-pixel";
 import { Product, ProductVariant } from "lib/shopify/types";
 import { useSearchParams } from "next/navigation";
 import { useActionState } from "react";
@@ -100,6 +101,22 @@ export function AddToCart({ product }: { product: Product }) {
 
   const blocked = !availableForSale || !selectedVariantId;
 
+  // Ce que Meta doit savoir de la pièce, une fois la taille choisie. Calculé
+  // ici plutôt que dans chaque gestionnaire : les deux boutons décrivent le
+  // même article, et deux descriptions séparées finiraient par diverger.
+  //
+  // `finalVariant` n'existe que si une variante est sélectionnée — d'où la
+  // garde, qui est la même que celle des boutons juste en dessous.
+  const contenu = blocked
+    ? null
+    : contenuMeta({
+        variantId: finalVariant.id,
+        titre: product.title,
+        prix: finalVariant.price.amount,
+        devise: finalVariant.price.currencyCode,
+        categorie: product.collection?.title,
+      });
+
   // Épuisé ou taille non choisie : les deux boutons sont inertes, et il n'y
   // a pas de formulaire à soumettre.
   if (blocked) {
@@ -113,7 +130,15 @@ export function AddToCart({ product }: { product: Product }) {
 
   return (
     <div className="space-y-3">
-      <form action={buyNowAction}>
+      <form
+        action={async () => {
+          // Avant la redirection, pas après : le paiement se passe sur le
+          // domaine de Shopify, où ce pixel-ci n'existe plus. Passé ce
+          // clic, plus rien de ce parcours n'est mesurable d'ici.
+          suivreMeta("InitiateCheckout", { ...contenu, num_items: 1 });
+          buyNowAction();
+        }}
+      >
         <button
           aria-label="Payer maintenant, sans passer par le panier"
           className={clsx(SHAPE, PRIMARY)}
@@ -125,6 +150,7 @@ export function AddToCart({ product }: { product: Product }) {
       <form
         action={async () => {
           addCartItem(finalVariant, product);
+          suivreMeta("AddToCart", contenu ?? undefined);
           addItemAction();
         }}
       >
