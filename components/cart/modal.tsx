@@ -5,7 +5,7 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import LoadingDots from "components/loading-dots";
 import Price from "components/price";
 import { DEFAULT_OPTION } from "lib/constants";
-import { numeroShopify, suivreMeta } from "lib/meta-pixel";
+import { identifiantCatalogueMeta, suivreMeta } from "lib/meta-pixel";
 import { createUrl } from "lib/utils";
 import type { Cart } from "lib/shopify/types";
 import Image from "next/image";
@@ -247,7 +247,10 @@ export default function CartModal() {
  */
 function panierMeta(cart: Cart): Record<string, unknown> {
   const lignes = cart.lines.map((ligne) => ({
-    id: numeroShopify(ligne.merchandise.id),
+    id: identifiantCatalogueMeta(
+      ligne.merchandise.product.id,
+      ligne.merchandise.id,
+    ),
     quantity: ligne.quantity,
   }));
 

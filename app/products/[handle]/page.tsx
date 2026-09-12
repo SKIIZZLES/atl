@@ -106,6 +106,7 @@ export default async function ProductPage(props: {
           variante par défaut existe toujours côté Shopify, y compris sur un
           produit sans option — c'est la « Default Title ». */}
       <MetaViewContent
+        productId={product.id}
         variantId={product.variants[0]!.id}
         titre={product.title}
         prix={product.priceRange.minVariantPrice.amount}

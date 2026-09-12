@@ -110,6 +110,7 @@ export function AddToCart({ product }: { product: Product }) {
   const contenu = blocked
     ? null
     : contenuMeta({
+        productId: product.id,
         variantId: finalVariant.id,
         titre: product.title,
         prix: finalVariant.price.amount,
