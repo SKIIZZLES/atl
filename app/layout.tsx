@@ -9,6 +9,7 @@ import { Fraunces, IBM_Plex_Sans } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
+
 /**
  * Deux familles, et deux seulement.
  *
@@ -159,7 +160,12 @@ export default async function RootLayout({
           </main>
           <Footer collections={navCollections} />
         </CartProvider>
-           <script defer src="/_vercel/insights/script.js"></script>
+
+        {/* La balise `<script>` écrite à la main a été retirée : elle
+            chargeait `/_vercel/insights/script.js`, c'est-à-dire exactement
+            ce que ce composant injecte lui-même. Garder les deux aurait
+            compté chaque visite deux fois. */}
+        <Analytics />
       </body>
     </html>
   );
