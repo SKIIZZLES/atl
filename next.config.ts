@@ -39,6 +39,46 @@ export default {
       { source: "/manifesto", destination: "/manifeste", permanent: true },
       { source: "/about", destination: "/a-propos", permanent: true },
       { source: "/stories", destination: "/manifeste", permanent: true },
+
+      // Trois pièces gardaient l'adresse du fournisseur ou du gabarit, alors
+      // que leur titre est français depuis longtemps : la casquette
+      // s'appelait `finn-two-tone-nylon-cap`, le coupe-vent
+      // `gold-floral-camouflage-windbreaker-jacket`, et le hoodie de
+      // N.GRI.TUD portait encore `template34`. Ces adresses étaient
+      // publiques, servies dans le plan du site, et lisibles par l'acheteur
+      // dans sa barre d'adresse.
+      //
+      // Ces trois lignes doivent partir en production AVANT que les
+      // `handle` ne changent chez Shopify. Le site lit le catalogue en
+      // direct : à la seconde où un `handle` change, l'ancienne adresse ne
+      // correspond plus à rien. Sans le renvoi déjà en place, elle tombe sur
+      // un document d'erreur — qui, sous PPR, répond 200 et non 404, donc un
+      // moteur l'enregistre comme une page valide et vide.
+      {
+        source: "/products/finn-two-tone-nylon-cap",
+        destination: "/products/le-tignon-casquette-repere",
+        permanent: true,
+      },
+      {
+        source: "/products/gold-floral-camouflage-windbreaker-jacket",
+        destination: "/products/le-tignon-coupe-vent-parure",
+        permanent: true,
+      },
+      {
+        source: "/products/template34",
+        destination: "/products/n-gri-tud-hoodie-parole",
+        permanent: true,
+      },
+      // Une quatrième, trouvée après coup : le bonnet n'apparaissait nulle
+      // part sur le site, donc pas non plus dans la liste des adresses
+      // anglaises. Il était actif, titré en français et proposé sur Google,
+      // mais absent des canaux « Headless » que lit ce site — invendable ici.
+      // Publié depuis, il rejoint le catalogue avec l'adresse du fournisseur.
+      {
+        source: "/products/embroidered-autumn-leaves-cuffed-beanie",
+        destination: "/products/n-gri-tud-bonnet-lisere",
+        permanent: true,
+      },
     ];
   },
   experimental: {
