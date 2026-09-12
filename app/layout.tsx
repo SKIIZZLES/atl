@@ -160,6 +160,7 @@ export default async function RootLayout({
           <Footer collections={navCollections} />
         </CartProvider>
         npm i @vercel/analytics
+        import { Analytics } from "@vercel/analytics/next"
       </body>
     </html>
   );
