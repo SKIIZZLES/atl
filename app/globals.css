@@ -413,15 +413,38 @@ button,
 
 /* Le voile de lisibilité posé sur une photographie.
 
-   Un texte blanc exige 4,5:1. Sur une zone claire d'une photo — un mur de
-   pierre au soleil, autour de #d0d0d0 — il faut assombrir d'au moins 43 %
-   pour l'atteindre, et d'environ 50 % sur une zone très claire. Les voiles
-   précédents descendaient à 5 % : le texte y sortait à 1,15:1, c'est-à-dire
-   invisible, et c'est exactement ce qu'on voyait sur le hero d'accueil.
+   Le plancher était à 60 %, et ce chiffre avait été calculé pour le seul
+   texte pleinement opaque : #f5f5f5 sur une photo entièrement blanche
+   voilée à 60 % sort à 5,27:1, ce qui passe. L'erreur était de s'arrêter
+   là. Deux autres couleurs de texte vivent sur ces mêmes photographies,
+   et aucune n'avait été vérifiée :
 
-   Le plancher est donc à 60 %, avec la marge qu'il faut pour n'importe
-   quelle photographie : l'image reste franchement lisible, le texte aussi.
-   Le côté d'où part le texte reste opaque. */
+     text-foreground/55  les cinq mots de la marge droite du hero — et la
+                         marge droite est précisément l'endroit où le voile
+                         était le plus faible. Mesuré à 2,80:1.
+     text-muted-foreground  #a0a0a0, le compteur du chapitre et l'étiquette
+                         « Culture in motion ». Mesurés à 2,16:1 sur grand
+                         écran, 2,30:1 et 2,33:1 sur téléphone.
+
+   Un texte à 55 % d'opacité ne s'éclaircit pas : il se rapproche du fond,
+   et le contraste s'effondre bien plus vite que celui d'un texte plein.
+
+   Le plancher passe donc à 85 %, et ce chiffre est mesuré, pas estimé.
+
+   La mesure : chaque photographie est remplacée par du blanc pur — le pire
+   fond concevable — puis le texte est masqué, la zone est photographiée, et
+   le pixel de fond le plus clair sert de référence. Ce qui passe là passe
+   sur n'importe quelle photographie, y compris celles qui ne sont pas
+   encore prises.
+
+   80 % avait d'abord été retenu par le calcul. Mesuré, il sortait à
+   4,4999:1 sur les cinq mots de la marge : la bonne valeur au millième
+   près, et du mauvais côté du seuil. Un plancher qui tombe pile sur la
+   limite n'est pas une correction — il suffit d'un rendu de dégradé un peu
+   différent, d'un grain un peu plus clair, et le texte repasse dessous.
+
+   85 % laisse la marge qui manquait. Le côté d'où part le texte reste
+   opaque. */
 @utility voile-photo {
   /* Écrit avec les utilitaires de Tailwind, et non en `color-mix` : le
      minifieur de production réduit `color-mix(in srgb, var(--x) 85%,
@@ -430,7 +453,7 @@ button,
      vérifié dans la feuille servie par la préversion, jamais visible en
      local où la règle n'est pas minifiée. Le chemin ci-dessous, lui, sort
      bien en `oklab(… / 0.85)` après minification. */
-  @apply bg-linear-to-r from-background via-background/85 to-background/60;
+  @apply bg-linear-to-r from-background via-background/92 to-background/85;
 }
 
 /* Le même plancher, pour une image qu'on assombrit du haut vers le bas. */
