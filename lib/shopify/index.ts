@@ -249,10 +249,40 @@ export async function createCartWithLines(
   return reshapeCart(res.body.data.cartCreate.cart);
 }
 
+/**
+ * Ajoute des lignes au panier du visiteur, en le créant s'il n'en a pas.
+ *
+ * Cette fonction lisait le cookie avec `?.value!` : une assertion qui
+ * affirme au typeur qu'un cookie absent ne peut pas arriver. Il arrive.
+ * Shopify recevait alors `cartId: null` sur une variable `ID!`, refusait la
+ * requête, et `addItem` avalait l'erreur sans un mot — le bouton « Ajouter
+ * au panier » ne faisait donc rien du tout, sans le moindre message.
+ *
+ * Le cookie est posé par un effet du tiroir de panier, au montage. Faire
+ * dépendre la vente d'un effet client qui a pu ne pas tourner — page
+ * quittée trop tôt, rendu interrompu, script bloqué — c'est confier la
+ * caisse à un hasard. La création à la volée supprime cette dépendance.
+ *
+ * Le second cas est le même défaut à un jour d'intervalle : Shopify vide un
+ * panier après le paiement, et `cartLinesAdd.cart` revient nul. Le cookie
+ * pointe alors sur un panier mort, `reshapeCart` reçoit `null` et lève.
+ * Autrement dit un client qui a déjà commandé une fois ne pouvait plus
+ * jamais rien ajouter.
+ */
 export async function addToCart(
   lines: { merchandiseId: string; quantity: number }[],
 ): Promise<Cart> {
-  const cartId = (await cookies()).get("cartId")?.value!;
+  const bocal = await cookies();
+  const cartId = bocal.get("cartId")?.value;
+
+  // Aucun panier : on en ouvre un qui contient déjà ces lignes, en une
+  // seule requête plutôt qu'une création suivie d'un ajout.
+  if (!cartId) {
+    const panier = await createCartWithLines(lines);
+    bocal.set("cartId", panier.id!);
+    return panier;
+  }
+
   const res = await shopifyFetch<ShopifyAddToCartOperation>({
     query: addToCartMutation,
     variables: {
@@ -260,7 +290,17 @@ export async function addToCart(
       lines,
     },
   });
-  return reshapeCart(res.body.data.cartLinesAdd.cart);
+
+  // Panier périmé : on repart d'un neuf plutôt que de laisser `reshapeCart`
+  // lever sur un `null`.
+  const panier = res.body.data.cartLinesAdd.cart;
+  if (!panier) {
+    const neuf = await createCartWithLines(lines);
+    bocal.set("cartId", neuf.id!);
+    return neuf;
+  }
+
+  return reshapeCart(panier);
 }
 
 export async function removeFromCart(lineIds: string[]): Promise<Cart> {

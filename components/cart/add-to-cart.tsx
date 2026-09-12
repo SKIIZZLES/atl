@@ -163,9 +163,23 @@ export function AddToCart({ product }: { product: Product }) {
         </button>
       </form>
 
-      <p aria-live="polite" className="sr-only" role="status">
-        {buyMessage || addMessage}
-      </p>
+      {/* Le message d'échec, visible.
+          Il était en `sr-only` : annoncé aux lecteurs d'écran, invisible
+          pour tous les autres. Un acheteur voyant dont l'ajout échouait
+          voyait donc un bouton inerte, sans la moindre explication, et
+          repartait. `aria-live` reste : l'annonce vocale ne se perd pas
+          parce que le texte devient visible. */}
+      {buyMessage || addMessage ? (
+        <p
+          aria-live="polite"
+          role="status"
+          className="type-caption border border-border-control px-4 py-3 text-foreground"
+        >
+          {buyMessage || addMessage}
+        </p>
+      ) : (
+        <p aria-live="polite" role="status" className="sr-only" />
+      )}
     </div>
   );
 }
