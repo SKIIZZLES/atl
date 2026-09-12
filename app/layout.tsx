@@ -31,6 +31,20 @@ const POLICES = [
   "/fonts/ibm-plex-sans-latin-variable.woff2",
 ];
 
+/**
+ * L'identifiant de mesure Google Analytics 4.
+ *
+ * Il sert deux choses : la mesure d'audience, et la validation de la
+ * propriété Search Console — « Google Analytics » est l'une des méthodes
+ * acceptées, ce qui évite d'avoir à toucher au DNS.
+ *
+ * À noter : GA4 dépose des cookies. La CNIL les exige couverts par un
+ * consentement, sauf configuration d'exemption. Le site n'a pas encore de
+ * bandeau. `@vercel/analytics`, lui, ne pose pas de cookie — c'est pourquoi
+ * il n'a jamais posé la question.
+ */
+const GA_MESURE = "G-TTH21K0528";
+
 const { SITE_NAME } = process.env;
 
 export const metadata: Metadata = {
@@ -134,6 +148,25 @@ export default async function RootLayout({
             crossOrigin="anonymous"
           />
         ))}
+
+        {/* Google Analytics 4.
+            Écrit ici en balises brutes plutôt qu'avec `next/script` : le
+            validateur de Search Console récupère le HTML servi et y cherche
+            le fragment. `next/script` en stratégie `afterInteractive` injecte
+            le tag depuis le client, après hydratation — il serait absent du
+            document que le validateur lit, et la validation échouerait. */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MESURE}`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${GA_MESURE}');`,
+          }}
+        />
       </head>
       <body
         className="bg-background font-sans text-foreground antialiased"
