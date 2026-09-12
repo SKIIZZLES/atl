@@ -8,7 +8,7 @@ import type { Metadata, Viewport } from "next";
 import { Fraunces, IBM_Plex_Sans } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
-
+import { Analytics } from "@vercel/analytics/next";
 /**
  * Deux familles, et deux seulement.
  *
@@ -159,6 +159,7 @@ export default async function RootLayout({
           </main>
           <Footer collections={navCollections} />
         </CartProvider>
+           <Analytics />
       </body>
     </html>
   );
