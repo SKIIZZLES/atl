@@ -159,6 +159,7 @@ export default async function RootLayout({
           </main>
           <Footer collections={navCollections} />
         </CartProvider>
+        <script defer src="/_vercel/insights/script.js"></script>
       </body>
     </html>
   );
