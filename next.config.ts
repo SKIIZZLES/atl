@@ -79,6 +79,64 @@ export default {
         destination: "/products/n-gri-tud-bonnet-lisere",
         permanent: true,
       },
+
+      // Les adresses de l'ancienne boutique Shopify.
+      //
+      // Avant le passage en headless, `ondenoire.com` servait le thème
+      // Shopify, dont les adresses suivent des formes imposées :
+      // `/policies/...`, `/pages/...`, `/cart`, `/account/...`,
+      // `/collections/all`. Google les a indexées à ce moment-là. Aucune
+      // n'existe dans ce site — il n'y a de route ni pour `/cart`, ni pour
+      // `/account`, ni pour `/policies` (les nôtres sont sous `/politiques`)
+      // — donc elles tombent toutes en 404 franc.
+      //
+      // Search Console en compte dix. Les lignes ci-dessous couvrent les
+      // formes connues ; la liste exacte reste à confirmer par l'export.
+      // Un renvoi pour une adresse que personne ne demande ne coûte rien,
+      // et il évite de perdre le crédit d'une page déjà indexée.
+
+      // Les cinq politiques, de leur nom Shopify vers le nôtre.
+      {
+        source: "/policies/legal-notice",
+        destination: "/politiques/mentions-legales",
+        permanent: true,
+      },
+      {
+        source: "/policies/terms-of-service",
+        destination: "/politiques/conditions-generales",
+        permanent: true,
+      },
+      {
+        source: "/policies/shipping-policy",
+        destination: "/politiques/livraison",
+        permanent: true,
+      },
+      {
+        source: "/policies/refund-policy",
+        destination: "/politiques/remboursement",
+        permanent: true,
+      },
+      {
+        source: "/policies/privacy-policy",
+        destination: "/politiques/confidentialite",
+        permanent: true,
+      },
+
+      // Les pages Shopify vivent ici à la racine, sans le préfixe `/pages`.
+      { source: "/pages/:handle", destination: "/:handle", permanent: true },
+
+      // Le panier est un tiroir, pas une page : personne ne peut y arriver
+      // par une adresse. Le catalogue est la destination utile.
+      { source: "/cart", destination: "/search", permanent: true },
+
+      // La collection fourre-tout de Shopify n'existe pas ici — le catalogue
+      // complet a sa propre page.
+      { source: "/collections/all", destination: "/search", permanent: true },
+
+      // Les comptes clients ne sont pas ouverts. L'icône du header le dit
+      // déjà ; ces adresses ramènent à l'accueil plutôt qu'au vide.
+      { source: "/account", destination: "/", permanent: true },
+      { source: "/account/:path*", destination: "/", permanent: true },
     ];
   },
   experimental: {
