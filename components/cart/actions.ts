@@ -13,19 +13,36 @@ import { updateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
+/**
+ * Ajoute une pièce au panier.
+ *
+ * Les deux `catch` de ce fichier renvoyaient une chaîne anglaise et
+ * jetaient l'erreur. Deux conséquences, et les deux ont coûté cher :
+ * l'acheteur voyait un bouton qui ne faisait rien, et les journaux du
+ * serveur ne gardaient aucune trace de la raison. Une vente qui échoue en
+ * silence est pire qu'une vente qui échoue bruyamment — on ne la compte
+ * même pas.
+ *
+ * L'erreur est donc journalisée côté serveur, et le message rendu est
+ * français et lisible : il s'affiche maintenant sur la fiche.
+ */
 export async function addItem(
   prevState: any,
   selectedVariantId: string | undefined,
 ) {
   if (!selectedVariantId) {
-    return "Error adding item to cart";
+    return "Merci de sélectionner une taille.";
   }
 
   try {
     await addToCart([{ merchandiseId: selectedVariantId, quantity: 1 }]);
     updateTag(TAGS.cart);
   } catch (e) {
-    return "Error adding item to cart";
+    console.error("Ajout au panier impossible", {
+      selectedVariantId,
+      erreur: e,
+    });
+    return "L'ajout au panier a échoué. Réessayez dans un instant.";
   }
 }
 
@@ -133,10 +150,17 @@ export async function buyNow(
       { merchandiseId: selectedVariantId, quantity: 1 },
     ]);
     if (!cart?.checkoutUrl) {
+      console.error("Paiement direct : panier sans adresse de paiement", {
+        selectedVariantId,
+      });
       return "Le paiement est momentanément indisponible";
     }
     checkoutUrl = cart.checkoutUrl;
-  } catch {
+  } catch (e) {
+    console.error("Paiement direct impossible", {
+      selectedVariantId,
+      erreur: e,
+    });
     return "Le paiement est momentanément indisponible";
   }
 
