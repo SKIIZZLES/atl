@@ -5,7 +5,9 @@ import { XMarkIcon } from "@heroicons/react/24/outline";
 import LoadingDots from "components/loading-dots";
 import Price from "components/price";
 import { DEFAULT_OPTION } from "lib/constants";
+import { numeroShopify, suivreMeta } from "lib/meta-pixel";
 import { createUrl } from "lib/utils";
+import type { Cart } from "lib/shopify/types";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -208,7 +210,15 @@ export default function CartModal() {
                     <p className="mt-2 text-xs text-muted-foreground">
                       Livraison et taxes calculées au paiement.
                     </p>
-                    <form action={redirectToCheckout}>
+                    <form
+                      action={async () => {
+                        // Le dernier événement mesurable depuis ce domaine :
+                        // le paiement se poursuit chez Shopify, hors de
+                        // portée de ce pixel.
+                        suivreMeta("InitiateCheckout", panierMeta(cart));
+                        await redirectToCheckout();
+                      }}
+                    >
                       <CheckoutButton />
                     </form>
                   </div>
@@ -220,6 +230,35 @@ export default function CartModal() {
       </Transition>
     </>
   );
+}
+
+/**
+ * Le panier entier, dans la forme attendue par Meta.
+ *
+ * Le pendant de `contenuMeta`, pour plusieurs articles. Les deux ne peuvent
+ * pas être la même fonction : celle-ci décrit un panier — plusieurs lignes,
+ * chacune avec sa quantité, et un total qui vient de Shopify — quand l'autre
+ * décrit une pièce et calcule son total elle-même.
+ *
+ * Le sous-total est repris tel quel plutôt que recalculé : il porte déjà les
+ * remises de ligne, et un total reconstitué à partir des prix unitaires
+ * remonterait faux le jour d'une promotion. Livraison et taxes en sont
+ * absents, ce qui est ce que Meta attend d'un `InitiateCheckout`.
+ */
+function panierMeta(cart: Cart): Record<string, unknown> {
+  const lignes = cart.lines.map((ligne) => ({
+    id: numeroShopify(ligne.merchandise.id),
+    quantity: ligne.quantity,
+  }));
+
+  return {
+    content_type: "product",
+    content_ids: lignes.map((ligne) => ligne.id),
+    contents: lignes,
+    num_items: cart.totalQuantity,
+    value: Number(cart.cost.subtotalAmount.amount),
+    currency: cart.cost.subtotalAmount.currencyCode,
+  };
 }
 
 function CheckoutButton() {

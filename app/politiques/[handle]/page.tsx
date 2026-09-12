@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { ChoixCookies } from "components/analytics/choix-cookies";
 import Prose from "components/prose";
 import { getShopPolicies } from "lib/shopify";
 import { POLICY_LABELS, isPolicySlug } from "lib/policies";
@@ -41,6 +42,11 @@ export default async function PolicyPage(props: {
       <p className="type-label text-muted-foreground">Informations légales</p>
       <h1 className="type-h1 mt-5">{POLICY_LABELS[handle]}</h1>
       <Prose className="mt-10" html={policy.body} />
+
+      {/* Le réglage n'apparaît que sur cette page-ci. Il y a sa place — le
+          bandeau y renvoie — et nulle part ailleurs : les conditions de
+          vente ou la politique de retour n'ont rien à dire des cookies. */}
+      {handle === "confidentialite" ? <ChoixCookies /> : null}
     </>
   );
 }
