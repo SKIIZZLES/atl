@@ -5,7 +5,6 @@ import { OrganizationJsonLd } from "components/seo/organization";
 import { getCart, getCollections } from "lib/shopify";
 import { baseUrl } from "lib/utils";
 import type { Metadata, Viewport } from "next";
-import { Fraunces, IBM_Plex_Sans } from "next/font/google";
 import { ReactNode } from "react";
 import "./globals.css";
 import { Analytics } from "@vercel/analytics/next";
@@ -20,26 +19,17 @@ import { Analytics } from "@vercel/analytics/next";
  * familles, c'est quatre dialectes — et deux téléchargements de police pour
  * rien.
  *
- * `opsz` est un axe variable de Fraunces : la lettre se resserre et ses
- * empattements s'affinent à mesure que la taille monte, ce qui est
- * exactement ce qu'on attend d'un titre de deux lignes en pleine page.
+ * Elles ne passent plus par `next/font/google` : les deux fichiers sont
+ * versionnés dans `public/fonts/` et déclarés dans `globals.css`, à une
+ * adresse qui ne change pas d'un build à l'autre. Les `@font-face`, les
+ * plages de graisses et les métriques de repli sont là-bas.
  */
-const editorial = Fraunces({
-  subsets: ["latin"],
-  // Police variable : on ne liste pas de graisses, on prend l'axe entier —
-  // c'est la condition posée par `next/font` pour demander un axe
-  // supplémentaire, et cela évite de télécharger trois coupes figées.
-  axes: ["opsz"],
-  variable: "--font-editorial-face",
-  display: "swap",
-});
 
-const sans = IBM_Plex_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-sans-face",
-  display: "swap",
-});
+/** Les deux fichiers à charger tôt : ils portent tout le texte visible. */
+const POLICES = [
+  "/fonts/fraunces-latin-variable.woff2",
+  "/fonts/ibm-plex-sans-latin-variable.woff2",
+];
 
 const { SITE_NAME } = process.env;
 
@@ -117,7 +107,7 @@ export default async function RootLayout({
   return (
     <html
       lang="fr"
-      className={`${editorial.variable} ${sans.variable} bg-background`}
+      className="bg-background"
       /* Le fond en style en ligne, et non seulement en classe.
          `bg-background` est un utilitaire : il n'existe que si la feuille de
          style arrive. Sur le chemin d'erreur, Next sert un document qui n'en
@@ -129,6 +119,22 @@ export default async function RootLayout({
          à tenir à jour, contrairement aux deux qui avaient déjà dérivé. */
       style={{ backgroundColor: "var(--background, #000000)" }}
     >
+      {/* Les deux polices sont demandées tôt plutôt que découvertes à la
+          lecture de la feuille de style. `crossOrigin` est obligatoire : une
+          police est toujours chargée en mode anonyme, et sans cet attribut le
+          navigateur téléchargerait le fichier deux fois. */}
+      <head>
+        {POLICES.map((police) => (
+          <link
+            key={police}
+            rel="preload"
+            as="font"
+            type="font/woff2"
+            href={police}
+            crossOrigin="anonymous"
+          />
+        ))}
+      </head>
       <body
         className="bg-background font-sans text-foreground antialiased"
         style={{
