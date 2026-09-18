@@ -119,6 +119,9 @@
   /* Le voile de survol, à poser en fond sur ce qui se manipule. */
   --color-hover: var(--hover);
 
+  /* Toile claire derrière les mockups PNG à fond transparent. */
+  --color-product-pad: var(--product-pad);
+
   /* --- 3. MOUVEMENT -----------------------------------------------------
      Une seule courbe sur tout le site : elle démarre vite et s'arrête très
      lentement, ce qui donne le glissé cinématographique demandé plutôt
@@ -151,10 +154,13 @@
      alpha plutôt qu'en teintes figées, ce qui garde les filets et les
      survols cohérents quel que soit le noir sous lequel ils tombent. */
 
-  /* Le fond du site : le noir absolu, demandé explicitement. C'est aussi
-     ce que voient les zones transparentes des visuels produit, puisque tous
-     les cadres d'image portent ce même jeton. */
+  /* Le fond du site : le noir absolu, demandé explicitement. */
   --background: #000000;
+  /* Toile des cadres produit : ivoire neutre tiède, assez clair pour que
+     un vêtement sombre en PNG transparent reste lisible, sans blanchir
+     toute la page. Les cadres d'image produit utilisent `bg-product-pad`
+     — pas `bg-background`. */
+  --product-pad: #f0eeea;
   /* Section de rupture : l'alternance qui découpe une page longue. */
   --card: #0d0d0d;
   --card-foreground: #f5f5f5;

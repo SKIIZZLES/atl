@@ -13,7 +13,7 @@
 export function ProductHeroSkeleton() {
   return (
     <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
-      <div className="aspect-square w-full bg-card" />
+      <div className="aspect-square w-full bg-product-pad" />
       <div>
         <div className="h-3 w-28 bg-card" />
         <div className="mt-7 h-12 w-full bg-card md:h-16" />

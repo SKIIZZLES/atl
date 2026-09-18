@@ -130,7 +130,7 @@ export default function CartModal() {
                             <Link
                               href={merchandiseUrl}
                               onClick={closeCart}
-                              className="relative aspect-4/5 w-20 shrink-0 overflow-hidden bg-card"
+                              className="relative aspect-4/5 w-20 shrink-0 overflow-hidden bg-product-pad"
                             >
                               <Image
                                 className="object-cover"

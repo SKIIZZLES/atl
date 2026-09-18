@@ -80,7 +80,7 @@ export function CartPageView() {
                   <li key={i} className="flex gap-4 py-6">
                     <Link
                       href={merchandiseUrl}
-                      className="relative aspect-4/5 w-24 shrink-0 overflow-hidden bg-card"
+                      className="relative aspect-4/5 w-24 shrink-0 overflow-hidden bg-product-pad"
                     >
                       {image ? (
                         <Image

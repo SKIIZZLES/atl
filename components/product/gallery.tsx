@@ -87,9 +87,9 @@ export function Gallery({
                   position === index
                     ? "border-foreground"
                     : "border-border hover:border-foreground",
-                  /* Le fond du cadre : une miniature au format PNG laisse
-                     voir ce qu'il y a dessous par ses zones transparentes. */
-                  "bg-background",
+                  /* Toile claire : une miniature PNG laisse voir le fond
+                     par ses zones transparentes — pas le noir de la page. */
+                  "bg-product-pad",
                 )}
               >
                 <Image
@@ -113,7 +113,7 @@ export function Gallery({
             c'est-à-dire les manches d'un vêtement oversize. Le guide des
             tailles, lui, est en 1200 × 580 : il se pose dans le cadre au
             lieu d'être rogné jusqu'à l'illisible. */}
-        <div className="relative hidden aspect-square overflow-hidden bg-background lg:block">
+        <div className="relative hidden aspect-square overflow-hidden bg-product-pad lg:block">
           <Image
             src={images[index]!.src}
             alt={images[index]!.altText}
@@ -165,7 +165,7 @@ export function Gallery({
             {images.map((image, position) => (
               <li
                 key={image.src}
-                className="relative aspect-square w-screen shrink-0 snap-center bg-background"
+                className="relative aspect-square w-screen shrink-0 snap-center bg-product-pad"
               >
                 <Image
                   src={image.src}
