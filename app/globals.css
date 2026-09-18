@@ -160,7 +160,7 @@
      un vêtement sombre en PNG transparent reste lisible, sans blanchir
      toute la page. Les cadres d'image produit utilisent `bg-product-pad`
      — pas `bg-background`. */
-  --product-pad: #f0eeea;
+  --product-pad: #f7f5f2;
   /* Section de rupture : l'alternance qui découpe une page longue. */
   --card: #0d0d0d;
   --card-foreground: #f5f5f5;
@@ -528,17 +528,15 @@ button,
    85 % laisse la marge qui manquait. Le côté d'où part le texte reste
    opaque. */
 @utility voile-photo {
-  /* Noir en `rgba` littéral — pas de `color-mix`, pas d'opacité Tailwind sur
-     `background`. Sur certains moteurs (Safari / Chromium + color-scheme),
-     `color-mix(in oklab, var(--background) …%, transparent)` peut remonter
-     une brume claire au lieu d'un voile noir : le hero paraît alors blanc
-     laiteux avec du texte clair illisible. Les littéraux ne passent pas par
-     ce chemin. */
+  /* Noir en `rgba` littéral — pas de `color-mix`.
+     Allégé (sept. 2026) : les valeurs ~0.88–0.92 écrasaient les photos
+     d'accueil (hero / cartes chapitre). On garde un côté texte plus dense
+     et on laisse respirer le sujet. */
   background-image: linear-gradient(
     to right,
-    #000000 0%,
-    rgba(0, 0, 0, 0.92) 45%,
-    rgba(0, 0, 0, 0.88) 100%
+    rgba(0, 0, 0, 0.72) 0%,
+    rgba(0, 0, 0, 0.45) 42%,
+    rgba(0, 0, 0, 0.22) 100%
   );
 }
 
@@ -546,18 +544,17 @@ button,
 @utility voile-photo-bas {
   background-image: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.55) 0%,
-    #000000 100%
+    rgba(0, 0, 0, 0.28) 0%,
+    rgba(0, 0, 0, 0.72) 100%
   );
 }
 
-/* Fondue du bas vers le haut (cartes chapitre). Littéraux #000 / rgba
-   pour éviter le color-mix des opacités Tailwind sur le jeton de fond. */
+/* Fondue du bas vers le haut (cartes chapitre). */
 @utility voile-photo-depuis-bas {
   background-image: linear-gradient(
     to top,
-    #000000 0%,
-    rgba(0, 0, 0, 0.9) 40%,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.35) 45%,
     transparent 100%
   );
 }
@@ -566,7 +563,7 @@ button,
 @utility voile-photo-depuis-haut {
   background-image: linear-gradient(
     to bottom,
-    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0.55) 0%,
     transparent 100%
   );
 }
