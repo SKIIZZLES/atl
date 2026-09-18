@@ -25,6 +25,7 @@ type NavCollection = { handle: string; title: string };
 
 const NAV = [
   { label: "Accueil", href: "/" },
+  { label: "Le shop", href: "/search" },
   { label: "Manifeste", href: "/manifeste" },
   { label: "Journal", href: "/journal" },
   { label: "À propos", href: "/a-propos" },
@@ -205,7 +206,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           <Link
             href="/search"
             className="hidden text-muted-foreground transition-colors duration-300 ease-onde hover:text-foreground md:block"
-            aria-label="Rechercher"
+            aria-label="Le shop"
           >
             <SearchGlyph />
           </Link>

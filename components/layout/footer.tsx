@@ -76,7 +76,7 @@ export default async function Footer({
                 Toutes les collections
               </Link>
               <Link href="/search" className={LINK_CLASS}>
-                Toutes les pièces
+                Le shop
               </Link>
             </nav>
 
