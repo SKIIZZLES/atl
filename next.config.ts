@@ -37,6 +37,12 @@ export default {
         permanent: true,
       },
       { source: "/manifesto", destination: "/manifeste", permanent: true },
+      { source: "/manifest", destination: "/manifeste", permanent: true },
+      // Variantes courantes pour « Le shop » (soft-200 sur l'accueil sans
+      // ces renvois) — la page réelle est /search.
+      { source: "/shop", destination: "/search", permanent: true },
+      { source: "/le-shop", destination: "/search", permanent: true },
+      { source: "/boutique", destination: "/search", permanent: true },
       { source: "/about", destination: "/a-propos", permanent: true },
       { source: "/stories", destination: "/manifeste", permanent: true },
 
