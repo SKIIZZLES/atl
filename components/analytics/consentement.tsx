@@ -88,7 +88,7 @@ function Bandeau({
     <div
       role="region"
       aria-label="Consentement aux cookies de mesure"
-      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-background/95 backdrop-blur-sm"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-black/95 backdrop-blur-sm"
       /* Le fond en style en ligne pour la même raison qu'ailleurs dans ce
          site : une classe de fond n'existe que si la feuille de style est
          arrivée, et un bandeau translucide sur rien serait illisible. */
