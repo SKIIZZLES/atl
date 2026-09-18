@@ -94,7 +94,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
       className={clsx(
         "fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-onde",
         scrolled
-          ? "border-b border-border bg-background/95 backdrop-blur-xl"
+          ? "border-b border-border bg-black/95 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >
@@ -103,7 +103,7 @@ export function Header({ collections }: { collections: NavCollection[] }) {
       {!scrolled ? (
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-background/80 to-transparent"
+          className="pointer-events-none absolute inset-x-0 top-0 h-24 bg-linear-to-b from-black/80 to-transparent"
         />
       ) : null}
 
