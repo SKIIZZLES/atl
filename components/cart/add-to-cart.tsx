@@ -15,7 +15,7 @@ import { useCart } from "./cart-context";
 const SHAPE =
   "type-button flex h-[52px] w-full items-center justify-center transition-colors duration-500 ease-onde md:h-14";
 // L'action décisive : un aplat blanc, texte noir.
-const PRIMARY = "bg-foreground text-background hover:opacity-90";
+const PRIMARY = "bg-white text-black hover:opacity-90";
 // L'action secondaire : un filet, pas un aplat.
 const SECONDARY = "border border-border-control text-foreground hover:bg-hover";
 // Épuisé, ou taille non choisie : contour et texte éteint.

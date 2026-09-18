@@ -126,7 +126,7 @@ export function Gallery({
           {total > 1 ? (
             <div className="absolute inset-x-4 bottom-4 flex items-center justify-between">
               {counter}
-              <div className="flex items-center border border-border bg-background/85 backdrop-blur-sm">
+              <div className="flex items-center border border-border fond-noir-85 backdrop-blur-sm">
                 <button
                   type="button"
                   onClick={() => setIndex(previous)}

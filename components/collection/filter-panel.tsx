@@ -298,7 +298,7 @@ export function FilterDrawer({
             <button
               type="button"
               onClick={() => setOpen(false)}
-              className="type-button h-14 w-full bg-foreground text-background transition-opacity duration-300 ease-onde hover:opacity-90"
+              className="type-button h-14 w-full bg-white text-black transition-opacity duration-300 ease-onde hover:opacity-90"
             >
               Voir {count} {count > 1 ? "pièces" : "pièce"}
             </button>

@@ -53,7 +53,7 @@ export function ChoixCookies() {
           type="button"
           onClick={() => changer("accepte")}
           disabled={consentement === "accepte"}
-          className={`${BOUTON} border-foreground bg-foreground text-background hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:opacity-40`}
+          className={`${BOUTON} border-white bg-white text-black hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:opacity-40`}
         >
           Accepter
         </button>

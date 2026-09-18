@@ -62,7 +62,7 @@ export function ProductCard({
         ) : null}
 
         {!product.availableForSale ? (
-          <span className="type-label absolute bottom-3 left-3 bg-background/90 px-2 py-1 text-muted-foreground">
+          <span className="type-label absolute bottom-3 left-3 fond-noir-90 px-2 py-1 text-muted-foreground">
             Épuisé
           </span>
         ) : (
@@ -74,7 +74,7 @@ export function ProductCard({
              cibles cliquables l'une dans l'autre. */
           <span
             aria-hidden="true"
-            className="absolute bottom-3 right-3 flex size-10 items-center justify-center border border-border bg-background/80 text-foreground opacity-0 backdrop-blur-sm transition-all duration-500 ease-onde group-hover:opacity-100 md:translate-y-2 md:group-hover:translate-y-0"
+            className="absolute bottom-3 right-3 flex size-10 items-center justify-center border border-border fond-noir-80 text-foreground opacity-0 backdrop-blur-sm transition-all duration-500 ease-onde group-hover:opacity-100 md:translate-y-2 md:group-hover:translate-y-0"
           >
             <CartGlyph />
           </span>

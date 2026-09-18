@@ -545,6 +545,44 @@ button,
   );
 }
 
+/* Fondue du bas vers le haut (cartes chapitre). Littéraux #000 / rgba
+   pour éviter le color-mix des opacités Tailwind sur le jeton de fond. */
+@utility voile-photo-depuis-bas {
+  background-image: linear-gradient(
+    to top,
+    #000000 0%,
+    rgba(0, 0, 0, 0.9) 40%,
+    transparent 100%
+  );
+}
+
+/* Voile descendant depuis le haut (header au repos sur le hero). */
+@utility voile-photo-depuis-haut {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.8) 0%,
+    transparent 100%
+  );
+}
+
+/* Aplats noirs semi-opaques en rgba littéral — même famille de correctif
+   que voile-photo : pas d'opacité Tailwind sur noir ou sur le jeton de fond. */
+@utility fond-noir-95 {
+  background-color: rgba(0, 0, 0, 0.95);
+}
+
+@utility fond-noir-90 {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+@utility fond-noir-85 {
+  background-color: rgba(0, 0, 0, 0.85);
+}
+
+@utility fond-noir-80 {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
 @utility grain-overlay {
   background-image: radial-gradient(var(--grain) 0.5px, transparent 0.5px);
   background-size: 3px 3px;
