@@ -128,22 +128,27 @@ export default async function RootLayout({
     <html
       lang="fr"
       className="bg-background"
-      /* Le fond en style en ligne, et non seulement en classe.
-         `bg-background` est un utilitaire : il n'existe que si la feuille de
-         style arrive. Sur le chemin d'erreur, Next sert un document qui n'en
-         embarque aucune — les trois `bg-background` du layout deviennent
-         alors inertes et le navigateur peint sa couleur par défaut, blanche.
-         C'est la seule façon dont ce site peut encore devenir blanc.
-         La déclaration ci-dessous s'efface devant le jeton quand il est là,
-         et ne sert que de canot de sauvetage quand il manque : aucune valeur
-         à tenir à jour, contrairement aux deux qui avaient déjà dérivé. */
-      style={{ backgroundColor: "var(--background, #000000)" }}
+      /* Fond en littéral, pas en variable CSS.
+         `var(--background, #000)` ne bascule pas sur le repli si la variable
+         existe mais vaut blanc (ou autre chose de faux) — le navigateur a
+         une valeur, il l'utilise. Sur /a-propos un utilisateur voyait encore
+         du blanc alors que la feuille et le style en ligne étaient déjà là :
+         on force donc #000000 sans passer par le jeton. */
+      style={{ backgroundColor: "#000000" }}
     >
       {/* Les deux polices sont demandées tôt plutôt que découvertes à la
           lecture de la feuille de style. `crossOrigin` est obligatoire : une
           police est toujours chargée en mode anonyme, et sans cet attribut le
           navigateur téléchargerait le fichier deux fois. */}
       <head>
+        <meta name="color-scheme" content="dark" />
+        <style
+          dangerouslySetInnerHTML={{
+            __html:
+              "html,body,main,#__next{background-color:#000000!important;color:#f5f5f5!important}"+
+              "html{color-scheme:dark;color-scheme:only dark}",
+          }}
+        />
         {POLICES.map((police) => (
           <link
             key={police}
@@ -187,8 +192,8 @@ gtag('config', '${GA_MESURE}');`,
       <body
         className="bg-background font-sans text-foreground antialiased"
         style={{
-          backgroundColor: "var(--background, #000000)",
-          color: "var(--foreground, #f5f5f5)",
+          backgroundColor: "#000000",
+          color: "#f5f5f5",
         }}
       >
         {/* Les blocs à révéler partent transparents. Sans script, ils le
@@ -213,7 +218,7 @@ gtag('config', '${GA_MESURE}');`,
               sinon du blanc du navigateur si l'un des deux venait à sauter. */}
             <main
               className="min-h-screen bg-background text-foreground"
-              style={{ backgroundColor: "var(--background, #000000)" }}
+              style={{ backgroundColor: "#000000" }}
             >
               {children}
             </main>
