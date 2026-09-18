@@ -133,7 +133,11 @@
 }
 
 :root {
+  /* `dark only` empêche le navigateur d'appliquer un thème clair par-dessus
+     (certains Chromium / Safari le font malgré `dark` seul). Repli `dark`
+     pour les moteurs qui ne connaissent pas `only`. */
   color-scheme: dark;
+  color-scheme: only dark;
 
   /* Les deux familles, avec leur repli métrique. Ces deux lignes étaient
      posées par les classes que générait `next/font` sur la balise `html` ;
@@ -212,10 +216,14 @@
 
   html {
     color-scheme: dark;
+    color-scheme: only dark;
+    background-color: #000000;
   }
 
   body {
     @apply bg-background text-foreground;
+    background-color: #000000;
+    color: #f5f5f5;
     -webkit-font-smoothing: antialiased;
   }
 
@@ -514,19 +522,27 @@ button,
    85 % laisse la marge qui manquait. Le côté d'où part le texte reste
    opaque. */
 @utility voile-photo {
-  /* Écrit avec les utilitaires de Tailwind, et non en `color-mix` : le
-     minifieur de production réduit `color-mix(in srgb, var(--x) 85%,
-     transparent)` à `var(--x)` tout court. Le voile devenait alors noir
-     opaque sur toute sa largeur et masquait entièrement la photographie —
-     vérifié dans la feuille servie par la préversion, jamais visible en
-     local où la règle n'est pas minifiée. Le chemin ci-dessous, lui, sort
-     bien en `oklab(… / 0.85)` après minification. */
-  @apply bg-linear-to-r from-background via-background/92 to-background/85;
+  /* Noir en `rgba` littéral — pas de `color-mix`, pas d'opacité Tailwind sur
+     `background`. Sur certains moteurs (Safari / Chromium + color-scheme),
+     `color-mix(in oklab, var(--background) …%, transparent)` peut remonter
+     une brume claire au lieu d'un voile noir : le hero paraît alors blanc
+     laiteux avec du texte clair illisible. Les littéraux ne passent pas par
+     ce chemin. */
+  background-image: linear-gradient(
+    to right,
+    #000000 0%,
+    rgba(0, 0, 0, 0.92) 45%,
+    rgba(0, 0, 0, 0.88) 100%
+  );
 }
 
 /* Le même plancher, pour une image qu'on assombrit du haut vers le bas. */
 @utility voile-photo-bas {
-  @apply bg-linear-to-b from-background/55 to-background;
+  background-image: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0%,
+    #000000 100%
+  );
 }
 
 @utility grain-overlay {
