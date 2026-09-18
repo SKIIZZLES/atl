@@ -220,22 +220,50 @@
     @apply border-border;
   }
 
+  /* Fond noir forcé : certains UA (Chromium / Avast Secure Browser) sous
+     `prefers-color-scheme: light` blanchissent le canvas malgré
+     `color-scheme: dark only`, tout en laissant les jetons de texte clairs
+     → texte gris pâle sur fond blanc. On ancre html/body (et #__next) en
+     noir absolu, puis on réaffirme le même forçage sous le media light. */
   html {
     color-scheme: dark;
     color-scheme: only dark;
-    background-color: #000000;
+    background-color: #000000 !important;
+    color: #f5f5f5;
   }
 
   body {
     @apply bg-background text-foreground;
-    background-color: #000000;
+    background-color: #000000 !important;
     color: #f5f5f5;
     -webkit-font-smoothing: antialiased;
+  }
+
+  #__next {
+    background-color: #000000 !important;
+    color: #f5f5f5;
   }
 
   ::selection {
     background: var(--foreground);
     color: var(--background);
+  }
+}
+
+/* Si le navigateur reste en schéma clair (OS / extension / UA), on refuse
+   tout basculement de palette : Onde Noire n'a pas de thème light. */
+@media (prefers-color-scheme: light) {
+  :root,
+  html,
+  body {
+    color-scheme: only dark;
+    background-color: #000000 !important;
+    color: #f5f5f5;
+  }
+
+  #__next {
+    background-color: #000000 !important;
+    color: #f5f5f5;
   }
 }
 
