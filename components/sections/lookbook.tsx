@@ -73,7 +73,7 @@ export function Lookbook({
                 className="group block"
                 aria-label={product.title}
               >
-                <div className="relative aspect-3/4 overflow-hidden bg-background">
+                <div className="relative aspect-3/4 overflow-hidden bg-product-pad">
                   {product.featuredImage ? (
                     <Image
                       src={product.featuredImage.url}

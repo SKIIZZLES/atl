@@ -15,8 +15,11 @@ import Link from "next/link";
  * Deux pièces identiques n'avaient donc pas la même tête selon la page où
  * on les croisait.
  *
- * Pas de fond de carte : les visuels respirent sur le noir de la page.
+ * Pas de fond de carte : la page reste noire. Seul le cadre image porte
+ * une toile claire (`bg-product-pad`) pour que les PNG POD transparents
+ * restent lisibles.
  */
+
 export function ProductCard({
   product,
   priority = false,
@@ -40,7 +43,7 @@ export function ProductCard({
       className="group block"
       aria-label={product.title}
     >
-      <div className="relative aspect-4/5 overflow-hidden bg-background">
+      <div className="relative aspect-4/5 overflow-hidden bg-product-pad">
         {image ? (
           <Image
             src={image.url}
