@@ -125,9 +125,8 @@ export default {
       // Les pages Shopify vivent ici à la racine, sans le préfixe `/pages`.
       { source: "/pages/:handle", destination: "/:handle", permanent: true },
 
-      // Le panier est un tiroir, pas une page : personne ne peut y arriver
-      // par une adresse. Le catalogue est la destination utile.
-      { source: "/cart", destination: "/search", permanent: true },
+      // /cart a désormais une page dédiée (liens Shopify indexés, retours
+      // checkout). Le tiroir du header reste le raccourci quotidien.
 
       // La collection fourre-tout de Shopify n'existe pas ici — le catalogue
       // complet a sa propre page.
