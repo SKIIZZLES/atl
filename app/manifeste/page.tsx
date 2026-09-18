@@ -164,15 +164,15 @@ export default function StoriesPage() {
         <p className="type-label text-muted-foreground">Sommaire</p>
         <ul className="mt-8 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
           {summary.map((entry) => (
-            <li key={entry.id} className="bg-background">
+            <li key={entry.id} className="bg-background text-foreground">
               <a
                 href={`#${entry.id}`}
-                className="flex h-full flex-col gap-3 p-5 transition-colors duration-300 hover:bg-card"
+                className="group/sum flex h-full flex-col gap-3 p-5 text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background"
               >
-                <span className="type-label text-foreground">
+                <span className="type-label text-inherit">
                   {entry.numeral}
                 </span>
-                <span className="text-sm text-foreground">{entry.title}</span>
+                <span className="text-sm text-inherit">{entry.title}</span>
               </a>
             </li>
           ))}

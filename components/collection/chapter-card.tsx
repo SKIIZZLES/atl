@@ -48,10 +48,17 @@ export function ChapterCard({
         />
       ) : null}
 
-      {/* Deux voiles : latéral pour la colonne de texte, du bas pour
-          décoller le titre du sujet. */}
-      <div className="voile-photo absolute inset-0" />
-      <div className="voile-photo-depuis-bas absolute inset-x-0 bottom-0 h-1/2" />
+      {/* Un seul dégradé doux (bas/gauche) : les deux voiles globaux
+          empilaient trop de noir et noyaient le bas de la photo.
+          Plancher ~0,55 côté texte — titres restent blancs. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(to top left, rgba(0, 0, 0, 0.55) 0%, rgba(0, 0, 0, 0.28) 42%, rgba(0, 0, 0, 0.08) 100%)",
+        }}
+      />
 
       <SectionLabel rule className="relative self-start">
         {String(index).padStart(2, "0")}

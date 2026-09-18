@@ -98,9 +98,10 @@ export function Header({ collections }: { collections: NavCollection[] }) {
           : "border-b border-transparent bg-transparent",
       )}
     >
-      {/* Voile en haut de page : sans lui, un lettrage ivoire sur une zone
-          claire de la photographie deviendrait illisible. */}
-      {!scrolled ? (
+      {/* Voile haut réservé aux pages à hero photo plein cadre. Sur un
+          canvas déjà noir (/collections, /search, /manifeste…), le même
+          dégradé écrase la nav — d'où le filtrage par pathname. */}
+      {!scrolled && pathname === "/" ? (
         <div
           aria-hidden="true"
           className="voile-photo-depuis-haut pointer-events-none absolute inset-x-0 top-0 h-24"
