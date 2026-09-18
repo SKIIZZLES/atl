@@ -167,7 +167,7 @@ function CheckoutButton() {
 
   return (
     <button
-      className="type-button mt-6 flex h-[52px] w-full items-center justify-center bg-foreground text-background transition-colors duration-500 ease-onde hover:opacity-90 disabled:opacity-50 md:h-14"
+      className="type-button mt-6 flex h-[52px] w-full items-center justify-center bg-white text-black transition-colors duration-500 ease-onde hover:opacity-90 disabled:opacity-50 md:h-14"
       type="submit"
       disabled={pending}
     >

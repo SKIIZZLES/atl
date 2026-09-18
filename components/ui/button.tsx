@@ -32,11 +32,12 @@ const BASE =
 const BOX = "h-[52px] px-7 md:h-14 md:px-8";
 
 const VARIANTS: Record<Variant, string> = {
-  /* L'action décisive : un aplat blanc, texte noir. C'est le seul aplat
-     clair de la page, et il ne sert qu'à ça. */
+  /* L'action décisive : aplat blanc, texte noir en littéraux. Pas les
+     jetons foreground/background — s'ils se résolvent mal, le bouton
+     devient blanc sur blanc. C'est le seul aplat clair de la page. */
   primary: clsx(
     BOX,
-    "bg-foreground text-background hover:-translate-y-0.5 hover:opacity-90",
+    "bg-white text-black hover:-translate-y-0.5 hover:opacity-90",
   ),
   /* L'appel de navigation : transparent, filet blanc très fin. Au survol
      c'est le voile du système qui se pose, pas un renversement de couleur. */
