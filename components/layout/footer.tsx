@@ -104,6 +104,9 @@ export default async function Footer({
               <Link href="/journal" className={LINK_CLASS}>
                 Journal
               </Link>
+              <Link href="/lookbook" className={LINK_CLASS}>
+                Lookbook
+              </Link>
               <Link href="/a-propos" className={LINK_CLASS}>
                 À propos
               </Link>
