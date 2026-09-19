@@ -37,9 +37,9 @@ export function modelShotPath(handle: string): string | null {
 }
 
 /**
- * Insère le mockup modèle en image secondaire (2ᵉ position), après le
- * visuel Shopify principal. S'il n'y a aucune image Shopify, le mockup
- * devient le seul visuel — on ne remplace jamais un primary existant.
+ * Place le mockup modèle en image principale (1ʳᵉ position), devant les
+ * visuels Shopify. S'il n'y a aucune image Shopify, le mockup devient
+ * le seul visuel. Déduplique si le mockup est déjà présent dans la liste.
  */
 export function withModelShot(
   handle: string,
@@ -54,8 +54,8 @@ export function withModelShot(
     altText: `${productTitle} — porté`,
   };
 
-  if (images.some((image) => image.src === path)) return images;
   if (images.length === 0) return [shot];
 
-  return [images[0]!, shot, ...images.slice(1)];
+  const withoutShot = images.filter((image) => image.src !== path);
+  return [shot, ...withoutShot];
 }
