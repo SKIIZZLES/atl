@@ -16,6 +16,7 @@ import {
   isOfficialHandle,
 } from "lib/collection-copy";
 import { HIDDEN_PRODUCT_TAG } from "lib/constants";
+import { withModelShot } from "lib/model-shots";
 import { orderProductImages, sizeGuideImage } from "lib/product-images";
 import { colorImageMap } from "lib/product-options";
 import {
@@ -144,10 +145,14 @@ export default async function ProductPage(props: {
             <div className="grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
               <div className="min-w-0">
                 <Gallery
-                  images={images.map((image) => ({
-                    src: image.url,
-                    altText: image.altText || product.title,
-                  }))}
+                  images={withModelShot(
+                    product.handle,
+                    images.map((image) => ({
+                      src: image.url,
+                      altText: image.altText || product.title,
+                    })),
+                    product.title,
+                  )}
                   colorImages={colorImageMap(product)}
                 />
               </div>
