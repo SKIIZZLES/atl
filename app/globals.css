@@ -259,6 +259,30 @@
     color-scheme: only dark;
     background-color: #000000 !important;
     color: #f5f5f5;
+
+    /* Les jetons restent clairs sur certains UA light alors que body est
+       forcé en noir : bg-background peint alors du blanc sous du texte
+       clair (ex. clôture du manifeste). On verrouille toute la palette. */
+    --background: #000000 !important;
+    --foreground: #f5f5f5 !important;
+    --card: #0d0d0d !important;
+    --card-foreground: #f5f5f5 !important;
+    --muted: #080808 !important;
+    --muted-foreground: #a0a0a0 !important;
+    --input: #080808 !important;
+    --border: rgb(255 255 255 / 0.15) !important;
+    --border-control: rgb(255 255 255 / 0.35) !important;
+    --hover: rgb(255 255 255 / 0.08) !important;
+    --ring: #f5f5f5 !important;
+    --color-background: #000000 !important;
+    --color-foreground: #f5f5f5 !important;
+    --color-card: #0d0d0d !important;
+    --color-card-foreground: #f5f5f5 !important;
+    --color-muted: #080808 !important;
+    --color-muted-foreground: #a0a0a0 !important;
+    --color-border: rgb(255 255 255 / 0.15) !important;
+    --color-border-control: rgb(255 255 255 / 0.35) !important;
+    --color-hover: rgb(255 255 255 / 0.08) !important;
   }
 
   #__next {
