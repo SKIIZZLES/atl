@@ -95,13 +95,27 @@ donc être remonté par le canal Facebook & Instagram de Shopify, qui pose son
 propre pixel sur le tunnel. Sans cela, Meta voit des paniers et jamais de
 commandes — et l'optimisation sur l'achat reste hors d'atteinte.
 
-Les `content_ids` envoyés sont le numéro nu de la variante Shopify
-(`gid://shopify/ProductVariant/16149226357061` → `16149226357061`), qui est
-ce qu'indexe le catalogue Meta alimenté par ce canal. **À vérifier une fois
-les premiers événements arrivés** : le gestionnaire d'événements signale sous
-« Diagnostics » les `content_ids` qui ne correspondent à aucun article du
-catalogue. Tant qu'ils ne correspondent pas, les publicités catalogue
-dynamiques ne peuvent pas partir — sans la moindre erreur pour le signaler.
+Les `content_ids` envoyés suivent la forme du catalogue Meta alimenté par le
+canal Facebook & Instagram :
+
+```
+shopify_FR_<id produit>_<id variante>
+shopify_FR_16149226357061_59199443140933
+```
+
+Cette forme a été relevée dans le catalogue, pas déduite. Une première
+version envoyait le numéro de variante seul : Meta acceptait les événements
+sans broncher, et aucun ne désignait un article existant. C'est la panne
+typique de cette intégration — tout a l'air de marcher, les publicités
+catalogue ne peuvent simplement jamais partir.
+
+Le `FR` vient du marché Shopify qui publie le catalogue ; il est posé en
+constante dans `lib/meta-pixel.ts`. Changer de marché sans changer cette
+ligne casserait la correspondance, en silence, de la même façon.
+
+Pour vérifier : gestionnaire de commerce → Catalogue → Articles, colonne
+« ID de contenu ». Elle doit afficher exactement ce que portent les
+`content_ids` des événements de test.
 
 Chaque événement porte un `eventID`. Il ne sert à rien aujourd'hui : il est
 là pour le jour où l'API Conversions enverra les mêmes événements depuis le

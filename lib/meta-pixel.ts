@@ -42,18 +42,41 @@ declare global {
 }
 
 /**
- * Le numéro nu d'un identifiant Shopify.
+ * Le pays du catalogue Meta.
  *
- * La Storefront API renvoie des identifiants globaux —
- * `gid://shopify/ProductVariant/16149226357061` — alors que le catalogue
- * Meta alimenté par le canal Facebook & Instagram indexe ses articles par
- * le numéro seul. Envoyer le `gid` entier produirait des événements
- * parfaitement valides qui ne correspondraient à aucun article : les
- * publicités catalogue ne partiraient jamais, sans la moindre erreur pour
- * le signaler.
+ * Le canal Facebook & Instagram nomme ses articles d'après le marché
+ * Shopify qui les publie. Une seule ligne à changer le jour où la boutique
+ * vendrait depuis un autre marché — et ce jour-là, rien ne préviendrait :
+ * les événements resteraient parfaitement valides, ils ne
+ * correspondraient simplement plus à aucun article.
  */
-export function numeroShopify(gid: string): string {
+const PAYS_CATALOGUE = "FR";
+
+/** Le numéro nu d'un identifiant global Shopify. */
+function numero(gid: string): string {
   return gid.split("/").pop() ?? gid;
+}
+
+/**
+ * L'identifiant d'un article dans le catalogue Meta.
+ *
+ * Ce n'est ni le `gid` de Shopify, ni le numéro de la variante : le canal
+ * Facebook & Instagram compose ses identifiants lui-même, en collant le
+ * marché, le produit et la variante —
+ * `shopify_FR_16149226357061_59199443140933`.
+ *
+ * Cette forme a été relevée dans le catalogue, pas devinée. La version
+ * précédente envoyait le numéro de variante seul : des événements sans
+ * défaut, que Meta acceptait, et qui ne désignaient aucun article. Les
+ * publicités catalogue n'auraient jamais pu partir, et rien ne l'aurait
+ * signalé — c'est exactement le genre de panne qui ne se voit que dans les
+ * chiffres qui ne montent pas.
+ */
+export function identifiantCatalogueMeta(
+  productId: string,
+  variantId: string,
+): string {
+  return `shopify_${PAYS_CATALOGUE}_${numero(productId)}_${numero(variantId)}`;
 }
 
 /**
@@ -147,6 +170,7 @@ export function viderAttenteMeta() {
  * l'événement en silence. Les trois sites d'appel passent donc par ici.
  */
 export function contenuMeta({
+  productId,
   variantId,
   titre,
   prix,
@@ -154,7 +178,9 @@ export function contenuMeta({
   quantite = 1,
   categorie,
 }: {
-  /** L'identifiant global Shopify de la variante — pas le numéro. */
+  /** L'identifiant global Shopify du produit. */
+  productId: string;
+  /** L'identifiant global Shopify de la variante. */
   variantId: string;
   titre: string;
   /** Le prix unitaire, tel que Shopify le renvoie : une chaîne. */
@@ -164,12 +190,14 @@ export function contenuMeta({
   /** Le titre de la collection, quand la pièce en a une. */
   categorie?: string;
 }): Record<string, unknown> {
+  const article = identifiantCatalogueMeta(productId, variantId);
+
   return {
     content_type: "product",
-    content_ids: [numeroShopify(variantId)],
+    content_ids: [article],
     content_name: titre,
     ...(categorie ? { content_category: categorie } : {}),
-    contents: [{ id: numeroShopify(variantId), quantity: quantite }],
+    contents: [{ id: article, quantity: quantite }],
     // `Number` et non la chaîne : Meta rejette un `value` textuel. Et
     // arrondi, parce que la multiplication ne tombe pas juste en virgule
     // flottante : trois pièces à 29,99 € donnent 89.97000000000001, qui
