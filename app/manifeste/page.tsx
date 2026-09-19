@@ -77,7 +77,7 @@ function ProseSection({
       className={
         tone === "sombre"
           ? "scroll-mt-24 bg-card text-card-foreground"
-          : "scroll-mt-24 border-t border-border"
+          : "scroll-mt-24 border-t border-border bg-black text-neutral-100"
       }
     >
       <div className="shell py-20 md:py-28">
@@ -120,7 +120,7 @@ export default function StoriesPage() {
           texte. Le fond noir est posé sur la section elle-même, pas laissé
           à l'image : si elle ne charge pas, l'ouverture reste sombre au
           lieu de découvrir un vide clair. */}
-      <header className="relative isolate overflow-hidden bg-background pt-28 pb-20 md:pt-36 md:pb-28">
+      <header className="relative isolate overflow-hidden bg-black text-neutral-100 pt-28 pb-20 md:pt-36 md:pb-28">
         <Image
           src={ART.manifesto.url}
           alt=""
@@ -164,7 +164,7 @@ export default function StoriesPage() {
         <p className="type-label text-muted-foreground">Sommaire</p>
         <ul className="mt-8 grid gap-px overflow-hidden border border-border bg-border sm:grid-cols-2 lg:grid-cols-5">
           {summary.map((entry) => (
-            <li key={entry.id} className="bg-background text-foreground">
+            <li key={entry.id} className="bg-black text-neutral-100">
               <a
                 href={`#${entry.id}`}
                 className="group/sum flex h-full flex-col gap-3 p-5 text-foreground transition-colors duration-300 hover:bg-foreground hover:text-background"
@@ -191,7 +191,7 @@ export default function StoriesPage() {
       {/* IV — Les chapitres */}
       <section
         id="les-chapitres"
-        className="scroll-mt-24 border-t border-border"
+        className="scroll-mt-24 border-t border-border bg-black text-neutral-100"
       >
         <div className="shell pt-20 md:pt-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
@@ -213,7 +213,7 @@ export default function StoriesPage() {
       {chapters.map((chapter, i) => (
         <article
           key={chapter.handle}
-          className={i % 2 === 1 ? "bg-card text-card-foreground" : undefined}
+          className={i % 2 === 1 ? "bg-card text-card-foreground" : "bg-black text-neutral-100"}
         >
           <div className="shell py-20 md:py-28">
             <div className="grid gap-12 md:grid-cols-12 md:gap-16">
@@ -327,7 +327,7 @@ export default function StoriesPage() {
       <ProseSection section={sectionById("streetwear")} tone="sombre" />
 
       {/* VIII — Nos principes */}
-      <section id="principes" className="scroll-mt-24 border-t border-border">
+      <section id="principes" className="scroll-mt-24 border-t border-border bg-black text-neutral-100">
         <div className="shell py-20 md:py-28">
           <div className="grid gap-12 md:grid-cols-12 md:gap-16">
             <SectionRail numeral="VIII" title="Nos principes" />
@@ -392,7 +392,7 @@ export default function StoriesPage() {
       <ProseSection section={sectionById("vision")} tone="base" />
 
       {/* Clôture */}
-      <section className="bg-background text-foreground">
+      <section className="bg-black text-neutral-100">
         <div className="shell py-24 md:py-32">
           <p className="headline max-w-4xl text-3xl leading-[1.05] md:text-6xl">
             Ce qui a été oublié n&apos;a pas disparu.
