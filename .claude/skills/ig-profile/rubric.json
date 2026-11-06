@@ -1,0 +1,79 @@
+{
+  "version": "1.0-fr",
+  "total": 100,
+  "note": "Douze points. Note chacun honnêtement, une note généreuse n'aide personne. La plupart des profils font 30 à 40 au premier passage. La pondération est voulue : le champ nom, la première ligne de bio et les trois épinglés valent plus que la photo, parce que c'est ce qu'un inconnu arrivé depuis un seul reel lit vraiment avant de décider de s'abonner.",
+  "items": [
+    {
+      "id": "champ_nom",
+      "points": 12,
+      "full_marks": "Le champ nom (30 caractères, la ligne en gras, pas le @) porte le nom et ce que fait la personne, en mots que les gens cherchent : « Dana Ruiz | Modèles de devis ». Ce champ est indexé par la recherche Instagram et la plupart des comptes le gâchent avec un nom seul.",
+      "common_fail": "Juste un prénom, ou un prénom avec un emoji."
+    },
+    {
+      "id": "bio_ligne_1",
+      "points": 12,
+      "full_marks": "La ligne 1 dit pour qui c'est et ce qui change pour eux, dans leurs mots. Pas un titre, pas une liste d'adjectifs, pas trois emoji séparés par des barres.",
+      "common_fail": "« Entrepreneur | Fan de café | Papa chien »."
+    },
+    {
+      "id": "bio_corps",
+      "points": 8,
+      "full_marks": "Le reste des 150 caractères porte une preuve ou une offre précise, et se lit comme des phrases plutôt qu'une liste à barres.",
+      "common_fail": "Une soupe de mots-clés, ou du vide."
+    },
+    {
+      "id": "trois_epingles",
+      "points": 10,
+      "full_marks": "Trois posts épinglés en haut de la grille, avec trois rôles différents : la meilleure preuve, l'explication la plus claire de l'offre, la meilleure présentation de la personne. Pas les trois posts les plus vus par hasard.",
+      "common_fail": "Rien d'épinglé, donc le haut de la grille montre ce qui a été posté en dernier."
+    },
+    {
+      "id": "lien",
+      "points": 8,
+      "full_marks": "Une destination qui correspond à ce que la bio vient de promettre. Jusqu'à cinq liens sont permis ; plus de deux, c'est un menu, et un menu convertit moins bien qu'une porte.",
+      "common_fail": "Un Linktree à onze options, ou aucun lien."
+    },
+    {
+      "id": "a_la_une",
+      "points": 8,
+      "full_marks": "Quatre à six stories à la une nommées d'après les questions d'un acheteur : Tarifs, Résultats, Comment ça marche, À propos. Couvertures cohérentes. Rien de plus d'un an en tête.",
+      "common_fail": "« Random », « Vie », « Coups de cœur », ou 14 à la une sans ordre."
+    },
+    {
+      "id": "grille_lisible",
+      "points": 8,
+      "full_marks": "Les neuf premières couvertures sont lisibles en vignette et disent de quoi parle le compte sans un seul tap. Les couvertures de reels sont choisies, pas laissées sur la première image.",
+      "common_fail": "Neuf couvertures d'un visage en pleine phrase, sans texte."
+    },
+    {
+      "id": "photo",
+      "points": 6,
+      "full_marks": "Le visage remplit environ 60 % d'un cercle affiché à environ 40 pixels. Yeux visibles, photo de moins de deux ans, fond qui ne concurrence pas.",
+      "common_fail": "Une photo en pied, un logo pour une marque personnelle, ou un selfie dans une pièce sombre."
+    },
+    {
+      "id": "pseudo",
+      "points": 6,
+      "full_marks": "Lisible, prononçable à voix haute, et le même que sur les autres plateformes. Pas d'underscores empilés ni de chiffres à la place des lettres. Évite les accents dans le @ : les gens ne les tapent pas.",
+      "common_fail": "Un @ que personne ne sait écrire après l'avoir entendu une fois."
+    },
+    {
+      "id": "categorie_contact",
+      "points": 6,
+      "full_marks": "Compte professionnel avec une catégorie qui correspond à l'offre, et des boutons de contact qui marchent. Un e-mail qui est lu, pas celui de 2019.",
+      "common_fail": "Compte personnel, donc pas de statistiques et pas de bouton de contact."
+    },
+    {
+      "id": "activite_recente",
+      "points": 10,
+      "full_marks": "Un post dans les sept derniers jours et des réponses aux commentaires du post le plus récent. Un compte dont le dernier post date de mars a l'air fermé.",
+      "common_fail": "Un trou de cinq semaines, ou un mur de commentaires sans réponse."
+    },
+    {
+      "id": "presence_story",
+      "points": 6,
+      "full_marks": "Une story en ligne maintenant, ou au moins la plupart des jours. C'est la différence entre un profil et une personne.",
+      "common_fail": "Jamais d'anneau."
+    }
+  ]
+}
